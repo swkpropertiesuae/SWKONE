@@ -15,6 +15,9 @@ interface Env {
   RELEASE_SHA?: string
   ONE_AI_GATEWAY_URL?: string
   ONE_AI_BRIDGE_SECRET?: string
+  STAFF_SLOTS?: string
+  ONE_PRIVATE_REVIEW_URL?: string
+  ONE_PRIVATE_REVIEW_MODEL?: string
 }
 
 const INSTANCE = 'main' // one instance only – the app holds a single database connection and runs its own scheduler
@@ -40,6 +43,9 @@ export class SwkOs extends Container<Env> {
       APP_SECRET: env.APP_SECRET,
       ...(env.ONE_AI_GATEWAY_URL ? { ONE_AI_GATEWAY_URL: env.ONE_AI_GATEWAY_URL } : {}),
       ...(env.ONE_AI_BRIDGE_SECRET ? { ONE_AI_BRIDGE_SECRET: env.ONE_AI_BRIDGE_SECRET } : {}),
+      ...(env.STAFF_SLOTS ? { STAFF_SLOTS: env.STAFF_SLOTS } : {}),
+      ...(env.ONE_PRIVATE_REVIEW_URL ? { ONE_PRIVATE_REVIEW_URL: env.ONE_PRIVATE_REVIEW_URL } : {}),
+      ...(env.ONE_PRIVATE_REVIEW_MODEL ? { ONE_PRIVATE_REVIEW_MODEL: env.ONE_PRIVATE_REVIEW_MODEL } : {}),
       ...(env.PG_CA_CERT ? { PG_CA_CERT: env.PG_CA_CERT } : {}), // trusted CA for the database (Supabase uses a private CA)
       ADMIN_PASSWORD: env.ADMIN_PASSWORD,
       MANAGER_PASSWORD: env.MANAGER_PASSWORD,
