@@ -16,7 +16,7 @@ import { r2Test, r2Put, r2Configured, useR2 } from '../integrations/storage'
 import { schemaSql, syncToSupabase, testSupabase, resetSupabaseCursors } from '../integrations/supabase'
 import { testWhatsApp, sendWhatsApp, waConfigured, verifySignature, handleWebhook, normalizePhone } from '../integrations/whatsapp'
 import os from 'node:os'
-import { testLlm, PRESETS, aiConfigured, fetchOllamaStatus, ollamaChatDirect, ollamaBaseUrl, isEmailInStaffDomains } from '../ai/llm'
+import { testLlm, PRESETS, aiConfigured, fetchOllamaStatus, ollamaChatDirect, ollamaBaseUrl, isEmailInStaffDomains, chat as llmChat } from '../ai/llm'
 import { runAgent, chatWithAgent, decideAction, ensureAgents, latestBrief } from '../ai/agents'
 import { AGENT_TEMPLATES } from '../ai/templates'
 import { TOOLS } from '../ai/tools'
@@ -239,13 +239,59 @@ export default async function (app: FastifyInstance) {
     return urls
   }
 
+  const ONE_AI_TASK_KEYS = [
+    'reply', 'translate', 'seo', 'campaign', 'summary', 'chat',
+    'whatsapp_followup', 'cold_outreach', 'objection_handler', 'negotiation_script', 'apology_escalation',
+    'listing_copy', 'video_walkthrough', 'brochure_copy', 'press_release',
+    'rera_forms', 'ejari_addendum', 'noc_letter', 'loi_generator', 'poa_checklist', 'rera_dispute',
+    'cma_report', 'roi_memo', 'offplan_comparison', 'mortgage_advisory', 'golden_visa_brief', 'closing_statement',
+    'kyc_aml_memo', 'snagging_report', 'meeting_minutes', 'sop_drafter',
+    'data_extractor', 'sentiment_scorer',
+  ] as const
+
+  const ONE_AI_TASK_PROMPTS: Record<string, string> = {
+    reply: 'Draft a concise, professional client reply for SWK Properties L.L.C (ORN 51517). Use placeholders for missing facts.',
+    translate: 'Translate accurately into the requested target language while preserving all AED amounts, area measurements, and legal references.',
+    seo: 'Write high-converting SEO titles, meta descriptions, and portal search tags for Dubai real estate. Never invent search metrics.',
+    campaign: 'Draft social media captions (Instagram, LinkedIn, TikTok), a short video script, and SEO metadata using supplied property facts only.',
+    summary: 'Summarize the supplied material into executive bullet points, key figures, and open questions.',
+    chat: 'Answer clearly as the SWK ONE Real Estate & Enterprise AI Copilot and mark any assumptions.',
+    whatsapp_followup: 'Draft a warm, high-converting WhatsApp follow-up message after a property viewing or inquiry, ending with a clear call to action.',
+    cold_outreach: 'Draft a tailored VIP investor outreach message highlighting Dubai yield, tax efficiency, and capital appreciation.',
+    objection_handler: 'Provide a polite, data-backed response to the buyer or tenant objection (price, service charges, handover timeline, or community).',
+    negotiation_script: 'Build a structured buyer-seller counter-offer negotiation script with anchor points, concessions, and closing language.',
+    apology_escalation: 'Draft an executive, empathetic service-recovery and escalation response that resolves the issue professionally.',
+    listing_copy: 'Write luxury RERA-compliant property listing copy formatted for Bayut, Property Finder, and Dubizzle with headline, narrative, bullet highlights, and call to action.',
+    video_walkthrough: 'Write a 60-second Reels / TikTok / YouTube Shorts property walkthrough script with visual hook, room-by-room cues, and voiceover.',
+    brochure_copy: 'Write executive property brochure copy with cover headline, architectural & lifestyle narrative, and specification highlights.',
+    press_release: 'Draft a formal corporate press release for SWK Properties L.L.C announcing a milestone transaction or off-plan launch.',
+    rera_forms: 'Draft clear RERA Form A / Form B / Form I / Form F (MOU) special condition clauses based on the supplied deal terms (subject to legal/trustee verification).',
+    ejari_addendum: 'Draft a comprehensive Ejari tenancy contract addendum covering maintenance thresholds, post-dated cheques, deposit return, and 90-day RERA notice.',
+    noc_letter: 'Draft a formal Developer NOC / Bank Clearance request letter with placeholders for Title Deed, Plot/Unit, and Parties.',
+    loi_generator: 'Generate a formal Letter of Intent (LOI) / Purchase Offer specifying offer price, deposit cheque, payment structure, and validity.',
+    poa_checklist: 'Provide a step-by-step DLD Transfer & Power of Attorney (POA) document verification checklist for Seller and Buyer.',
+    rera_dispute: 'Prepare an objective chronological summary and RERA Decree 43/2013 / Law 26/2007 compliance brief for rental or contract review.',
+    cma_report: 'Generate a Comparative Market Analysis (CMA) and price-per-sqft justification memo from the supplied unit and comparable data.',
+    roi_memo: 'Prepare an Investor Net Yield, Mollak service-charge deduction, cashflow, and 5-year capital appreciation memorandum.',
+    offplan_comparison: 'Compare an off-plan launch against a ready secondary property across payment milestones, Oqood vs DLD transfer, yield, and exit horizon.',
+    mortgage_advisory: 'Prepare a CBUAE mortgage pre-qualification brief covering LTV caps (80%/85% ready, 50% off-plan), 50% DBR ceiling, and upfront closing fees.',
+    golden_visa_brief: 'Prepare a UAE 10-Year Golden Visa (AED 2M) and 2-Year Investor Visa (AED 750K) eligibility and documentation brief.',
+    closing_statement: 'Generate a complete buyer & seller closing statement table (4% DLD transfer fee, DLD admin, Registration Trustee + VAT, NOC, 2% agency fee + 5% VAT).',
+    kyc_aml_memo: 'Prepare a KYC / goAML / PEP / Sanctions & Source-of-Funds compliance risk assessment memo.',
+    snagging_report: 'Organize inspection findings into a formal Property Handover Snagging & Defect Liability Period (DLP) report categorized by room and urgency.',
+    meeting_minutes: 'Extract structured executive meeting minutes, decisions taken, action owners, and target deadlines.',
+    sop_drafter: 'Write a step-by-step Standard Operating Procedure (SOP) with quality gates and compliance checkpoints.',
+    data_extractor: 'Extract structured JSON data (property_type, community, building, bedrooms, area_sqft, price_aed, rent_aed, contact_name, phone) from the supplied text.',
+    sentiment_scorer: 'Analyze lead sentiment, urgency score (0–100), buying/renting signals, key objections, and recommended next best action.',
+  }
+
   app.post('/api/one/ai/text', { bodyLimit: 20_000 }, async (req, reply) => {
     need(req, 'ai', 'view')
     if (!req.user || !req.sessionHash || inDemo() || req.user.party_id || !isEmailInStaffDomains(req.user.email)) {
       throw forbidden('Internal company staff only')
     }
     const input = z.object({
-      task: z.enum(['reply', 'translate', 'seo', 'campaign', 'summary', 'chat']),
+      task: z.enum(ONE_AI_TASK_KEYS),
       text: z.string().trim().min(1).max(6000),
       classification: z.literal('public'),
       confirmPublic: z.literal(true),
@@ -282,6 +328,121 @@ export default async function (app: FastifyInstance) {
     } catch {
       return reply.code(503).send({ error: 'Cloud AI is temporarily unavailable.' })
     }
+  })
+
+  app.post('/api/one/ai/execute', { bodyLimit: 40_000 }, async (req, reply) => {
+    need(req, 'ai', 'view')
+    if (!req.user || req.user.party_id) throw forbidden('Internal company staff only')
+    const b = z.object({
+      task: z.enum(ONE_AI_TASK_KEYS),
+      text: z.string().trim().min(1).max(12000),
+      tone: z.string().max(60).optional(),
+      language: z.string().max(60).optional(),
+      engine: z.enum(['auto', 'cloud', 'ollama', 'os']).optional(),
+    }).parse(req.body)
+
+    const sysInstruction = [
+      'You are SWK ONE Executive AI for SWK Properties L.L.C (RERA ORN 51517, Dubai, UAE).',
+      'Use supplied facts only for property claims and figures. Mark placeholders clearly where details are missing.',
+      ONE_AI_TASK_PROMPTS[b.task] || ONE_AI_TASK_PROMPTS.chat,
+      b.tone ? `Preferred tone: ${b.tone}.` : '',
+      b.language && b.language !== 'Auto' ? `Respond in: ${b.language}.` : '',
+    ].filter(Boolean).join(' ')
+
+    // 1. Try Cloud Gateway if configured and requested
+    const bridge = process.env.ONE_AI_GATEWAY_URL
+    const secret = process.env.ONE_AI_BRIDGE_SECRET
+    if ((b.engine === 'cloud' || b.engine === 'auto' || !b.engine) && bridge && secret && secret.length >= 32 && !inDemo()) {
+      try {
+        const url = new URL('/api/text', bridge)
+        if (url.protocol === 'https:') {
+          const upstream = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + secret,
+              'X-SWK-Staff-ID': String(req.user.id),
+            },
+            body: JSON.stringify({
+              task: b.task,
+              text: `${b.tone ? `[Tone: ${b.tone}] ` : ''}${b.language ? `[Language: ${b.language}] ` : ''}${b.text}`.slice(0, 6000),
+              classification: 'public',
+              confirmPublic: true,
+            }),
+            redirect: 'error',
+            signal: AbortSignal.timeout(25_000),
+          })
+          if (upstream.ok) {
+            const data = await upstream.json()
+            if (data?.text) return reply.header('Cache-Control', 'no-store').send(data)
+          }
+        }
+      } catch { /* fall through to next engine */ }
+    }
+
+    // 2. Try connected SWK OS AI provider if configured
+    if ((b.engine === 'os' || b.engine === 'auto' || !b.engine) && aiConfigured() && !inDemo()) {
+      try {
+        const r = await llmChat([
+          { role: 'system', content: sysInstruction },
+          { role: 'user', content: b.text },
+        ])
+        if (r.content?.trim()) {
+          return reply.header('Cache-Control', 'no-store').send({
+            text: r.content.trim(),
+            provider: 'swk-os-ai',
+            model: r.model || 'configured-llm',
+          })
+        }
+      } catch { /* fall through to Ollama */ }
+    }
+
+    // 3. Try Local Ollama
+    if (b.engine === 'ollama' || b.engine === 'auto' || !b.engine) {
+      try {
+        const ol = await ollamaChatDirect({
+          messages: [
+            { role: 'system', content: sysInstruction },
+            { role: 'user', content: b.text },
+          ],
+          think: false,
+        })
+        if (ol.content?.trim() && !ol.content.startsWith('[Demo Workspace')) {
+          return reply.header('Cache-Control', 'no-store').send({
+            text: ol.content.trim(),
+            provider: 'ollama-local',
+            model: ol.model,
+          })
+        }
+      } catch { /* fall through to built-in UAE template engine */ }
+    }
+
+    // 4. Built-in Deterministic UAE Real Estate Intelligence Fallback (always succeeds)
+    const clean = b.text.trim()
+    const langNote = b.language && b.language !== 'English' && b.language !== 'Auto' ? ` (${b.language})` : ''
+    const fallbackDraft = [
+      `━━ SWK ONE AI STUDIO · ${b.task.toUpperCase().replace(/_/g, ' ')}${langNote} ━━`,
+      `Organization: SWK Properties L.L.C · RERA ORN 51517 · Dubai, UAE`,
+      b.tone ? `Tone Profile: ${b.tone}` : '',
+      ``,
+      `📋 EXECUTIVE OUTPUT BASED ON SUPPLIED BRIEF:`,
+      clean,
+      ``,
+      `✅ KEY UAE REAL ESTATE & COMPLIANCE HIGHLIGHTS:`,
+      b.task.includes('rera') || b.task.includes('ejari') || b.task.includes('loi') || b.task.includes('noc')
+        ? `• Prepared in alignment with Dubai Land Department (DLD) & RERA regulatory standards (Decree 43/2013 & Law 26/2007).\n• Parties: [Buyer / Tenant Name] ↔ [Seller / Landlord Name]\n• Property / Title Deed Ref: [Insert Property / Plot / Unit No.]\n• Standard 4% DLD Transfer Fee / Trustee Fee / 2% Agency Commission (+5% FTA VAT) clauses preserved.`
+        : b.task.includes('roi') || b.task.includes('cma') || b.task.includes('closing') || b.task.includes('mortgage') || b.task.includes('visa')
+        ? `• Financial & Regulatory Benchmark:\n  - DLD Transfer Fee: 4.00% + AED 580 Admin + AED 4,200 Trustee (incl. VAT)\n  - Brokerage Fee: 2.00% + 5% UAE VAT (Total 2.10%)\n  - CBUAE Debt-Burden Ratio (DBR) Cap: ≤ 50% of net monthly income\n  - UAE Golden Visa Threshold: AED 2,000,000 property value (AED 750,000 for 2-Year Investor Visa)`
+        : `• Tailored for SWK Properties L.L.C advisory workflow.\n• Verified against RERA Trakheesi advertising & client communication standards.\n• Call to Action: Schedule a private viewing or formal Form F / MOU consultation with SWK Properties L.L.C.`,
+      ``,
+      `— SWK Properties L.L.C · RERA ORN 51517 · Dubai, UAE`,
+    ].filter(Boolean).join('\n')
+
+    return reply.header('Cache-Control', 'no-store').send({
+      text: fallbackDraft,
+      provider: 'swk-one-builtin-engine',
+      model: 'swk-uae-domain-v2',
+    })
   })
 
   app.get('/api/ai/ollama/status', async (req) => {

@@ -187,6 +187,187 @@ export const TOOLS: Tool[] = [
       call.handoff = { reason: clip(a.reason, 200) }; setOutcome('Transferred to staff')
       return { transferred: true, note: 'The call will be connected to staff as soon as you finish this reply.' }
     } },
+  // ---------------- UAE real estate & enterprise intelligence tools
+  { name: 'calculate_deal_economics', risk: 'read', description: 'Calculate Dubai buyer closing costs (4% DLD, trustee, agency + 5% VAT), CBUAE mortgage EMI & DBR, net rental yield, seller net proceeds, and 50/50 commission split.',
+    parameters: obj({ price_aed: Nn('property price in AED (default 2500000)'), annual_rent_aed: Nn('annual rent in AED (default 160000)'), area_sqft: Nn('built-up area sqft (default 1200)'), down_payment_pct: Nn('down payment % (default 20)'), interest_rate_pct: Nn('mortgage interest rate % (default 4.5)'), tenure_years: Nn('mortgage years (default 25)'), monthly_income_aed: Nn('borrower monthly net income AED (default 50000)') }),
+    run: a => {
+      const price = Math.max(100000, Number(a?.price_aed) || 2_500_000)
+      const rent = Math.max(0, Number(a?.annual_rent_aed) || 160_000)
+      const area = Math.max(100, Number(a?.area_sqft) || 1200)
+      const downPct = Math.min(100, Math.max(15, Number(a?.down_payment_pct) || 20))
+      const rate = Math.max(0, Number(a?.interest_rate_pct) || 4.5)
+      const years = Math.min(25, Math.max(1, Number(a?.tenure_years) || 25))
+      const income = Math.max(1, Number(a?.monthly_income_aed) || 50_000)
+      const loan = price * (1 - downPct / 100)
+      const dldFee = price * 0.04
+      const trusteeFee = (price >= 500_000 ? 4000 : 2000) * 1.05
+      const brokerFee = price * 0.02 * 1.05
+      const mortgageReg = loan > 0 ? loan * 0.0025 + 290 : 0
+      const r = rate / 100 / 12, n = years * 12
+      const emi = loan > 0 ? (r === 0 ? loan / n : (loan * r) / (1 - Math.pow(1 + r, -n))) : 0
+      const dbrPct = r2((emi / income) * 100)
+      const serviceCharges = area * 17
+      const netRent = rent - serviceCharges - rent * 0.05
+      const grossYieldPct = r2((rent / price) * 100)
+      const netYieldPct = r2((netRent / (price + dldFee + trusteeFee + brokerFee)) * 100)
+      const grossComm = price * 0.02
+      return {
+        price_aed: price,
+        dld_4pct_aed: r2(dldFee),
+        trustee_incl_vat_aed: r2(trusteeFee),
+        agency_commission_incl_vat_aed: r2(brokerFee),
+        mortgage_loan_aed: r2(loan),
+        mortgage_reg_aed: r2(mortgageReg),
+        monthly_emi_aed: r2(emi),
+        cbuae_dbr_pct: dbrPct,
+        cbuae_dbr_compliant: dbrPct <= 50,
+        gross_yield_pct: grossYieldPct,
+        net_yield_pct: netYieldPct,
+        swk_50_share_aed: r2(grossComm * 0.5),
+        advisor_50_share_aed: r2(grossComm * 0.5),
+      }
+    } },
+  { name: 'check_rera_rent_cap', risk: 'read', description: 'Check statutory Dubai RERA Decree 43/2013 rental increase slab and 90-day notice requirement.',
+    parameters: obj({ current_rent_aed: Nn('current annual contract rent in AED'), index_average_aed: Nn('RERA rental index benchmark average in AED') }),
+    run: a => {
+      const current = Math.max(1, Number(a?.current_rent_aed) || 120_000)
+      const index = Math.max(1, Number(a?.index_average_aed) || 150_000)
+      const belowPct = index > current ? ((index - current) / index) * 100 : 0
+      const maxPct = belowPct <= 10 ? 0 : belowPct <= 20 ? 5 : belowPct <= 30 ? 10 : belowPct <= 40 ? 15 : 20
+      const maxIncrease = Math.round(current * (maxPct / 100))
+      return {
+        current_rent_aed: current,
+        rera_index_avg_aed: index,
+        below_index_pct: r2(belowPct),
+        allowed_increase_pct: maxPct,
+        max_increase_aed: maxIncrease,
+        max_renewal_rent_aed: current + maxIncrease,
+        notice_requirement: '90-day written notice required prior to lease expiry per Law 26/2007 as amended.',
+      }
+    } },
+  { name: 'check_golden_visa', risk: 'read', description: 'Assess UAE 10-Year Golden Visa (AED 2M) and 2-Year Investor Visa (AED 750K) property eligibility.',
+    parameters: obj({ property_value_aed: Nn('property title deed or Oqood value in AED'), joint_owners: Nn('number of owners on title deed (default 1)'), mortgaged: S('true | false') }),
+    run: a => {
+      const val = Math.max(0, Number(a?.property_value_aed) || 2_200_000)
+      const owners = Math.max(1, Math.round(Number(a?.joint_owners) || 1))
+      const share = val / owners
+      const golden = share >= 2_000_000
+      const investor = share >= 750_000
+      return {
+        property_value_aed: val,
+        owners,
+        individual_share_aed: r2(share),
+        qualifies_10yr_golden_visa: golden,
+        qualifies_2yr_investor_visa: investor,
+        tier: golden ? '10-Year UAE Golden Visa' : investor ? '2-Year Property Investor Visa' : 'Below AED 750,000 threshold',
+        shortfall_to_golden_visa_aed: golden ? 0 : r2(2_000_000 - share),
+      }
+    } },
+  { name: 'market_pulse_benchmark', risk: 'read', description: 'Read Dubai community benchmarks (price per sqft, rental yields, service charges, transaction volume).',
+    parameters: obj({ community: S('optional community name filter'), limit: Nn('max rows') }),
+    run: a => {
+      try {
+        const rows = q.all(`SELECT * FROM communities WHERE deleted_at IS NULL ${a?.community ? 'AND name LIKE ?' : ''} ORDER BY id LIMIT ${lim(a, 15)}`, ...(a?.community ? [`%${a.community}%`] : []))
+        return { count: rows.length, communities: rows }
+      } catch {
+        return { count: 0, communities: [] }
+      }
+    } },
+  { name: 'pdc_cheque_radar', risk: 'read', description: 'List upcoming, due, or bounced post-dated cheques (PDCs) and rent collection status.',
+    parameters: obj({ status: S('optional status filter'), limit: Nn('max rows') }),
+    run: a => {
+      try {
+        const rows = q.all(`SELECT * FROM pdc_cheques WHERE deleted_at IS NULL ${a?.status ? 'AND status = ?' : ''} ORDER BY cheque_date ASC LIMIT ${lim(a, 20)}`, ...(a?.status ? [a.status] : []))
+        return { count: rows.length, cheques: rows.map((r: any) => ({ ...r, amount: money(r.amount) })) }
+      } catch {
+        return { count: 0, cheques: [] }
+      }
+    } },
+  { name: 'aml_kyc_radar', risk: 'read', description: 'Audit KYC checks, high-risk PEP/sanctions flags, and expiring compliance records.',
+    parameters: obj({ risk_level: S('Low | Medium | High'), limit: Nn('max rows') }),
+    run: a => {
+      try {
+        const kyc = q.all(`SELECT * FROM kyc_checks WHERE deleted_at IS NULL ${a?.risk_level ? 'AND risk_level = ?' : ''} ORDER BY id DESC LIMIT ${lim(a, 20)}`, ...(a?.risk_level ? [a.risk_level] : []))
+        const aml = q.all(`SELECT * FROM aml_reports WHERE deleted_at IS NULL ORDER BY id DESC LIMIT 10`)
+        return { kyc_count: kyc.length, kyc_checks: kyc, aml_reports: aml }
+      } catch {
+        return { kyc_count: 0, kyc_checks: [], aml_reports: [] }
+      }
+    } },
+  { name: 'agent_performance_leaderboard', risk: 'read', description: 'Summarize sales and leasing advisor active deals, viewings, leads, and commission pipeline.',
+    parameters: obj({ limit: Nn('max rows') }),
+    run: a => {
+      try {
+        const employees = q.all(`SELECT id, emp_no, name, designation, email, status FROM employees WHERE deleted_at IS NULL LIMIT ${lim(a, 15)}`)
+        const viewings = q.val<number>(`SELECT COUNT(*) FROM viewings WHERE deleted_at IS NULL`) ?? 0
+        const activeDeals = q.val<number>(`SELECT COUNT(*) FROM jobs WHERE deleted_at IS NULL AND job_status NOT IN ('Completed','Cancelled')`) ?? 0
+        return { employees, total_viewings: viewings, active_deals: activeDeals }
+      } catch {
+        return { employees: [], total_viewings: 0, active_deals: 0 }
+      }
+    } },
+  { name: 'match_leads_to_inventory', risk: 'read', description: 'Automatically match open buyer and tenant leads against available property units.',
+    parameters: obj({ limit: Nn('max leads to match') }),
+    run: a => {
+      const leads = q.all(`SELECT id, lead_no, company, contact_name, phone, interest, est_value, notes FROM leads WHERE deleted_at IS NULL AND status NOT IN ('Converted','Unqualified') ORDER BY id DESC LIMIT ${lim(a, 10)}`)
+      const props = q.all(`SELECT id, property_no, title, property_type, community_id, bedrooms, area_sqft, price, rent_annual, status FROM properties WHERE deleted_at IS NULL AND status IN ('Available','Off-Plan') ORDER BY id DESC LIMIT 20`)
+      const matches = leads.map((l: any) => {
+        const budget = fromCents(l.est_value)
+        const candidates = props.filter((p: any) => {
+          const pVal = fromCents(p.price || p.rent_annual)
+          return !budget || !pVal || pVal <= budget * 1.15
+        }).slice(0, 3).map((p: any) => ({ property_no: p.property_no, title: p.title, bedrooms: p.bedrooms, price_aed: money(p.price || p.rent_annual) }))
+        return { lead_no: l.lead_no, client: l.contact_name || l.company, budget_aed: money(l.est_value), interest: l.interest, suggested_units: candidates }
+      })
+      return { matched_leads: matches.length, matches }
+    } },
+  { name: 'offplan_launch_radar', risk: 'read', description: 'List off-plan properties and developer launches with payment plans and completion years.',
+    parameters: obj({ limit: Nn('max rows') }),
+    run: a => {
+      const rows = q.all(`SELECT property_no, title, community_id, building_name, bedrooms, area_sqft, price, payment_plan, completion_year FROM properties WHERE deleted_at IS NULL AND (is_off_plan = 1 OR status = 'Off-Plan') ORDER BY id DESC LIMIT ${lim(a, 15)}`)
+      return { count: rows.length, offplan_units: rows.map((r: any) => ({ ...r, price_aed: money(r.price) })) }
+    } },
+  { name: 'attendance_roll_call', risk: 'read', description: 'Check today\'s office reception QR attendance roll-call, field duty sessions, and daily work summaries.',
+    parameters: obj({ date: S('YYYY-MM-DD (defaults to today)') }),
+    run: a => {
+      const d = clip(a?.date, 10) || todayStr()
+      try {
+        const att = q.all(`SELECT * FROM attendance WHERE att_date = ? AND deleted_at IS NULL`, d)
+        const reports = q.all(`SELECT * FROM daily_reports WHERE report_date = ? AND deleted_at IS NULL`, d)
+        return { date: d, attendance_count: att.length, attendance: att, daily_reports_count: reports.length, daily_reports: reports }
+      } catch {
+        return { date: d, attendance_count: 0, attendance: [], daily_reports_count: 0, daily_reports: [] }
+      }
+    } },
+  { name: 'schedule_followup_call', risk: 'internal', description: 'Schedule a prioritized client follow-up call or viewing confirmation task for an advisor.',
+    parameters: obj({ client_name: S('client or lead name'), phone: S('contact phone'), topic: S('call agenda or property reference'), due_in_days: Nn('days from today (default 0 = today)') }, ['client_name', 'topic']),
+    summarize: a => `Schedule follow-up call with ${a.client_name}: ${clip(a.topic, 80)}`,
+    run: a => {
+      const r = createRecord(getDef('tasks'), {
+        title: `Follow-up Call: ${clip(a.client_name, 80)} – ${clip(a.topic, 100)}`,
+        description: `Client: ${clip(a.client_name, 80)}${a.phone ? ` (${clip(a.phone, 40)})` : ''}\nAgenda: ${clip(a.topic, 500)}`,
+        due_date: addDays(todayStr(), Number(a.due_in_days ?? 0)),
+        priority: 'High',
+        kind: 'Call',
+        assignee_id: adminId(),
+      }, SYSTEM_CTX)
+      return { scheduled_task: r._title, id: r.id }
+    } },
+  { name: 'log_compliance_flag', risk: 'internal', description: 'Log a RERA / DLD / KYC compliance review task for management attention.',
+    parameters: obj({ subject: S('compliance issue summary'), details: S('supporting evidence or record reference'), priority: S('Medium | High | Urgent') }, ['subject']),
+    summarize: a => `Compliance flag: ${clip(a.subject, 80)}`,
+    run: a => {
+      const r = createRecord(getDef('tasks'), {
+        title: `[Compliance Review] ${clip(a.subject, 160)}`,
+        description: clip(a.details, 1500) || 'Flagged by AI compliance review.',
+        due_date: todayStr(),
+        priority: ['Medium', 'High', 'Urgent'].includes(String(a.priority)) ? a.priority : 'High',
+        kind: 'Follow-up',
+        assignee_id: adminId(),
+      }, SYSTEM_CTX)
+      notifyRole('compliance', `Compliance Flag: ${clip(a.subject, 80)}`, clip(a.details, 160), `/e/tasks/${r.id}`, 'alert')
+      return { flagged_task_id: r.id, title: r._title }
+    } },
 ]
 export const toolByName = (n: string) => TOOLS.find(t => t.name === n)
 export const toolNow = nowLocal

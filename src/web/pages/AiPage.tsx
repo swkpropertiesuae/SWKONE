@@ -12,7 +12,18 @@ import { OneUtilityStudio } from '../components/OneUtilityStudio'
 interface Agent { id: number; name: string; title: string; avatar: string; active: boolean; schedule: string; run_hour: number; autonomy: string; deliver_to: string; last_run_at: string | null; last_status: string | null; role_key: string | null; instructions: string; tools: string }
 interface Status { configured: boolean; pending: number; agents: Agent[]; templates: { key: string; name: string; title: string; avatar: string; blurb: string }[]; tools: { name: string; risk: string; description: string }[] }
 
-const SUGGESTIONS = ['Give me today’s briefing', 'Who owes us money and for how long?', 'Which jobs are at risk of delay?', 'Any revenue we have not invoiced yet?', 'Summarise our open leads', 'What needs my approval or attention today?']
+const SUGGESTIONS = [
+  'Give me today’s executive briefing',
+  'Who owes us money and for how long?',
+  'Match our open buyer leads to active inventory',
+  'Scan expiring KYC documents & AED 55k+ AML flags',
+  'Check upcoming PDC cheques & bounced cheques',
+  'Show broker commission leaderboard & attendance roll-call',
+  'Compare Dubai Marina & Business Bay PSF benchmarks',
+  'Check RERA rent cap for AED 130k lease vs AED 160k index',
+  'Check Golden Visa eligibility for AED 2.4M off-plan unit',
+  'Calculate buyer closing costs for AED 3.5M property',
+]
 
 export function AiPage() {
   const [sp, setSp] = useSearchParams(); const tab = sp.get('tab') ?? 'ollama'

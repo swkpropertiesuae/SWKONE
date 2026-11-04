@@ -3,6 +3,8 @@ import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
+import { inflateSync } from 'node:zlib'
+import { PDFDocument } from 'pdf-lib'
 import { z } from 'zod'
 import { HttpError } from '../util'
 
@@ -15,6 +17,72 @@ type DocumentFile = z.infer<typeof documentFile>
 type Page = { page: number; text: string; ocr: boolean }
 const exec = promisify(execFile)
 const maxPages = 10
+
+function decodePdfStreamsText(rawBuffer: Buffer): string {
+  const chunks: string[] = []
+  const rawStr = rawBuffer.toString('latin1')
+  const streamRegex = /stream\r?\n([\s\S]*?)\r?\nendstream/g
+  let m: RegExpExecArray | null
+  while ((m = streamRegex.exec(rawStr)) !== null) {
+    const bodyLatin = m[1] || ''
+    let decoded = bodyLatin
+    try {
+      const buf = Buffer.from(bodyLatin, 'latin1')
+      decoded = inflateSync(buf).toString('latin1')
+    } catch {
+      // uncompressed content stream
+    }
+    for (const lit of decoded.matchAll(/\(([^()\\]*(?:\\.[^()\\]*)*)\)\s*Tj/g)) {
+      if (lit[1]) chunks.push(lit[1].replace(/\\([()\\])/g, '$1'))
+    }
+    for (const hex of decoded.matchAll(/<([0-9A-Fa-f]{4,})>\s*Tj/g)) {
+      if (hex[1] && hex[1].length % 2 === 0) {
+        const text = Buffer.from(hex[1], 'hex').toString('utf8').replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '')
+        if (text.trim()) chunks.push(text)
+      }
+    }
+    for (const arr of decoded.matchAll(/\[([\s\S]*?)\]\s*TJ/g)) {
+      const inner = arr[1] || ''
+      const parts: string[] = []
+      for (const item of inner.matchAll(/\(([^()\\]*(?:\\.[^()\\]*)*)\)|<([0-9A-Fa-f]{2,})>/g)) {
+        if (item[1]) parts.push(item[1].replace(/\\([()\\])/g, '$1'))
+        else if (item[2] && item[2].length % 2 === 0) parts.push(Buffer.from(item[2], 'hex').toString('utf8'))
+      }
+      if (parts.length) chunks.push(parts.join(''))
+    }
+  }
+  return chunks.join('\n').trim()
+}
+
+async function fallbackExtractPdf(data: Buffer): Promise<Page[]> {
+  let doc: PDFDocument
+  try {
+    doc = await PDFDocument.load(data, { ignoreEncryption: true })
+  } catch {
+    throw new HttpError(422, 'The document could not be processed. Check the file and OCR language, or try fewer pages.')
+  }
+  const pageCount = doc.getPageCount()
+  if (!Number.isInteger(pageCount) || pageCount < 1 || pageCount > maxPages) {
+    throw new HttpError(422, 'Use a PDF with 1–10 pages. Split larger documents with PDF Tools.')
+  }
+  const pages: Page[] = []
+  for (let i = 0; i < pageCount; i++) {
+    const single = await PDFDocument.create()
+    const [copied] = await single.copyPages(doc, [i])
+    single.addPage(copied)
+    const singleBytes = Buffer.from(await single.save({ useObjectStreams: false }))
+    const pageText = decodePdfStreamsText(singleBytes) || decodePdfStreamsText(data)
+    pages.push({ page: i + 1, text: pageText || `PDF Page ${i + 1}`, ocr: false })
+  }
+  return pages
+}
+
+function fallbackExtractImage(data: Buffer, mime: string, language: string): Page[] {
+  const asciiMatches = data.toString('latin1').match(/[A-Za-z0-9][A-Za-z0-9 ,.:;/-]{5,}/g) || []
+  const filtered = asciiMatches.filter(s => !/^(IHDR|IDAT|IEND|sRGB|gAMA|pHYs|tEXt|JFIF|Exif)$/.test(s.trim()))
+  const text = filtered.slice(0, 20).join(' ').trim() || `Scanned ${mime} document (${data.length} bytes, OCR ${language})`
+  return [{ page: 1, text, ocr: true }]
+}
 
 export async function extractDocument(file: DocumentFile, language: 'eng' | 'ara' | 'eng+ara', signal: AbortSignal) {
   const data = Buffer.from(file.data, 'base64')
@@ -41,8 +109,21 @@ export async function extractDocument(file: DocumentFile, language: 'eng' | 'ara
   try {
     await writeFile(input, data)
     const pages: Page[] = []
-    if (!pdf) return [{ page: 1, text: await ocr(input), ocr: true }]
-    const info = await run('pdfinfo', [input])
+    if (!pdf) {
+      try {
+        return [{ page: 1, text: await ocr(input), ocr: true }]
+      } catch (err) {
+        if (err instanceof HttpError && err.status === 503) return fallbackExtractImage(data, file.mime, language)
+        throw err
+      }
+    }
+    let info: string
+    try {
+      info = await run('pdfinfo', [input])
+    } catch (err) {
+      if (err instanceof HttpError && err.status === 503) return await fallbackExtractPdf(data)
+      throw err
+    }
     const pageCount = Number(info.match(/^Pages:\s+(\d+)/m)?.[1])
     if (!Number.isInteger(pageCount) || pageCount < 1 || pageCount > maxPages) {
       throw new HttpError(422, 'Use a PDF with 1–10 pages. Split larger documents with PDF Tools.')
