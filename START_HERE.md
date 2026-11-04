@@ -20,3 +20,13 @@ Read [the master plan](docs/SWK_ONE_MASTER_PLAN.md) for the architecture, 10-per
 - Verification: `npm run typecheck`, `npm run build`, `node --import tsx tests/one-cloud-bridge.ts`, and `node --test deploy/one-ai/src/worker.test.mjs`.
 
 The original public source previously exposed staff passwords. This checkout removes those values and requires an explicitly configured test password to seed development fixtures. Production accounts must be provisioned separately. If importing existing accounts, reset any exposed passwords and revoke sessions before the imported deployment is made available.
+
+## Enable the ten-person utility studio
+
+1. Create or select the ten staff accounts and give them AI view permission. Set the same `STAFF_SLOTS` JSON in the app container and AI Worker. For example, `{"101":1,"102":2}` maps two staging user IDs to unique seats. Use up to ten IDs and slots 1–10. Users outside the roster are denied. Do not use email addresses, display names, or API credentials as keys.
+2. For OCR, install Poppler and the English and Arabic Tesseract language packs when running outside Docker. The app processes PNG, JPEG and PDFs on the server, extracts embedded PDF text, and runs OCR on pages without a text layer. Files are limited to 6 MiB and PDFs to ten pages.
+3. For document review, set `ONE_PRIVATE_REVIEW_URL` to an Ollama endpoint reachable only from approved infrastructure. Use HTTPS, or loopback for local development. Set `ONE_PRIVATE_REVIEW_MODEL` if different from `qwen3.5:9b`. The app can compare two documents and checks each finding's quoted evidence. It sends at most the first 1,000 normalized characters of each page to Ollama. Review results before acting. Document review never falls back to a cloud model.
+4. For transcription, English MP3 generation, and image generation, set `MEDIA_ENABLED=true` on the deployed AI Worker after verifying Workers AI access. Configure the existing gateway URL and bridge secret in the app. The Worker shares the existing daily Cloudflare allowance across chat and media, with per-seat caps of five transcriptions, two speech requests and two image requests per UTC day. A transcript clip is capped at 60 seconds and prepared as mono WAV by the browser. Only approved public inputs may go to the cloud.
+5. Pilot the utilities with approved sample documents, recordings and prompts before enabling live staff use. Verify the Ollama service is privately reachable, OCR language packs are installed, and all three Workers AI models respond in your account.
+
+Local checks: `node --import tsx tests/one-cloud-bridge.ts`, `node --test deploy/one-ai/src/worker.test.mjs`, `npm run typecheck`, and `npm run build`.

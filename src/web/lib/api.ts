@@ -82,3 +82,19 @@ export function downloadUrl(path: string, params?: Record<string, any>) {
   const u = new URLSearchParams(); for (const [k, v] of Object.entries(params ?? {})) if (v !== undefined && v !== null && v !== '') u.set(k, typeof v === 'object' ? JSON.stringify(v) : String(v))
   const s = u.toString(); return s ? `${path}?${s}` : path
 }
+
+export async function postMedia(path: string, body: unknown) {
+  const { url, crossOrigin } = resolveApiUrl(path)
+  const response = await fetch(url, {
+    method: 'POST',
+    credentials: crossOrigin ? 'include' : 'same-origin',
+    headers: buildClientHeaders({ 'content-type': 'application/json' }),
+    body: JSON.stringify(body),
+  })
+  if (!response.ok) {
+    if (response.status === 401) window.dispatchEvent(new Event('swk:unauthorized'))
+    const error = await response.json().catch(() => ({}))
+    throw new ApiError(response.status, error.error || response.statusText || 'Media request failed')
+  }
+  return response
+}

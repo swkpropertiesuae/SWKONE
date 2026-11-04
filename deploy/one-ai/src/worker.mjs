@@ -1,3 +1,5 @@
+import { runMedia } from './media.mjs'
+
 const cloudModel = '@cf/qwen/qwen3-30b-a3b-fp8'
 const endpoint = {
   opencode: 'https://opencode.ai/inference/openai/v1/chat/completions',
@@ -17,7 +19,7 @@ const json = (body, status = 200) => Response.json(body, {
   status, headers: { 'Cache-Control': 'no-store' },
 })
 
-async function readJson(request) {
+async function readJson(request, limit) {
   if (!request.body || !request.headers.get('content-type')?.startsWith('application/json')) return null
   const reader = request.body.getReader()
   const decoder = new TextDecoder()
@@ -28,7 +30,7 @@ async function readJson(request) {
       const { value, done } = await reader.read()
       if (done) break
       bytes += value.byteLength
-      if (bytes > 20000) {
+      if (bytes > limit) {
         await reader.cancel()
         return null
       }
@@ -82,7 +84,7 @@ export default {
     try {
       const path = new URL(request.url).pathname
       if (path === '/health' && request.method === 'GET') return json({ ok: true })
-      if (path !== '/api/text' || request.method !== 'POST') return json({ error: 'not_found' }, 404)
+      if (!['/api/text', '/api/media'].includes(path) || request.method !== 'POST') return json({ error: 'not_found' }, 404)
       const userId = await identity(request, env)
       if (!userId) return json({ error: 'sign_in_required' }, 401)
       const roster = JSON.parse(env.STAFF_SLOTS)
@@ -91,13 +93,19 @@ export default {
       const slot = Object.hasOwn(roster, userId) ? roster[userId] : null
       if (!Number.isInteger(slot) || slot < 1 || slot > 10) return json({ error: 'staff_invitation_required' }, 403)
 
-      const input = await readJson(request)
+      const day = new Date().toISOString().slice(0, 10)
+      const cap = Math.min(8000, Math.max(0, Number(env.CF_DAILY_NEURONS) || 0))
+      if (path === '/api/media') {
+        if (env.MEDIA_ENABLED !== 'true') return json({ error: 'media_not_enabled' }, 503)
+        const input = await readJson(request, 2_600_000)
+        return await runMedia({ env, input, reserve, day, slot, json, cap })
+      }
+      const input = await readJson(request, 20_000)
       if (!input || !Object.hasOwn(tasks, input.task) || typeof input.text !== 'string' ||
           !input.text.trim() || input.text.length > 6000) return json({ error: 'invalid_request' }, 400)
       if (input.classification !== 'public' || input.confirmPublic !== true) {
         return json({ error: 'private_route_unavailable' }, 422)
       }
-      const day = new Date().toISOString().slice(0, 10)
       if (!await reserve(env.DB, day + ':staff:' + slot, 1, 40)) {
         return json({ error: 'staff_daily_limit' }, 429)
       }
@@ -105,7 +113,6 @@ export default {
         { role: 'system', content: 'Use source facts only for property claims. ' + tasks[input.task] },
         { role: 'user', content: input.text },
       ]
-      const cap = Math.min(8000, Math.max(0, Number(env.CF_DAILY_NEURONS) || 0))
       // Conservative estimate using UTF-8 bytes and a fixed margin for framing.
       const bytes = new TextEncoder().encode(JSON.stringify(messages)).byteLength
       const estimatedNeurons = Math.ceil((bytes + 1024) * 0.004625 + outputLimit * 0.030475)

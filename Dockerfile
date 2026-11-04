@@ -9,7 +9,7 @@ RUN npm run build
 FROM node:22-bookworm-slim
 WORKDIR /app
 # Chromium renders PDFs; fonts cover Arabic. Poppler and Tesseract power OCR.
-RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ chromium fonts-noto-core fonts-noto-ui-core fonts-liberation tesseract-ocr tesseract-ocr-eng poppler-utils && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ chromium fonts-noto-core fonts-noto-ui-core fonts-liberation tesseract-ocr tesseract-ocr-eng tesseract-ocr-ara poppler-utils && rm -rf /var/lib/apt/lists/*
 ENV NODE_ENV=production DATA_DIR=/data PORT=8080 CHROME_PATH=/usr/bin/chromium PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 COPY package*.json ./
 RUN npm ci --omit=dev && apt-get purge -y python3 make g++ && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*

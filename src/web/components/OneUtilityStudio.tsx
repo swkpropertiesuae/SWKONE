@@ -1,6 +1,9 @@
 import { useState, type FormEvent } from 'react'
 import { post } from '../lib/api'
 import { OllamaStudio } from './OllamaStudio'
+import { OneDedicatedTools, type DedicatedTool } from './OneDedicatedTools'
+
+const dedicated = new Set(['ocr', 'review', 'transcribe', 'speak', 'image'])
 
 const tasks = {
   reply: 'Client reply',
@@ -74,11 +77,12 @@ export function OneUtilityStudio({ compact = false }: { compact?: boolean }) {
 
   return <section aria-label="SWK ONE Utility Studio" className="grid gap-4">
     <div className="flex flex-wrap gap-2">
-      {[['cloud', 'Cloud AI'], ['private', 'Local Ollama'], ['photo', 'Photo Resize'], ['pdf', 'PDF Tools']].map(([key, label]) =>
+      {[['cloud', 'Cloud AI'], ['private', 'Local Ollama'], ['photo', 'Photo Resize'], ['pdf', 'PDF Tools'], ['ocr', 'OCR'], ['review', 'Document Review'], ['transcribe', 'Speech to Text'], ['speak', 'Text to Speech'], ['image', 'Image Generation']].map(([key, label]) =>
         <button type="button" key={key} className={tab === key ? 'btn green sm' : 'btn outline sm'}
           aria-pressed={tab === key} onClick={() => setTab(key)}>{label}</button>
       )}
     </div>
+    {dedicated.has(tab) && <OneDedicatedTools key={tab} tool={tab as DedicatedTool} />}
     {tab === 'cloud' && <form onSubmit={submit} className="grid gap-3">
       <label className="grid gap-1 text-sm">Task
         <select className="select" value={task} onChange={event => setTask(event.target.value as keyof typeof tasks)}>
