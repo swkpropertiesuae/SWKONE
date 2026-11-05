@@ -45,6 +45,7 @@ const SwkOneApp = lazy(() => import('./mobile/SwkOneApp'))
 const ReceptionQrPage = lazy(() => import('./pages/swk/ReceptionQrPage'))
 const RecycleBinPage = lazy(() => import('./pages/swk/RecycleBinPage'))
 const WithdrawalsPage = lazy(() => import('./pages/swk/WithdrawalsPage'))
+const HandoverPortalPage = lazy(() => import('./pages/swk/HandoverPortalPage'))
 
 function Guard({ module, children }: { module: string; children: ReactNode }) {
   const { can } = useMeta()
@@ -124,6 +125,7 @@ export default function App() {
           <Route path="/home" element={<Launcher />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/enterprise/master-os" element={<EnterpriseMasterOsPage />} />
+          <Route path="/handover" element={<HandoverPortalPage />} />
           <Route path="/reception-qr" element={<ReceptionQrPage />} />
           <Route path="/recycle-bin" element={<RecycleBinPage />} />
           <Route path="/withdrawals" element={<WithdrawalsPage />} />

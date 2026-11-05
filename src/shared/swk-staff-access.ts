@@ -210,6 +210,7 @@ export function isAllowedPathForRestrictedStaff(pathname: string): boolean {
     '/ai',
     '/profile',
     '/workspace-tools',
+    '/handover',
   ])
   if (exactAllowed.has(clean)) return true
   if (
