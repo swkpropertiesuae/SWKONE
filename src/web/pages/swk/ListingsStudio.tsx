@@ -301,7 +301,7 @@ function ListingCard({ l, i, onQuality, onCopy }: { l: Listing; i: number; onQua
       whileHover={{ y: -4 }} className="swk-card overflow-hidden flex flex-col group">
       <div className="relative h-[200px] overflow-hidden">
         <motion.div className="absolute inset-0 bg-cover bg-center transition-transform duration-[1.2s] group-hover:scale-[1.06]" style={{ backgroundImage: `url(${l.img})` }} />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(4,22,21,.15) 0%, rgba(4,22,21,0) 40%, rgba(4,22,21,.78) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(8,20,42,.15) 0%, rgba(8,20,42,0) 40%, rgba(8,20,42,.78) 100%)' }} />
         <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap">
           <Pill tone={statusTone(p.status)}>{p.status}</Pill>
           {p.is_off_plan && <Pill tone="sky">Off-plan</Pill>}

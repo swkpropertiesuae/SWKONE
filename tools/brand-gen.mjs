@@ -12,8 +12,10 @@
  *   08_SWK_ONE_Script_Logo_Compact
  *   09a_SWK_ONE_App_Icon_Light_Unlabeled / 09b_SWK_ONE_App_Icon_Dark_Unlabeled
  *
- * Official Brand Color Palette:
- *   - Deep Emerald Background:       #041615 (RGB: 4, 22, 21)
+ * Official Brand Color Palette (SWK Midnight Navy Blue + SWK ONE Champagne Gold):
+ *   - Midnight Navy Background:      #0B1A33 (RGB: 11, 26, 51)
+ *   - Deep Midnight Background:      #08142A (RGB: 8, 20, 42)
+ *   - Royal Navy Surface:            #14305C (RGB: 20, 48, 92)
  *   - Champagne Gold Highlight:      #E0C1A3 (RGB: 224, 193, 163)
  *   - Brushed Bronze / Rose Gold:    #B68F70 (RGB: 182, 143, 112)
  *   - Deep Bronze Shadow:            #6F513B (RGB: 111, 81, 59)
@@ -34,7 +36,7 @@ const brandDir = path.join(pubDir, 'brand')
 const oneDir = path.join(brandDir, 'one')
 const favDir = path.join(pubDir, 'favicon')
 
-const DEEP_EMERALD_RGB = [4, 22, 21] // #041615
+const MIDNIGHT_NAVY_RGB = [11, 26, 51] // #0B1A33
 const WARM_IVORY_RGB = [243, 239, 230] // #F3EFE6
 
 const clamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v)
@@ -224,6 +226,41 @@ function cleanMapPinBg(pin) {
   return outPin
 }
 
+/** Recolor any cool dark emerald (#041615..#16534e) surface/bevel pixels into SWK Midnight Navy Blue (#0B1A33..#14305C) while preserving Champagne Gold / Bronze & Warm Ivory. */
+function recolorEmeraldToNavy(src) {
+  const out = new PNG({ width: src.width, height: src.height })
+  for (let i = 0; i < src.data.length; i += 4) {
+    const r = src.data[i], g = src.data[i + 1], b = src.data[i + 2], a = src.data[i + 3]
+    if (a === 0) {
+      out.data[i] = 0; out.data[i + 1] = 0; out.data[i + 2] = 0; out.data[i + 3] = 0
+      continue
+    }
+    // Warm Ivory / light neutral or already Navy Blue (b > g * 1.25)
+    const isLight = r > 155 && g > 150 && b > 140
+    const isAlreadyNavy = b > g * 1.25 && b > r * 1.8
+    if (isLight || isAlreadyNavy) {
+      out.data[i] = r; out.data[i + 1] = g; out.data[i + 2] = b; out.data[i + 3] = a
+      continue
+    }
+    // In all Champagne Gold, Brushed Bronze, Deep Bronze & Warm Ivory pixels, R >= G.
+    // Only cool Emerald pixels have G > R.
+    const emeraldWeight = clamp((g - r) / Math.max(6, g * 0.28), 0, 1)
+    if (emeraldWeight <= 0.01) {
+      out.data[i] = r; out.data[i + 1] = g; out.data[i + 2] = b; out.data[i + 3] = a
+      continue
+    }
+    const scale = Math.max(0.55, g / 24)
+    const nr = clamp(Math.round(11 * Math.pow(scale, 0.85)), 6, 48)
+    const ng = clamp(Math.round(26 * Math.pow(scale, 0.85)), 14, 92)
+    const nb = clamp(Math.round(51 * Math.pow(scale, 0.88)), 28, 158)
+    out.data[i] = Math.round(r * (1 - emeraldWeight) + nr * emeraldWeight)
+    out.data[i + 1] = Math.round(g * (1 - emeraldWeight) + ng * emeraldWeight)
+    out.data[i + 2] = Math.round(b * (1 - emeraldWeight) + nb * emeraldWeight)
+    out.data[i + 3] = a
+  }
+  return out
+}
+
 function writePng(destAbs, pngObj) {
   fs.mkdirSync(path.dirname(destAbs), { recursive: true })
   fs.writeFileSync(destAbs, PNG.sync.write(pngObj))
@@ -275,34 +312,40 @@ function main() {
   const transDir = path.join(brandSrcDir, '02_Clean_Assets_Transparent_BG')
   const sheetsDir = path.join(brandSrcDir, '04_Master_Reference_Sheets')
 
-  // Read solid & transparent masters
+  // Read solid & transparent masters and strip/recolor all emerald green to SWK Midnight Navy Blue (#0B1A33)
   const primaryLogoTrans = PNG.sync.read(fs.readFileSync(path.join(transDir, '01_SWK_ONE_Primary_Logo_Transparent.png')))
-  const primaryLogoSolid = PNG.sync.read(fs.readFileSync(path.join(solidDir, '01_SWK_ONE_Primary_Logo.png')))
+  const primaryLogoSolid = composeOnCanvas(primaryLogoTrans, primaryLogoTrans.width, primaryLogoTrans.height, MIDNIGHT_NAVY_RGB, 1.0)
 
-  const masterLockupSolid = PNG.sync.read(fs.readFileSync(path.join(solidDir, '02_SWK_ONE_Master_Lockup.png')))
-  const masterLockupTrans = cleanEmeraldBg(masterLockupSolid)
+  const masterLockupRaw = PNG.sync.read(fs.readFileSync(path.join(solidDir, '02_SWK_ONE_Master_Lockup.png')))
+  const masterLockupTrans = cleanEmeraldBg(masterLockupRaw)
+  const masterLockupSolid = composeOnCanvas(masterLockupTrans, masterLockupTrans.width, masterLockupTrans.height, MIDNIGHT_NAVY_RGB, 1.0)
 
-  const portalArchSolid = PNG.sync.read(fs.readFileSync(path.join(solidDir, '03_SWK_ONE_Portal_Arch_Emblem.png')))
-  const portalArchTrans = cleanEmeraldBg(portalArchSolid)
+  const portalArchRaw = PNG.sync.read(fs.readFileSync(path.join(solidDir, '03_SWK_ONE_Portal_Arch_Emblem.png')))
+  const portalArchTrans = cleanEmeraldBg(portalArchRaw)
+  const portalArchSolid = composeOnCanvas(portalArchTrans, portalArchTrans.width, portalArchTrans.height, MIDNIGHT_NAVY_RGB, 1.0)
 
-  const appIconDarkLabeledTrans = PNG.sync.read(fs.readFileSync(path.join(transDir, '04a_SWK_ONE_App_Icon_Dark_Labeled_Transparent.png')))
+  const appIconDarkLabeledTrans = recolorEmeraldToNavy(PNG.sync.read(fs.readFileSync(path.join(transDir, '04a_SWK_ONE_App_Icon_Dark_Labeled_Transparent.png'))))
   const appIconLightLabeledTrans = PNG.sync.read(fs.readFileSync(path.join(transDir, '04b_SWK_ONE_App_Icon_Light_Labeled_Transparent.png')))
-  const appIconsPairTrans = PNG.sync.read(fs.readFileSync(path.join(transDir, '04_SWK_ONE_Mobile_App_Icons_Pair_Labeled_Transparent.png')))
+  const appIconsPairTrans = recolorEmeraldToNavy(PNG.sync.read(fs.readFileSync(path.join(transDir, '04_SWK_ONE_Mobile_App_Icons_Pair_Labeled_Transparent.png'))))
 
-  const horizontalSolid = PNG.sync.read(fs.readFileSync(path.join(solidDir, '05_SWK_ONE_Horizontal_Portal_Lockup.png')))
-  const horizontalTrans = cleanEmeraldBg(horizontalSolid)
+  const horizontalRaw = PNG.sync.read(fs.readFileSync(path.join(solidDir, '05_SWK_ONE_Horizontal_Portal_Lockup.png')))
+  const horizontalTrans = cleanEmeraldBg(horizontalRaw)
+  const horizontalSolid = composeOnCanvas(horizontalTrans, horizontalTrans.width, horizontalTrans.height, MIDNIGHT_NAVY_RGB, 1.0)
 
-  const mapPinSolid = PNG.sync.read(fs.readFileSync(path.join(solidDir, '06_SWK_ONE_Portal_Map_Pin.png')))
-  const mapPinTrans = cleanMapPinBg(mapPinSolid)
+  const mapPinRaw = PNG.sync.read(fs.readFileSync(path.join(solidDir, '06_SWK_ONE_Portal_Map_Pin.png')))
+  const mapPinTrans = recolorEmeraldToNavy(cleanMapPinBg(mapPinRaw))
+  const mapPinSolid = composeOnCanvas(mapPinTrans, mapPinTrans.width, mapPinTrans.height, MIDNIGHT_NAVY_RGB, 1.0)
 
-  const archWordmarkSolid = PNG.sync.read(fs.readFileSync(path.join(solidDir, '07_SWK_ONE_Portal_Arch_With_Wordmark.png')))
-  const archWordmarkTrans = cleanEmeraldBg(archWordmarkSolid)
+  const archWordmarkRaw = PNG.sync.read(fs.readFileSync(path.join(solidDir, '07_SWK_ONE_Portal_Arch_With_Wordmark.png')))
+  const archWordmarkTrans = cleanEmeraldBg(archWordmarkRaw)
+  const archWordmarkSolid = composeOnCanvas(archWordmarkTrans, archWordmarkTrans.width, archWordmarkTrans.height, MIDNIGHT_NAVY_RGB, 1.0)
 
-  const scriptCompactSolid = PNG.sync.read(fs.readFileSync(path.join(solidDir, '08_SWK_ONE_Script_Logo_Compact.png')))
-  const scriptCompactTrans = cleanEmeraldBg(scriptCompactSolid)
+  const scriptCompactRaw = PNG.sync.read(fs.readFileSync(path.join(solidDir, '08_SWK_ONE_Script_Logo_Compact.png')))
+  const scriptCompactTrans = cleanEmeraldBg(scriptCompactRaw)
+  const scriptCompactSolid = composeOnCanvas(scriptCompactTrans, scriptCompactTrans.width, scriptCompactTrans.height, MIDNIGHT_NAVY_RGB, 1.0)
 
   const appIconLightUnlabeledTrans = PNG.sync.read(fs.readFileSync(path.join(transDir, '09a_SWK_ONE_App_Icon_Light_Unlabeled_Transparent.png')))
-  const appIconDarkUnlabeledTrans = PNG.sync.read(fs.readFileSync(path.join(transDir, '09b_SWK_ONE_App_Icon_Dark_Unlabeled_Transparent.png')))
+  const appIconDarkUnlabeledTrans = recolorEmeraldToNavy(PNG.sync.read(fs.readFileSync(path.join(transDir, '09b_SWK_ONE_App_Icon_Dark_Unlabeled_Transparent.png'))))
 
   // Save cleaned transparent PNGs back into assets-src/SWK_ONE_Brand_Assets/02_Clean_Assets_Transparent_BG
   writePng(path.join(transDir, '02_SWK_ONE_Master_Lockup_Transparent.png'), masterLockupTrans)
@@ -337,23 +380,24 @@ function main() {
   // Legacy /brand/one/* aliases used in AiPage, OllamaStudio, OneUtilityStudio, index.html
   writePng(path.join(oneDir, 'wordmark.png'), primaryLogoTrans)
   writePng(path.join(oneDir, 'properties.png'), horizontalTrans)
-  writePng(path.join(oneDir, 'favicon.png'), composeOnCanvas(portalArchTrans, 256, 256, DEEP_EMERALD_RGB, 0.88))
+  writePng(path.join(oneDir, 'favicon.png'), composeOnCanvas(portalArchTrans, 256, 256, MIDNIGHT_NAVY_RGB, 0.88))
 
-  // Copy Master Reference Sheets & Labeled Panels into /public/brand/one/
-  fs.copyFileSync(path.join(sheetsDir, '01_SWK_ONE_Master_Brand_Architecture_6Panel.png'), path.join(oneDir, 'sheet-complete-brand-system.png'))
-  fs.copyFileSync(path.join(sheetsDir, '01_SWK_ONE_Master_Brand_Architecture_6Panel.jpg'), path.join(oneDir, 'sheet-complete-brand-system.jpg'))
+  // Copy & recolor Master Reference Sheets & Labeled Panels into /public/brand/one/
+  const sheet6Panel = recolorEmeraldToNavy(PNG.sync.read(fs.readFileSync(path.join(sheetsDir, '01_SWK_ONE_Master_Brand_Architecture_6Panel.png'))))
+  writePng(path.join(oneDir, 'sheet-complete-brand-system.png'), sheet6Panel)
+  writePng(path.join(oneDir, 'sheet-complete-brand-system.jpg'), sheet6Panel)
   const panelsDir = path.join(brandSrcDir, '03_Labeled_Brand_Panels')
-  fs.copyFileSync(path.join(panelsDir, 'Panel_04_SWK_ONE_Mobile_App_Icons.png'), path.join(oneDir, 'sheet-app-icon-suite.png'))
-  fs.copyFileSync(path.join(panelsDir, 'Panel_07_Ecosystem_Column_SWK_ONE.png'), path.join(oneDir, 'sheet-core-identity-lockups.png'))
+  writePng(path.join(oneDir, 'sheet-app-icon-suite.png'), recolorEmeraldToNavy(PNG.sync.read(fs.readFileSync(path.join(panelsDir, 'Panel_04_SWK_ONE_Mobile_App_Icons.png')))))
+  writePng(path.join(oneDir, 'sheet-core-identity-lockups.png'), recolorEmeraldToNavy(PNG.sync.read(fs.readFileSync(path.join(panelsDir, 'Panel_07_Ecosystem_Column_SWK_ONE.png')))))
 
   // 2. Primary /brand/* assets used throughout Web & Mobile UI
   const mark512Trans = composeOnCanvas(portalArchTrans, 512, 512, null, 0.90)
-  const mark512Emerald = composeOnCanvas(portalArchTrans, 512, 512, DEEP_EMERALD_RGB, 0.86)
+  const mark512Navy = composeOnCanvas(portalArchTrans, 512, 512, MIDNIGHT_NAVY_RGB, 0.86)
   const mark512Ivory = composeOnCanvas(portalArchTrans, 512, 512, WARM_IVORY_RGB, 0.86)
 
   writePng(path.join(brandDir, 'swk-mark.png'), mark512Trans)
   writePng(path.join(brandDir, 'swk-mark-light.png'), mark512Trans)
-  writePng(path.join(brandDir, 'swk-mark-black.png'), mark512Emerald)
+  writePng(path.join(brandDir, 'swk-mark-black.png'), mark512Navy)
 
   writePng(path.join(brandDir, 'swk-logo-white.png'), primaryLogoTrans)
   writePng(path.join(brandDir, 'swk-logo-ink.png'), primaryLogoTrans)
@@ -396,7 +440,7 @@ function main() {
   writeSvgWrapper(path.join(brandDir, 'swk-os', 'Master', 'SWK_OS_Master_Transparent.svg'), masterBuf, masterLockupTrans.width, masterLockupTrans.height)
   writeSvgWrapper(path.join(brandDir, 'swk-os', 'Master', 'SWK_OS_Master.svg'), masterSolidBuf, masterLockupSolid.width, masterLockupSolid.height)
 
-  // 3. Favicons & App Icons (Deep Emerald #041615 tile with SWK ONE Portal Arch + ONE)
+  // 3. Favicons & App Icons (SWK Midnight Navy #0B1A33 tile with SWK ONE Portal Arch + ONE)
   // For <= 48px use unlabeled Portal Arch for maximum legibility; for >= 64px use labeled SWK ONE App Icon / Arch+Wordmark
   const favSizes = [16, 24, 32, 48, 64, 96, 128, 180, 192, 256, 512]
   const favDarkBuffers = new Map()
@@ -405,7 +449,7 @@ function main() {
   for (const n of favSizes) {
     const srcMark = n <= 48 ? portalArchTrans : archWordmarkTrans
     const ratio = n <= 48 ? 0.88 : 0.84
-    const darkPng = composeOnCanvas(srcMark, n, n, DEEP_EMERALD_RGB, ratio)
+    const darkPng = composeOnCanvas(srcMark, n, n, MIDNIGHT_NAVY_RGB, ratio)
     const lightPng = composeOnCanvas(srcMark, n, n, WARM_IVORY_RGB, ratio)
     const transPng = composeOnCanvas(srcMark, n, n, null, ratio)
     const darkBuf = PNG.sync.write(darkPng)
@@ -468,7 +512,7 @@ function main() {
   fs.writeFileSync(path.join(brandDir, 'app-icons', 'android-chrome-512x512.png'), pwa512)
   fs.writeFileSync(path.join(brandDir, 'app-icons', 'maskable-192x192.png'), pwa192)
   fs.writeFileSync(path.join(brandDir, 'app-icons', 'maskable-512x512.png'), pwa512)
-  writePng(path.join(brandDir, 'app-icons', 'app-store-1024.png'), composeOnCanvas(archWordmarkTrans, 1024, 1024, DEEP_EMERALD_RGB, 0.82))
+  writePng(path.join(brandDir, 'app-icons', 'app-store-1024.png'), composeOnCanvas(archWordmarkTrans, 1024, 1024, MIDNIGHT_NAVY_RGB, 0.82))
 
   writeSvgWrapper(path.join(pubDir, 'favicon.svg'), pwa512, 512, 512)
   writeSvgWrapper(path.join(pubDir, 'favicon-16.svg'), favDarkBuffers.get(16), 16, 16)
@@ -476,14 +520,14 @@ function main() {
   writeSvgWrapper(path.join(favDir, 'favicon-16.svg'), favDarkBuffers.get(16), 16, 16)
 
   // 4. OpenGraph & Social Cards (1200x630 & 1080x1080)
-  const ogDark = composeOnCanvas(horizontalTrans, 1200, 630, DEEP_EMERALD_RGB, 0.78)
+  const ogDark = composeOnCanvas(horizontalTrans, 1200, 630, MIDNIGHT_NAVY_RGB, 0.78)
   const ogLight = composeOnCanvas(horizontalTrans, 1200, 630, WARM_IVORY_RGB, 0.78)
   const ogDarkBuf = PNG.sync.write(ogDark)
   fs.writeFileSync(path.join(pubDir, 'og.png'), ogDarkBuf)
   fs.mkdirSync(path.join(brandDir, 'social'), { recursive: true })
   fs.writeFileSync(path.join(brandDir, 'social', 'social-card-charcoal-1200x630.png'), ogDarkBuf)
   fs.writeFileSync(path.join(brandDir, 'social', 'social-card-pearl-1200x630.png'), PNG.sync.write(ogLight))
-  writePng(path.join(brandDir, 'social', 'avatar-charcoal-1080.png'), composeOnCanvas(masterLockupTrans, 1080, 1080, DEEP_EMERALD_RGB, 0.82))
+  writePng(path.join(brandDir, 'social', 'avatar-charcoal-1080.png'), composeOnCanvas(masterLockupTrans, 1080, 1080, MIDNIGHT_NAVY_RGB, 0.82))
   writePng(path.join(brandDir, 'social', 'avatar-pearl-1080.png'), composeOnCanvas(masterLockupTrans, 1080, 1080, WARM_IVORY_RGB, 0.82))
 
   // 5. Masters, Logos & Wordmark subdirectories
@@ -534,8 +578,8 @@ function main() {
       fs.mkdirSync(mipDir, { recursive: true })
       fs.mkdirSync(drawDir, { recursive: true })
 
-      // Legacy & round launcher icons (Deep Emerald #041615 with SWK ONE Portal Arch + ONE)
-      const launcherPng = composeOnCanvas(archWordmarkTrans, d.size, d.size, DEEP_EMERALD_RGB, 0.84)
+      // Legacy & round launcher icons (SWK Midnight Navy #0B1A33 with SWK ONE Portal Arch + ONE)
+      const launcherPng = composeOnCanvas(archWordmarkTrans, d.size, d.size, MIDNIGHT_NAVY_RGB, 0.84)
       const launcherBuf = PNG.sync.write(launcherPng)
       fs.writeFileSync(path.join(mipDir, 'ic_launcher.png'), launcherBuf)
       fs.writeFileSync(path.join(mipDir, 'ic_launcher_round.png'), launcherBuf)
@@ -567,7 +611,7 @@ function main() {
 
     const bgXmlPath = path.join(resDir, 'values', 'ic_launcher_background.xml')
     if (fs.existsSync(path.dirname(bgXmlPath))) {
-      fs.writeFileSync(bgXmlPath, `<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="ic_launcher_background">#041615</color>\n</resources>\n`)
+      fs.writeFileSync(bgXmlPath, `<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="ic_launcher_background">#0B1A33</color>\n</resources>\n`)
     }
   }
 

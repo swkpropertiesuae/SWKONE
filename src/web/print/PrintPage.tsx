@@ -17,7 +17,7 @@ const S = () => useMeta().meta!.settings
 export function Letterhead() {
   const s = S()
   return (
-    <div className="flex items-start justify-between gap-6 pb-3 mb-4" style={{ borderBottom: '3px solid #041615' }}>
+    <div className="flex items-start justify-between gap-6 pb-3 mb-4" style={{ borderBottom: '3px solid #0b1a33' }}>
       <div className="flex items-center gap-2.5">
         <img src="/brand/one/Icon/SWK_One_Crest_ForLight.svg?v=swk-one" alt="" style={{ height: 48, width: 48, objectFit: 'contain' }} />
         <img src="/brand/one/Logo/SWK_One_Wordmark_ForLight.svg?v=swk-one" alt={s.company_name} style={{ height: 40, width: 'auto', objectFit: 'contain' }} />

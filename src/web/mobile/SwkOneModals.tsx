@@ -54,7 +54,7 @@ export function BiometricLockModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-[#041615]/95 backdrop-blur-xl flex items-center justify-center p-4 text-white overflow-hidden"
+          className="fixed inset-0 z-50 bg-[#0b1a33]/95 backdrop-blur-xl flex items-center justify-center p-4 text-white overflow-hidden"
         >
           <img
             src={SWK_BRAND.skylineFront}
@@ -68,7 +68,7 @@ export function BiometricLockModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 12 }}
             transition={{ duration: 0.35, ease: EASE }}
-            className="relative z-10 w-full max-w-sm rounded-3xl bg-[#0a2e2c]/90 border border-[#B68F70]/40 p-6 text-center space-y-5 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.85)]"
+            className="relative z-10 w-full max-w-sm rounded-3xl bg-[#0d1f3c]/90 border border-[#B68F70]/40 p-6 text-center space-y-5 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.85)]"
           >
             <img src={SWK_BRAND.fullLogoDark} alt="SWK Properties OS" className="h-16 w-auto mx-auto object-contain" />
 
@@ -100,7 +100,7 @@ export function BiometricLockModal({
                 whileTap={{ scale: 0.96 }}
                 onClick={() => void triggerBio()}
                 disabled={scanning}
-                className="w-full py-3.5 px-5 rounded-2xl text-[#041615] font-bold text-sm flex items-center justify-center gap-2 border-0 cursor-pointer shadow-lg"
+                className="w-full py-3.5 px-5 rounded-2xl text-[#0b1a33] font-bold text-sm flex items-center justify-center gap-2 border-0 cursor-pointer shadow-lg"
                 style={{ background: 'linear-gradient(135deg, #E0C1A3 0%, #B68F70 55%, #6F513B 100%)' }}
               >
                 <Fingerprint size={18} />
@@ -247,19 +247,19 @@ export function ReceptionQrScannerModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-[#041615]/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4"
+          className="fixed inset-0 z-50 bg-[#0b1a33]/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4"
         >
           <motion.div
             initial={{ opacity: 0, y: 36, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: 0.32, ease: EASE }}
-            className="w-full max-w-md rounded-t-3xl sm:rounded-3xl bg-[#F3EFE6] text-[#041615] overflow-hidden shadow-2xl border border-[#B68F70]/40"
+            className="w-full max-w-md rounded-t-3xl sm:rounded-3xl bg-[#F3EFE6] text-[#0b1a33] overflow-hidden shadow-2xl border border-[#B68F70]/40"
           >
             {/* Header */}
             <div
               className="relative overflow-hidden text-white px-5 py-4 flex items-center justify-between"
-              style={{ background: 'linear-gradient(135deg, #041615 0%, #11423e 100%)' }}
+              style={{ background: 'linear-gradient(135deg, #0b1a33 0%, #14305c 100%)' }}
             >
               <img
                 src={SWK_BRAND.skylineFront}
@@ -286,7 +286,7 @@ export function ReceptionQrScannerModal({
 
             <div className="p-5 space-y-4">
               {/* Camera Viewfinder with Animated Laser Scan Line */}
-              <div className="relative h-56 rounded-2xl bg-[#041615] overflow-hidden flex flex-col items-center justify-center text-white border-2 border-[#B68F70]">
+              <div className="relative h-56 rounded-2xl bg-[#0b1a33] overflow-hidden flex flex-col items-center justify-center text-white border-2 border-[#B68F70]">
                 <video
                   ref={videoRef}
                   className={`absolute inset-0 w-full h-full object-cover transition-opacity ${cameraActive ? 'opacity-90' : 'opacity-0 pointer-events-none'}`}
@@ -308,7 +308,7 @@ export function ReceptionQrScannerModal({
                   transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
                 />
 
-                <div className="relative z-10 w-52 h-40 border-2 border-dashed border-[#B68F70] rounded-2xl flex flex-col items-center justify-center p-3 text-center bg-[#041615]/65 backdrop-blur-xs">
+                <div className="relative z-10 w-52 h-40 border-2 border-dashed border-[#B68F70] rounded-2xl flex flex-col items-center justify-center p-3 text-center bg-[#0b1a33]/65 backdrop-blur-xs">
                   <Camera size={26} className="text-[#B68F70] mb-1.5" />
                   <span className="text-xs font-bold text-white">
                     {cameraActive
@@ -319,7 +319,7 @@ export function ReceptionQrScannerModal({
                     <button
                       type="button"
                       onClick={() => void startScannerCamera()}
-                      className="mt-2 px-3 py-1.5 rounded-xl bg-[#B68F70] text-[#041615] text-[11px] font-bold border-0 cursor-pointer"
+                      className="mt-2 px-3 py-1.5 rounded-xl bg-[#B68F70] text-[#0b1a33] text-[11px] font-bold border-0 cursor-pointer"
                     >
                       Enable Camera Access
                     </button>
@@ -338,21 +338,21 @@ export function ReceptionQrScannerModal({
               {/* What is checked */}
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="p-2.5 rounded-2xl bg-white border border-[#e7e1d4]">
-                  <div className="font-bold text-[#11423e] flex items-center gap-1">
+                  <div className="font-bold text-[#14305c] flex items-center gap-1">
                     <Smartphone size={13} className="text-[#6F513B]" /> Device Lock
                   </div>
-                  <div className="text-[11px] font-semibold text-[#041615] truncate mt-0.5">
+                  <div className="text-[11px] font-semibold text-[#0b1a33] truncate mt-0.5">
                     {device?.device_name || 'Bound Handset'} (1-per-staff)
                   </div>
                 </div>
                 <div className="p-2.5 rounded-2xl bg-white border border-[#e7e1d4]">
-                  <div className="font-bold text-[#11423e] flex items-center gap-1">
+                  <div className="font-bold text-[#14305c] flex items-center gap-1">
                     <Wifi size={13} className="text-[#6F513B]" /> Office Wi-Fi & GPS
                   </div>
-                  <div className="text-[11px] font-semibold text-[#041615] mt-0.5">Verified on scan</div>
+                  <div className="text-[11px] font-semibold text-[#0b1a33] mt-0.5">Verified on scan</div>
                 </div>
               </div>
-              {submitting && <p className="text-xs text-[#11423e] font-semibold m-0">Validating QR code, camera liveness, Office Wi-Fi and device…</p>}
+              {submitting && <p className="text-xs text-[#14305c] font-semibold m-0">Validating QR code, camera liveness, Office Wi-Fi and device…</p>}
 
               {/* Manual 6-Digit Reception Code Input */}
               <form onSubmit={handleManualSubmit} className="pt-2 border-t border-[#e7e1d4] flex gap-2">
@@ -362,12 +362,12 @@ export function ReceptionQrScannerModal({
                   onChange={e => setManualCode(e.target.value)}
                   placeholder="Lifelong code or 6-digit pin"
                   autoComplete="one-time-code"
-                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-white border border-[#d9d1c1] text-xs text-[#041615]"
+                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-white border border-[#d9d1c1] text-xs text-[#0b1a33]"
                 />
                 <button
                   type="submit"
                   disabled={submitting || !manualCode.trim()}
-                  className="px-4 py-2.5 rounded-xl bg-[#041615] text-[#F3EFE6] text-xs font-bold border-0 cursor-pointer disabled:opacity-50"
+                  className="px-4 py-2.5 rounded-xl bg-[#0b1a33] text-[#F3EFE6] text-xs font-bold border-0 cursor-pointer disabled:opacity-50"
                 >
                   Verify Code
                 </button>
@@ -411,18 +411,18 @@ export function PropertyComparisonModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-[#041615]/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4"
+          className="fixed inset-0 z-50 bg-[#0b1a33]/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4"
         >
           <motion.div
             initial={{ opacity: 0, y: 36, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: 0.32, ease: EASE }}
-            className="w-full max-w-2xl max-h-[90vh] rounded-t-3xl sm:rounded-3xl bg-[#F3EFE6] text-[#041615] flex flex-col overflow-hidden shadow-2xl border border-[#B68F70]/40"
+            className="w-full max-w-2xl max-h-[90vh] rounded-t-3xl sm:rounded-3xl bg-[#F3EFE6] text-[#0b1a33] flex flex-col overflow-hidden shadow-2xl border border-[#B68F70]/40"
           >
             <div
               className="text-white px-5 py-4 flex items-center justify-between"
-              style={{ background: 'linear-gradient(135deg, #041615 0%, #11423e 100%)' }}
+              style={{ background: 'linear-gradient(135deg, #0b1a33 0%, #14305c 100%)' }}
             >
               <div className="flex items-center gap-2.5">
                 <Scale size={18} className="text-[#B68F70]" />
@@ -454,7 +454,7 @@ export function PropertyComparisonModal({
                       onClick={() => toggleProp(p.id)}
                       className={`px-3 py-1.5 rounded-full text-xs font-bold border cursor-pointer transition ${
                         active
-                          ? 'bg-[#041615] text-[#F3EFE6] border-[#041615]'
+                          ? 'bg-[#0b1a33] text-[#F3EFE6] border-[#0b1a33]'
                           : 'bg-white text-[#3a4660] border-[#d9d1c1]'
                       }`}
                     >
@@ -483,38 +483,38 @@ export function PropertyComparisonModal({
                         className="rounded-2xl border border-[#e7e1d4] bg-white overflow-hidden flex flex-col justify-between shadow-xs"
                       >
                         <div>
-                          <div className="relative h-28 bg-[#041615]">
+                          <div className="relative h-28 bg-[#0b1a33]">
                             <img
                               src={photoUrl}
                               alt={p.title}
                               className="w-full h-full object-cover"
                             />
-                            <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[9.5px] font-bold bg-[#041615]/85 text-[#F3EFE6]">
+                            <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[9.5px] font-bold bg-[#0b1a33]/85 text-[#F3EFE6]">
                               {p.status || 'Available'} · {p.property_type}
                             </span>
                           </div>
                           <div className="p-3.5 space-y-1.5">
-                            <div className="font-bold font-display text-sm text-[#041615] leading-snug">
+                            <div className="font-bold font-display text-sm text-[#0b1a33] leading-snug">
                               {p.title}
                             </div>
-                            <div className="text-base font-extrabold font-display text-[#11423e]">
+                            <div className="text-base font-extrabold font-display text-[#14305c]">
                               AED {price.toLocaleString()}
                             </div>
                             <div className="text-[11px] text-[#6b7488] space-y-1 pt-1.5 border-t border-[#efe9dc]">
                               <div>
-                                <b className="text-[#041615]">Area:</b> {sqft.toLocaleString()} sq ft (AED{' '}
+                                <b className="text-[#0b1a33]">Area:</b> {sqft.toLocaleString()} sq ft (AED{' '}
                                 {psf.toLocaleString()}/sqft)
                               </div>
                               <div>
-                                <b className="text-[#041615]">Layout:</b> {p.bedrooms ?? 2} Bed ·{' '}
+                                <b className="text-[#0b1a33]">Layout:</b> {p.bedrooms ?? 2} Bed ·{' '}
                                 {p.bathrooms ?? 2} Bath · Floor {p.floor_no ?? 10}
                               </div>
                               <div>
-                                <b className="text-[#041615]">Est. ROI:</b> {p.roi_percent || 6.5}% · Rent AED{' '}
+                                <b className="text-[#0b1a33]">Est. ROI:</b> {p.roi_percent || 6.5}% · Rent AED{' '}
                                 {Number(p.rent_annual || 0).toLocaleString()}
                               </div>
                               <div>
-                                <b className="text-[#041615]">Trakheesi:</b> {p.rera_permit_no || 'Verified'}
+                                <b className="text-[#0b1a33]">Trakheesi:</b> {p.rera_permit_no || 'Verified'}
                               </div>
                             </div>
                           </div>
@@ -526,7 +526,7 @@ export function PropertyComparisonModal({
                               onClose()
                               onSelectForOffer?.(p)
                             }}
-                            className="w-full py-2 rounded-xl text-[#041615] text-xs font-bold border-0 cursor-pointer"
+                            className="w-full py-2 rounded-xl text-[#0b1a33] text-xs font-bold border-0 cursor-pointer"
                             style={{ background: 'linear-gradient(135deg, #E0C1A3, #B68F70)' }}
                           >
                             Start Digital Offer
@@ -587,18 +587,18 @@ export function OfflineAndApkModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-[#041615]/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4"
+          className="fixed inset-0 z-50 bg-[#0b1a33]/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4"
         >
           <motion.div
             initial={{ opacity: 0, y: 36, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: 0.32, ease: EASE }}
-            className="w-full max-w-lg max-h-[90vh] rounded-t-3xl sm:rounded-3xl bg-[#F3EFE6] text-[#041615] flex flex-col overflow-hidden shadow-2xl border border-[#B68F70]/40"
+            className="w-full max-w-lg max-h-[90vh] rounded-t-3xl sm:rounded-3xl bg-[#F3EFE6] text-[#0b1a33] flex flex-col overflow-hidden shadow-2xl border border-[#B68F70]/40"
           >
             <div
               className="text-white px-5 py-4 flex items-center justify-between"
-              style={{ background: 'linear-gradient(135deg, #041615 0%, #11423e 100%)' }}
+              style={{ background: 'linear-gradient(135deg, #0b1a33 0%, #14305c 100%)' }}
             >
               <div className="flex items-center gap-3">
                 <img src={SWK_BRAND.appIconDarkLabeled} alt="SWK ONE App" className="h-9 w-9 rounded-xl object-contain border border-[#B68F70]/40" />
@@ -620,7 +620,7 @@ export function OfflineAndApkModal({
             <div className="p-5 overflow-y-auto space-y-4 text-xs">
               {/* Device & Native Status */}
               <div className="p-3.5 rounded-2xl bg-white border border-[#e7e1d4] space-y-1.5">
-                <div className="font-bold text-[#041615] flex items-center justify-between">
+                <div className="font-bold text-[#0b1a33] flex items-center justify-between">
                   <span>Enrolled Android Handset</span>
                   <span className="px-2 py-0.5 rounded-full bg-[#e3f4ec] text-[#157a52] text-[10px] font-bold">
                     Trusted & Bound
@@ -646,7 +646,7 @@ export function OfflineAndApkModal({
                 {onToggleOfflineSimulated && (
                   <div className="flex items-center justify-between pb-2.5 border-b border-[#efe9dc]">
                     <div>
-                      <div className="font-bold text-[#041615]">
+                      <div className="font-bold text-[#0b1a33]">
                         Field Offline Queue Mode (Basement / Dead-Zone Test)
                       </div>
                       <div className="text-[10px] text-[#6b7488]">
@@ -667,7 +667,7 @@ export function OfflineAndApkModal({
                   </div>
                 )}
                 <div className="flex items-center justify-between">
-                  <div className="font-bold text-sm text-[#041615] flex items-center gap-1.5">
+                  <div className="font-bold text-sm text-[#0b1a33] flex items-center gap-1.5">
                     <CloudOff size={15} className="text-[#6F513B]" />
                     Encrypted Offline Evidence Queue ({effectiveQueue.length})
                   </div>
@@ -678,7 +678,7 @@ export function OfflineAndApkModal({
                       setSyncing(false)
                     }}
                     disabled={syncing || effectiveQueue.length === 0}
-                    className="px-3 py-1.5 rounded-full text-[#041615] font-bold text-xs border-0 cursor-pointer disabled:opacity-50 flex items-center gap-1"
+                    className="px-3 py-1.5 rounded-full text-[#0b1a33] font-bold text-xs border-0 cursor-pointer disabled:opacity-50 flex items-center gap-1"
                     style={{ background: 'linear-gradient(135deg, #E0C1A3, #B68F70)' }}
                   >
                     <UploadCloud size={13} />
@@ -697,7 +697,7 @@ export function OfflineAndApkModal({
                         className="p-2.5 rounded-xl bg-[#fbf8f2] border border-[#efe9dc] flex items-center justify-between"
                       >
                         <div>
-                          <div className="font-bold text-[#041615]">{item.label}</div>
+                          <div className="font-bold text-[#0b1a33]">{item.label}</div>
                           <div className="text-[10px] font-mono text-[#6b7488]">{item.idempotency_key}</div>
                         </div>
                         <span className="px-2 py-0.5 rounded-full bg-[#F3EFE6] text-[#6F513B] text-[10px] font-bold">
@@ -711,13 +711,13 @@ export function OfflineAndApkModal({
 
               {/* Server Connection Endpoint */}
               <div className="p-3.5 rounded-2xl bg-white border border-[#e7e1d4] space-y-2">
-                <div className="font-bold text-[#041615] flex items-center gap-1.5">
+                <div className="font-bold text-[#0b1a33] flex items-center gap-1.5">
                   <Server size={14} className="text-[#6F513B]" />
                   SWK OS Mobile & Backend Domain Endpoint
                 </div>
                 <div className="text-[11px] text-[#6b7488]">
                   Mobile domain for everyone:{' '}
-                  <code className="font-mono font-bold text-[#041615]">{SWK_MOBILE_DOMAIN}</code> · OS domain:{' '}
+                  <code className="font-mono font-bold text-[#0b1a33]">{SWK_MOBILE_DOMAIN}</code> · OS domain:{' '}
                   <code className="font-mono">{SWK_OS_DOMAIN}</code>.
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -749,7 +749,7 @@ export function OfflineAndApkModal({
                     value={urlInput}
                     onChange={e => setUrlInput(e.target.value)}
                     placeholder={`Same-origin (or ${SWK_MOBILE_DOMAIN})`}
-                    className="flex-1 px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs text-[#041615]"
+                    className="flex-1 px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs text-[#0b1a33]"
                   />
                   <button
                     onClick={() => {
@@ -757,7 +757,7 @@ export function OfflineAndApkModal({
                       onSaveApiBaseUrl?.(urlInput)
                       onClose()
                     }}
-                    className="px-4 py-2 rounded-xl bg-[#041615] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer"
+                    className="px-4 py-2 rounded-xl bg-[#0b1a33] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer"
                   >
                     Save
                   </button>

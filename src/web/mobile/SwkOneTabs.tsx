@@ -75,10 +75,10 @@ export function DutyAndViewingsTab({
       {/* 1. Explicit Start / End Field Duty Card + Animated Live GPS Radar Visualizer */}
       <motion.div
         variants={itemRise}
-        className="rounded-3xl bg-white border border-[#e7e1d4] overflow-hidden shadow-[0_14px_34px_-22px_rgba(4,22,21,0.32)]"
+        className="rounded-3xl bg-white border border-[#e7e1d4] overflow-hidden shadow-[0_14px_34px_-22px_rgba(8,20,42,0.32)]"
       >
         {/* Interactive Live Dubai GPS Telemetry & Radar Header */}
-        <div className="relative h-44 bg-[#041615] text-white overflow-hidden p-4 flex flex-col justify-between">
+        <div className="relative h-44 bg-[#0b1a33] text-white overflow-hidden p-4 flex flex-col justify-between">
           <div
             className="absolute inset-0 bg-cover bg-center opacity-28"
             style={{ backgroundImage: `url(${activeCommunity.image})` }}
@@ -87,7 +87,7 @@ export function DutyAndViewingsTab({
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(circle at 78% 50%, rgba(79,211,154,0.18), transparent 55%), linear-gradient(180deg, rgba(4,22,21,0.72) 0%, rgba(4,22,21,0.95) 100%)',
+                'radial-gradient(circle at 78% 50%, rgba(79,211,154,0.18), transparent 55%), linear-gradient(180deg, rgba(8,20,42,0.72) 0%, rgba(8,20,42,0.95) 100%)',
             }}
           />
           <img
@@ -194,7 +194,7 @@ export function DutyAndViewingsTab({
           {activeSession ? (
             <div className="p-3.5 rounded-2xl bg-[#fbf8f2] border border-[#e3d1ad] space-y-3">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-[#041615] flex items-center gap-1.5">
+                <span className="font-bold text-[#0b1a33] flex items-center gap-1.5">
                   <Radio size={14} className="text-[#1f9d6b]" />
                   Persistent Android Notification Active
                 </span>
@@ -206,7 +206,7 @@ export function DutyAndViewingsTab({
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => void onSendLocationBatch(activeSession.id)}
-                  className="py-2.5 px-2.5 rounded-xl bg-white text-[#11423e] border border-[#d9d1c1] hover:border-[#B68F70] text-xs font-bold cursor-pointer shadow-2xs"
+                  className="py-2.5 px-2.5 rounded-xl bg-white text-[#14305c] border border-[#d9d1c1] hover:border-[#B68F70] text-xs font-bold cursor-pointer shadow-2xs"
                 >
                   Sync GPS Batch
                 </motion.button>
@@ -220,7 +220,7 @@ export function DutyAndViewingsTab({
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => void onEndDuty(activeSession.id, 'Completed scheduled field duty')}
-                  className="py-2.5 px-2.5 rounded-xl bg-[#041615] text-[#F3EFE6] text-xs font-bold border-0 cursor-pointer"
+                  className="py-2.5 px-2.5 rounded-xl bg-[#0b1a33] text-[#F3EFE6] text-xs font-bold border-0 cursor-pointer"
                 >
                   End Duty
                 </motion.button>
@@ -229,14 +229,14 @@ export function DutyAndViewingsTab({
           ) : (
             <div className="space-y-2.5">
               <p className="text-xs text-[#3a4660]">
-                Location is <b className="text-[#041615]">never</b> shared when off duty. Starting Field Duty launches the Android Foreground Service with a visible status notification until you end duty.
+                Location is <b className="text-[#0b1a33]">never</b> shared when off duty. Starting Field Duty launches the Android Foreground Service with a visible status notification until you end duty.
               </p>
               <input
                 type="text"
                 value={dutyLoc}
                 onChange={e => setDutyLoc(e.target.value)}
                 placeholder="Assigned community / building (e.g. Dubai Marina Gate 1)"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs text-[#041615] focus:outline-none focus:border-[#B68F70]"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs text-[#0b1a33] focus:outline-none focus:border-[#B68F70]"
               />
               {viewings.length > 0 && (
                 <select
@@ -247,7 +247,7 @@ export function DutyAndViewingsTab({
                     const v = viewings.find(x => x.id === id)
                     if (v) setDutyLoc(v.property_title || v.meeting_point || dutyLoc)
                   }}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs text-[#041615]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs text-[#0b1a33]"
                 >
                   <option value="">Link to an assigned viewing appointment (optional)…</option>
                   {viewings.map(v => (
@@ -264,7 +264,7 @@ export function DutyAndViewingsTab({
                   const v = viewings.find(x => x.id === selectedViewingId)
                   void onStartDuty(dutyLoc, v?.id ?? null, v?.property_id ?? null)
                 }}
-                className="w-full py-3 rounded-2xl text-[#041615] font-bold text-xs border-0 cursor-pointer flex items-center justify-center gap-2 shadow-md"
+                className="w-full py-3 rounded-2xl text-[#0b1a33] font-bold text-xs border-0 cursor-pointer flex items-center justify-center gap-2 shadow-md"
                 style={{ background: 'linear-gradient(135deg, #E0C1A3 0%, #B68F70 55%, #6F513B 100%)' }}
               >
                 <MapPin size={15} /> Start Approved Field Duty (Enable Foreground Service)
@@ -300,7 +300,7 @@ export function DutyAndViewingsTab({
                     value={sosReason}
                     onChange={e => setSosReason(e.target.value)}
                     placeholder="Describe emergency or safety concern (alerts management immediately)…"
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-[#c4492f]/40 text-xs text-[#041615]"
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-[#c4492f]/40 text-xs text-[#0b1a33]"
                   />
                   <motion.button
                     whileTap={{ scale: 0.96 }}
@@ -323,14 +323,14 @@ export function DutyAndViewingsTab({
       {/* 2. Scheduled Route Overview & Verified Viewing Journey with High-Res Property Photography */}
       <motion.div
         variants={itemRise}
-        className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(4,22,21,0.32)] space-y-3"
+        className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(8,20,42,0.32)] space-y-3"
       >
         <div className="flex items-center justify-between">
           <div>
             <div className="text-[10px] uppercase tracking-[0.18em] font-bold text-[#6F513B]">
               Verified Field Route
             </div>
-            <h3 className="font-bold font-display text-sm text-[#041615]">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">
               Viewing Journey & Daily Route ({viewings.length})
             </h3>
           </div>
@@ -342,7 +342,7 @@ export function DutyAndViewingsTab({
         {viewings.length === 0 ? (
           <div className="p-6 rounded-2xl bg-[#fbf8f2] border border-[#efe9dc] text-center space-y-2">
             <img src={SWK_BRAND.logoInk} alt="" className="h-7 w-auto mx-auto opacity-30" />
-            <div className="text-xs font-bold text-[#041615]">No viewings scheduled yet today</div>
+            <div className="text-xs font-bold text-[#0b1a33]">No viewings scheduled yet today</div>
             <p className="text-[11px] text-[#6b7488]">
               Tap &ldquo;Populate Live Dubai Field Workspace Data&rdquo; on the Command tab or schedule a viewing in CRM.
             </p>
@@ -359,7 +359,7 @@ export function DutyAndViewingsTab({
                   className="rounded-2xl bg-[#fbf8f2] border border-[#e7e1d4] overflow-hidden shadow-2xs"
                 >
                   {/* Property Visual Banner */}
-                  <div className="relative h-28 bg-[#041615] overflow-hidden">
+                  <div className="relative h-28 bg-[#0b1a33] overflow-hidden">
                     <div
                       className="absolute inset-0 bg-cover bg-center"
                       style={{ backgroundImage: `url(${photoUrl})` }}
@@ -368,11 +368,11 @@ export function DutyAndViewingsTab({
                       className="absolute inset-0"
                       style={{
                         background:
-                          'linear-gradient(180deg, rgba(4,22,21,0.2) 0%, rgba(4,22,21,0.88) 100%)',
+                          'linear-gradient(180deg, rgba(8,20,42,0.2) 0%, rgba(8,20,42,0.88) 100%)',
                       }}
                     />
                     <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between">
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#041615]/85 backdrop-blur-xs text-[#F3EFE6] text-[10px] font-bold border border-[#B68F70]/40">
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#0b1a33]/85 backdrop-blur-xs text-[#F3EFE6] text-[10px] font-bold border border-[#B68F70]/40">
                         Stop #{idx + 1} · {v.viewing_no}
                       </span>
                       <span
@@ -381,7 +381,7 @@ export function DutyAndViewingsTab({
                             ? 'bg-[#1f9d6b] text-white'
                             : v.status === 'No-Show'
                               ? 'bg-[#c4492f] text-white'
-                              : 'bg-[#B68F70] text-[#041615]'
+                              : 'bg-[#B68F70] text-[#0b1a33]'
                         }`}
                       >
                         {v.status}
@@ -404,7 +404,7 @@ export function DutyAndViewingsTab({
                   <div className="p-3.5 space-y-2.5">
                     {v.feedback && (
                       <div className="p-2.5 rounded-xl bg-white text-[11px] text-[#3a4660] border border-[#e7e1d4]">
-                        <b className="text-[#041615]">Recorded Outcome:</b> {v.feedback}
+                        <b className="text-[#0b1a33]">Recorded Outcome:</b> {v.feedback}
                       </div>
                     )}
 
@@ -412,7 +412,7 @@ export function DutyAndViewingsTab({
                       <motion.button
                         whileTap={{ scale: 0.95 }}
                         onClick={() => openAndroidMapsNavigation(comm.lat, comm.lng, v.property_title || v.meeting_point)}
-                        className="px-3 py-1.5 rounded-full bg-white text-[#041615] border border-[#d9d1c1] hover:border-[#B68F70] text-[11px] font-bold cursor-pointer flex items-center gap-1"
+                        className="px-3 py-1.5 rounded-full bg-white text-[#0b1a33] border border-[#d9d1c1] hover:border-[#B68F70] text-[11px] font-bold cursor-pointer flex items-center gap-1"
                       >
                         <Navigation size={12} className="text-[#6F513B]" /> Navigate (Maps)
                       </motion.button>
@@ -420,14 +420,14 @@ export function DutyAndViewingsTab({
                         whileTap={{ scale: 0.95 }}
                         onClick={() => void onViewingArrive(v.id)}
                         className="px-3 py-1.5 rounded-full text-white text-[11px] font-bold border-0 cursor-pointer flex items-center gap-1 shadow-2xs"
-                        style={{ background: 'linear-gradient(135deg, #11423e, #041615)' }}
+                        style={{ background: 'linear-gradient(135deg, #14305c, #0b1a33)' }}
                       >
                         <MapPin size={12} className="text-[#B68F70]" /> Confirm Arrival
                       </motion.button>
                       <motion.button
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setFeedbackViewingId(feedbackViewingId === v.id ? null : v.id)}
-                        className="px-3 py-1.5 rounded-full text-[#041615] text-[11px] font-bold border-0 cursor-pointer"
+                        className="px-3 py-1.5 rounded-full text-[#0b1a33] text-[11px] font-bold border-0 cursor-pointer"
                         style={{ background: 'linear-gradient(135deg, #E0C1A3, #B68F70)' }}
                       >
                         Checkout & Feedback
@@ -462,7 +462,7 @@ export function DutyAndViewingsTab({
                           className="overflow-hidden"
                         >
                           <div className="p-3.5 rounded-2xl bg-white border border-[#B68F70] space-y-2.5 mt-1">
-                            <div className="text-xs font-bold font-display text-[#041615]">
+                            <div className="text-xs font-bold font-display text-[#0b1a33]">
                               Record Client Viewing Feedback & Objections
                             </div>
                             <div className="grid grid-cols-2 gap-2 text-xs">
@@ -476,7 +476,7 @@ export function DutyAndViewingsTab({
                                   max={10}
                                   value={interest}
                                   onChange={e => setInterest(Number(e.target.value))}
-                                  className="w-full px-2.5 py-1.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs font-bold text-[#041615]"
+                                  className="w-full px-2.5 py-1.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs font-bold text-[#0b1a33]"
                                 />
                               </div>
                               <div>
@@ -486,7 +486,7 @@ export function DutyAndViewingsTab({
                                 <select
                                   value={decision}
                                   onChange={e => setDecision(e.target.value as any)}
-                                  className="w-full px-2.5 py-1.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs font-semibold text-[#041615]"
+                                  className="w-full px-2.5 py-1.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs font-semibold text-[#0b1a33]"
                                 >
                                   <option value="Make Offer">Ready to Make Offer</option>
                                   <option value="Second Viewing">Request Second Viewing</option>
@@ -514,7 +514,7 @@ export function DutyAndViewingsTab({
                                     onClick={() => toggleObjection(obj)}
                                     className={`px-2.5 py-1 rounded-full text-[10px] font-bold border cursor-pointer transition ${
                                       objections.includes(obj)
-                                        ? 'bg-[#041615] text-[#F3EFE6] border-[#041615]'
+                                        ? 'bg-[#0b1a33] text-[#F3EFE6] border-[#0b1a33]'
                                         : 'bg-[#fbf8f2] text-[#3a4660] border-[#d9d1c1]'
                                     }`}
                                   >
@@ -528,7 +528,7 @@ export function DutyAndViewingsTab({
                               value={feedbackNotes}
                               onChange={e => setFeedbackNotes(e.target.value)}
                               placeholder="Client preferences, price feedback & next follow-up step…"
-                              className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs text-[#041615]"
+                              className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-xs text-[#0b1a33]"
                             />
                             <motion.button
                               whileTap={{ scale: 0.97 }}
@@ -543,7 +543,7 @@ export function DutyAndViewingsTab({
                                 setFeedbackNotes('')
                                 setObjections([])
                               }}
-                              className="w-full py-2.5 rounded-xl text-[#041615] font-bold text-xs border-0 cursor-pointer"
+                              className="w-full py-2.5 rounded-xl text-[#0b1a33] font-bold text-xs border-0 cursor-pointer"
                               style={{ background: 'linear-gradient(135deg, #E0C1A3, #B68F70)' }}
                             >
                               Save Outcome & Create CRM Follow-up Task
@@ -568,7 +568,7 @@ export function DutyAndViewingsTab({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Eye size={16} className="text-[#6F513B]" />
-            <h3 className="font-bold font-display text-sm text-[#041615]">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">
               Location Privacy Dashboard (Audit Log)
             </h3>
           </div>
@@ -591,7 +591,7 @@ export function DutyAndViewingsTab({
                 className="p-2.5 rounded-2xl bg-[#fbf8f2] border border-[#efe9dc] flex items-center justify-between text-xs"
               >
                 <div>
-                  <div className="font-bold text-[#041615]">{log.access_outcome}</div>
+                  <div className="font-bold text-[#0b1a33]">{log.access_outcome}</div>
                   <div className="text-[10px] text-[#6b7488]">
                     {log.exception_reason || 'Standard active-duty coordination'}
                   </div>
@@ -696,14 +696,14 @@ export function InventoryAndNocTab({
       {/* 1. Quick Property Sourcing + Animated Camera OCR + Real-Time Duplicate Warning */}
       <motion.div
         variants={itemRise}
-        className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(4,22,21,0.32)] space-y-3.5"
+        className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(8,20,42,0.32)] space-y-3.5"
       >
         <div className="flex items-center justify-between">
           <div>
             <div className="text-[10px] uppercase tracking-[0.18em] font-bold text-[#6F513B]">
               Field Inventory Acquisition
             </div>
-            <h3 className="font-bold font-display text-sm text-[#041615]">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">
               Quick Property Sourcing (Under 60 Seconds)
             </h3>
           </div>
@@ -713,7 +713,7 @@ export function InventoryAndNocTab({
         </div>
 
         {/* Animated Camera-Assisted Document Scan Bar (Feature #29 & #35) */}
-        <div className="relative overflow-hidden p-3.5 rounded-2xl bg-[#041615] text-white border border-[#B68F70]/40 space-y-2.5">
+        <div className="relative overflow-hidden p-3.5 rounded-2xl bg-[#0b1a33] text-white border border-[#B68F70]/40 space-y-2.5">
           {scanningDoc && (
             <motion.div
               className="absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#4fd39a] to-transparent z-20 pointer-events-none"
@@ -734,7 +734,7 @@ export function InventoryAndNocTab({
               whileTap={{ scale: 0.95 }}
               type="button"
               onClick={() => void handleCameraOcr('title_deed')}
-              className="px-3 py-1.5 rounded-full text-[#041615] text-[11px] font-bold border-0 cursor-pointer"
+              className="px-3 py-1.5 rounded-full text-[#0b1a33] text-[11px] font-bold border-0 cursor-pointer"
               style={{ background: 'linear-gradient(135deg, #E0C1A3, #B68F70)' }}
             >
               📷 Scan Title Deed / Oqood
@@ -831,7 +831,7 @@ export function InventoryAndNocTab({
                 void handleCheckDup(e.target.value, unitNo)
               }}
               placeholder="Building / Tower *"
-              className="col-span-2 px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+              className="col-span-2 px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
             />
             <input
               type="text"
@@ -842,14 +842,14 @@ export function InventoryAndNocTab({
                 void handleCheckDup(buildingName, e.target.value)
               }}
               placeholder="Unit No. *"
-              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
             />
           </div>
           <div className="grid grid-cols-3 gap-2">
             <select
               value={propertyType}
               onChange={e => setPropertyType(e.target.value)}
-              className="px-2.5 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+              className="px-2.5 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
             >
               {['Apartment', 'Villa', 'Townhouse', 'Penthouse', 'Studio', 'Office'].map(t => (
                 <option key={t} value={t}>
@@ -862,14 +862,14 @@ export function InventoryAndNocTab({
               value={askingPrice}
               onChange={e => setAskingPrice(e.target.value)}
               placeholder="Price (AED)"
-              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
             />
             <input
               type="number"
               value={areaSqft}
               onChange={e => setAreaSqft(e.target.value)}
               placeholder="Area sq ft"
-              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
             />
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -879,14 +879,14 @@ export function InventoryAndNocTab({
               value={ownerName}
               onChange={e => setOwnerName(e.target.value)}
               placeholder="Verified Owner Name *"
-              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
             />
             <input
               type="text"
               value={ownerPhone}
               onChange={e => setOwnerPhone(e.target.value)}
               placeholder="Owner Mobile (+971…)"
-              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
             />
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -895,14 +895,14 @@ export function InventoryAndNocTab({
               value={formARef}
               onChange={e => setFormARef(e.target.value)}
               placeholder="Signed DLD Form A Ref."
-              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
             />
             <input
               type="text"
               value={trakheesiNo}
               onChange={e => setTrakheesiNo(e.target.value)}
               placeholder="Trakheesi Permit No."
-              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+              className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
             />
           </div>
           <input
@@ -910,7 +910,7 @@ export function InventoryAndNocTab({
             value={conditionNotes}
             onChange={e => setConditionNotes(e.target.value)}
             placeholder="Property condition checklist & site inspection notes…"
-            className="w-full px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="w-full px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           />
           <motion.button
             whileHover={{ scale: 1.01 }}
@@ -918,7 +918,7 @@ export function InventoryAndNocTab({
             type="submit"
             disabled={submitting}
             className="w-full py-3 rounded-2xl text-white font-bold text-xs border-0 cursor-pointer shadow-md"
-            style={{ background: 'linear-gradient(135deg, #11423e, #041615)' }}
+            style={{ background: 'linear-gradient(135deg, #14305c, #0b1a33)' }}
           >
             {submitting ? 'Submitting to SWK OS…' : 'Submit Sourced Inventory to SWK OS Pipeline'}
           </motion.button>
@@ -928,11 +928,11 @@ export function InventoryAndNocTab({
       {/* 2. My Sourced Inventory Pipeline Dashboard with Property Photography (Features 32, 33, 37, 39) */}
       <motion.div
         variants={itemRise}
-        className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(4,22,21,0.32)] space-y-3"
+        className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(8,20,42,0.32)] space-y-3"
       >
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="font-bold font-display text-sm text-[#041615]">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">
               My Sourced Inventory Pipeline ({submissions.length})
             </h3>
             <p className="text-[11px] text-[#6b7488]">
@@ -985,10 +985,10 @@ export function InventoryAndNocTab({
                           {sub.status}
                         </span>
                       </div>
-                      <div className="font-bold font-display text-sm text-[#041615] truncate">
+                      <div className="font-bold font-display text-sm text-[#0b1a33] truncate">
                         {sub.building_name} – Unit {sub.unit_no} ({sub.property_type})
                       </div>
-                      <div className="text-xs text-[#11423e] font-bold mt-0.5">
+                      <div className="text-xs text-[#14305c] font-bold mt-0.5">
                         AED {Number(sub.asking_price || 0).toLocaleString()} · {sub.area_sqft} sq ft · Owner:{' '}
                         {sub.owner_name}
                       </div>
@@ -1001,7 +1001,7 @@ export function InventoryAndNocTab({
                       <div key={label} className="space-y-1">
                         <div
                           className={`h-1.5 rounded-full ${
-                            sIdx < gateStep ? 'bg-[#11423e]' : 'bg-[#e7e1d4]'
+                            sIdx < gateStep ? 'bg-[#14305c]' : 'bg-[#e7e1d4]'
                           }`}
                         />
                         <div className="text-[9px] font-semibold text-[#6b7488] truncate">{label}</div>
@@ -1011,7 +1011,7 @@ export function InventoryAndNocTab({
 
                   {sub.status !== 'Published to Stock' && (
                     <div className="p-2 rounded-xl bg-white text-[11px] text-[#3a4660] border border-[#e7e1d4]">
-                      <b className="text-[#041615]">Publication Gate:</b>{' '}
+                      <b className="text-[#0b1a33]">Publication Gate:</b>{' '}
                       {sub.status === 'Submitted'
                         ? 'Waiting for Independent Inventory Team Verification of Owner Form A.'
                         : sub.status === 'Inventory Verified'
@@ -1026,7 +1026,7 @@ export function InventoryAndNocTab({
                     <motion.button
                       whileTap={{ scale: 0.95 }}
                       onClick={() => void onReconfirmPrice(sub.id, Number(sub.asking_price || 0))}
-                      className="px-3 py-1 rounded-full bg-white text-[#11423e] border border-[#d9d1c1] hover:border-[#B68F70] text-[11px] font-bold cursor-pointer"
+                      className="px-3 py-1 rounded-full bg-white text-[#14305c] border border-[#d9d1c1] hover:border-[#B68F70] text-[11px] font-bold cursor-pointer"
                     >
                       ✓ Reconfirm Owner Price ({sub.price_confirmed_date || 'Today'})
                     </motion.button>
@@ -1053,7 +1053,7 @@ export function InventoryAndNocTab({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <KeyRound size={16} className="text-[#6F513B]" />
-            <h3 className="font-bold font-display text-sm text-[#041615]">Property Key Handover Vault</h3>
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">Property Key Handover Vault</h3>
           </div>
           <span className="text-[10.5px] font-semibold text-[#6b7488]">Audited Custody</span>
         </div>
@@ -1063,19 +1063,19 @@ export function InventoryAndNocTab({
             value={keyBuilding}
             onChange={e => setKeyBuilding(e.target.value)}
             placeholder="Building"
-            className="px-2.5 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="px-2.5 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           />
           <input
             type="text"
             value={keyUnit}
             onChange={e => setKeyUnit(e.target.value)}
             placeholder="Unit No."
-            className="px-2.5 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="px-2.5 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           />
           <select
             value={keyAction}
             onChange={e => setKeyAction(e.target.value as any)}
-            className="px-2 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="px-2 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           >
             <option value="Received from Owner">Received from Owner</option>
             <option value="Checked Out for Viewing">Checked Out for Viewing</option>
@@ -1086,7 +1086,7 @@ export function InventoryAndNocTab({
         <motion.button
           whileTap={{ scale: 0.97 }}
           onClick={() => void onLogKey({ building_name: keyBuilding, unit_no: keyUnit, action: keyAction })}
-          className="w-full py-2.5 rounded-2xl bg-[#041615] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer"
+          className="w-full py-2.5 rounded-2xl bg-[#0b1a33] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer"
         >
           Record Key Custody Event
         </motion.button>
@@ -1097,7 +1097,7 @@ export function InventoryAndNocTab({
                 key={k.id}
                 className="p-2.5 rounded-xl bg-[#fbf8f2] border border-[#efe9dc] flex items-center justify-between text-[11px]"
               >
-                <span className="text-[#041615]">
+                <span className="text-[#0b1a33]">
                   <b>{k.key_tag}</b> · {k.building_name} #{k.unit_no}
                 </span>
                 <span className="font-bold text-[#6F513B]">{k.action}</span>
@@ -1115,7 +1115,7 @@ export function InventoryAndNocTab({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <FileCheck2 size={16} className="text-[#6F513B]" />
-            <h3 className="font-bold font-display text-sm text-[#041615]">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">
               Developer NOC Clearance Tracker ({nocRequests.length})
             </h3>
           </div>
@@ -1137,7 +1137,7 @@ export function InventoryAndNocTab({
                     <img src={devBrand.logo} alt={devBrand.name} className="max-h-full max-w-full object-contain" />
                   </div>
                   <div className="min-w-0">
-                    <div className="font-bold text-[#041615] truncate">
+                    <div className="font-bold text-[#0b1a33] truncate">
                       {n.request_no} · {devBrand.name}
                     </div>
                     <div className="text-[11px] text-[#6b7488]">
@@ -1194,14 +1194,14 @@ export function CrmAndDealsTab({
       {/* 1. Assigned Business WhatsApp Conversations + Multilingual AI Reply Drafts (Features 51–60) */}
       <motion.div
         variants={itemRise}
-        className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(4,22,21,0.32)] space-y-3"
+        className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(8,20,42,0.32)] space-y-3"
       >
         <div className="flex items-center justify-between">
           <div>
             <div className="text-[10px] uppercase tracking-[0.18em] font-bold text-[#6F513B]">
               Supervised Omnichannel Desk
             </div>
-            <h3 className="font-bold font-display text-sm text-[#041615]">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">
               Company WhatsApp Business (WABA) Inbox ({communications.length})
             </h3>
           </div>
@@ -1229,7 +1229,7 @@ export function CrmAndDealsTab({
                       <span className="text-[10px] font-mono text-[#6b7488]">
                         {c.comm_no} · {c.business_account_ref}
                       </span>
-                      <div className="font-bold font-display text-sm text-[#041615]">{c.customer_phone}</div>
+                      <div className="font-bold font-display text-sm text-[#0b1a33]">{c.customer_phone}</div>
                     </div>
                     <span
                       className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
@@ -1243,14 +1243,14 @@ export function CrmAndDealsTab({
                   </div>
 
                   {/* Client Chat Bubble */}
-                  <div className="p-3 rounded-2xl rounded-tl-xs bg-white text-xs text-[#041615] border border-[#e7e1d4] shadow-2xs">
+                  <div className="p-3 rounded-2xl rounded-tl-xs bg-white text-xs text-[#0b1a33] border border-[#e7e1d4] shadow-2xs">
                     {c.message_summary}
                   </div>
                   {c.ai_summary && (
                     <div className="text-[11px] text-[#6F513B] flex items-center gap-1.5 font-medium">
                       <Sparkles size={12} className="text-[#B68F70] shrink-0" />
                       <span>
-                        <b className="text-[#041615]">AI Briefing:</b> {c.ai_summary}
+                        <b className="text-[#0b1a33]">AI Briefing:</b> {c.ai_summary}
                       </span>
                     </div>
                   )}
@@ -1272,7 +1272,7 @@ export function CrmAndDealsTab({
                         }}
                         className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border cursor-pointer transition ${
                           lang === l
-                            ? 'bg-[#041615] text-[#F3EFE6] border-[#041615]'
+                            ? 'bg-[#0b1a33] text-[#F3EFE6] border-[#0b1a33]'
                             : 'bg-white text-[#3a4660] border-[#d9d1c1]'
                         }`}
                       >
@@ -1296,7 +1296,7 @@ export function CrmAndDealsTab({
                       value={replyText}
                       onChange={e => setReplyTextById(prev => ({ ...prev, [c.id]: e.target.value }))}
                       placeholder="Type official WABA response or tap an AI Draft language above…"
-                      className="flex-1 px-3 py-2 rounded-xl bg-white border border-[#d9d1c1] text-xs text-[#041615]"
+                      className="flex-1 px-3 py-2 rounded-xl bg-white border border-[#d9d1c1] text-xs text-[#0b1a33]"
                     />
                     <motion.button
                       whileTap={{ scale: 0.95 }}
@@ -1306,7 +1306,7 @@ export function CrmAndDealsTab({
                         await onReplyComm(c.id, replyText, lang)
                         setReplyTextById(prev => ({ ...prev, [c.id]: '' }))
                       }}
-                      className="px-4 py-2 rounded-full text-[#041615] text-xs font-bold border-0 cursor-pointer flex items-center gap-1 shadow-xs"
+                      className="px-4 py-2 rounded-full text-[#0b1a33] text-xs font-bold border-0 cursor-pointer flex items-center gap-1 shadow-xs"
                       style={{ background: 'linear-gradient(135deg, #E0C1A3, #B68F70)' }}
                     >
                       <Send size={12} /> Send
@@ -1322,11 +1322,11 @@ export function CrmAndDealsTab({
       {/* 2. Lead Priority Queue, AI Lead Briefing & One-Tap Call Logging (Features 14–16, 56) */}
       <motion.div
         variants={itemRise}
-        className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(4,22,21,0.32)] space-y-3"
+        className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(8,20,42,0.32)] space-y-3"
       >
         <div className="flex items-center justify-between gap-2">
           <div>
-            <h3 className="font-bold font-display text-sm text-[#041615]">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">
               Assigned CRM Leads & 1-Tap Call Logger ({leads.length})
             </h3>
             <p className="text-[11px] text-[#6b7488]">
@@ -1361,14 +1361,14 @@ export function CrmAndDealsTab({
                       <span className="text-[10px] font-mono text-[#6b7488]">
                         {l.lead_no} · {l.source}
                       </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white text-[#041615] border border-[#d9d1c1] text-[10px] font-bold">
+                      <span className="px-2.5 py-0.5 rounded-full bg-white text-[#0b1a33] border border-[#d9d1c1] text-[10px] font-bold">
                         {l.status}
                       </span>
                     </div>
-                    <div className="font-bold font-display text-sm text-[#041615] truncate">
+                    <div className="font-bold font-display text-sm text-[#0b1a33] truncate">
                       {l.contact_name || l.company}
                     </div>
-                    <div className="text-xs text-[#11423e] font-bold">
+                    <div className="text-xs text-[#14305c] font-bold">
                       {l.interest || 'Property Purchase'} · {l.destination || comm.name} · Budget AED{' '}
                       {Number(l.est_value || 0).toLocaleString()}
                     </div>
@@ -1395,7 +1395,7 @@ export function CrmAndDealsTab({
                       )
                     }
                     className="px-3 py-1.5 rounded-full text-white text-[11px] font-bold border-0 cursor-pointer flex items-center gap-1"
-                    style={{ background: 'linear-gradient(135deg, #11423e, #041615)' }}
+                    style={{ background: 'linear-gradient(135deg, #14305c, #0b1a33)' }}
                   >
                     <PhoneCall size={11} className="text-[#B68F70]" /> Connected – Interested
                   </motion.button>
@@ -1409,7 +1409,7 @@ export function CrmAndDealsTab({
                         'Client in meeting; requested callback at 5 PM'
                       )
                     }
-                    className="px-2.5 py-1.5 rounded-full bg-white text-[#041615] border border-[#d9d1c1] text-[11px] font-semibold cursor-pointer"
+                    className="px-2.5 py-1.5 rounded-full bg-white text-[#0b1a33] border border-[#d9d1c1] text-[11px] font-semibold cursor-pointer"
                   >
                     🕒 Callback Queue
                   </motion.button>
@@ -1451,7 +1451,7 @@ export function CrmAndDealsTab({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <HandCoins size={16} className="text-[#6F513B]" />
-            <h3 className="font-bold font-display text-sm text-[#041615]">Digital Offer Submission</h3>
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">Digital Offer Submission</h3>
           </div>
           <span className="text-[10px] font-bold text-[#6F513B] uppercase tracking-wider">DLD Form F Ready</span>
         </div>
@@ -1459,7 +1459,7 @@ export function CrmAndDealsTab({
           <select
             value={offerPropId}
             onChange={e => setOfferPropId(Number(e.target.value))}
-            className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           >
             {properties.map(p => (
               <option key={p.id} value={p.id}>
@@ -1472,12 +1472,12 @@ export function CrmAndDealsTab({
             value={offerPrice}
             onChange={e => setOfferPrice(e.target.value)}
             placeholder="Offer Price (AED)"
-            className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           />
           <select
             value={paymentTerms}
             onChange={e => setPaymentTerms(e.target.value)}
-            className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="px-3 py-2.5 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           >
             <option value="Cash">Cash Buyer</option>
             <option value="Mortgage">Mortgage Pre-Approved</option>
@@ -1495,7 +1495,7 @@ export function CrmAndDealsTab({
               subject_to_finance: paymentTerms === 'Mortgage',
             })
           }
-          className="w-full py-3 rounded-2xl text-[#041615] font-bold text-xs border-0 cursor-pointer shadow-sm"
+          className="w-full py-3 rounded-2xl text-[#0b1a33] font-bold text-xs border-0 cursor-pointer shadow-sm"
           style={{ background: 'linear-gradient(135deg, #E0C1A3 0%, #B68F70 100%)' }}
         >
           Submit Formal Digital Offer to SWK OS
@@ -1507,7 +1507,7 @@ export function CrmAndDealsTab({
         variants={itemRise}
         className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-2.5"
       >
-        <h3 className="font-bold font-display text-sm text-[#041615]">
+        <h3 className="font-bold font-display text-sm text-[#0b1a33]">
           Personal Deal Pipeline & 4-Gate Closing Checklist ({transactions.length})
         </h3>
         {transactions.map(t => {
@@ -1523,17 +1523,17 @@ export function CrmAndDealsTab({
               className="p-3.5 rounded-2xl bg-[#fbf8f2] border border-[#e7e1d4] space-y-2.5 text-xs"
             >
               <div className="flex items-center justify-between">
-                <b className="text-[#041615] font-display">
+                <b className="text-[#0b1a33] font-display">
                   {t.transaction_no} · AED {Number(t.deal_value || 0).toLocaleString()}
                 </b>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#041615] text-[#F3EFE6] text-[10px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#0b1a33] text-[#F3EFE6] text-[10px] font-bold">
                   {t.stage} ({gatesDone}/4 Gates)
                 </span>
               </div>
               <div className="w-full h-1.5 rounded-full bg-[#e7e1d4] overflow-hidden">
                 <motion.div
                   className="h-full rounded-full"
-                  style={{ background: 'linear-gradient(90deg, #11423e, #B68F70)' }}
+                  style={{ background: 'linear-gradient(90deg, #14305c, #B68F70)' }}
                   initial={{ width: 0 }}
                   animate={{ width: `${(gatesDone / 4) * 100}%` }}
                   transition={{ duration: 0.7 }}
@@ -1604,8 +1604,8 @@ export function PayHrAndSecurityTab({
       {/* 1. Personal Commission Tracker — 6 Separate Stage Balances in SWK Midnight & Champagne */}
       <motion.div
         variants={itemRise}
-        className="relative overflow-hidden rounded-3xl text-white p-4 shadow-[0_18px_40px_-20px_rgba(4,22,21,0.65)] space-y-3.5 border border-[#B68F70]/40"
-        style={{ background: 'linear-gradient(145deg, #041615 0%, #041615 55%, #11423e 100%)' }}
+        className="relative overflow-hidden rounded-3xl text-white p-4 shadow-[0_18px_40px_-20px_rgba(8,20,42,0.65)] space-y-3.5 border border-[#B68F70]/40"
+        style={{ background: 'linear-gradient(145deg, #0b1a33 0%, #0b1a33 55%, #14305c 100%)' }}
       >
         <img
           src={SWK_BRAND.skylineFront}
@@ -1675,7 +1675,7 @@ export function PayHrAndSecurityTab({
                 <b className="text-[#F3EFE6]">
                   {c.entitlement_no} · {c.deal_type} ({c.split_pct}% Split)
                 </b>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#B68F70] text-[#041615] text-[10px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#B68F70] text-[#0b1a33] text-[10px] font-bold">
                   {c.status}
                 </span>
               </div>
@@ -1697,13 +1697,13 @@ export function PayHrAndSecurityTab({
             <div className="text-[10px] uppercase tracking-[0.18em] font-bold text-[#6F513B]">
               Audited Performance Index
             </div>
-            <h3 className="font-bold font-display text-sm text-[#041615]">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">
               Verified Activity Score & Quality Coaching
             </h3>
             <p className="text-[11px] text-[#6b7488]">{score.policy_note}</p>
           </div>
           <div
-            className="w-14 h-14 rounded-2xl border border-[#B68F70] grid place-items-center font-extrabold font-display text-lg text-[#041615] shrink-0 shadow-xs"
+            className="w-14 h-14 rounded-2xl border border-[#B68F70] grid place-items-center font-extrabold font-display text-lg text-[#0b1a33] shrink-0 shadow-xs"
             style={{ background: 'linear-gradient(135deg, #fbf5e8, #efe2c6)' }}
           >
             {score.total_score || 92}
@@ -1712,10 +1712,10 @@ export function PayHrAndSecurityTab({
         {qaReviews.map(q => (
           <div key={q.id} className="p-3 rounded-2xl bg-[#fbf8f2] border border-[#efe9dc] text-xs space-y-1">
             <div className="flex items-center justify-between">
-              <b className="text-[#041615]">
+              <b className="text-[#0b1a33]">
                 {q.qa_no} · {q.channel}
               </b>
-              <span className="font-bold text-[#11423e]">Score: {q.overall_score}/100</span>
+              <span className="font-bold text-[#14305c]">Score: {q.overall_score}/100</span>
             </div>
             <div className="text-[11px] text-[#3a4660]">
               <b>Findings:</b> {q.findings}
@@ -1737,7 +1737,7 @@ export function PayHrAndSecurityTab({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <IdCard size={16} className="text-[#6F513B]" />
-            <h3 className="font-bold font-display text-sm text-[#041615]">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">
               Digital RERA Broker Card & HR Document Wallet
             </h3>
           </div>
@@ -1749,7 +1749,7 @@ export function PayHrAndSecurityTab({
         {/* Holographic-styled Digital RERA Broker Credential Card */}
         <div
           className="relative overflow-hidden rounded-2xl p-4 text-white border border-[#B68F70]/50 shadow-md"
-          style={{ background: 'linear-gradient(135deg, #11423e 0%, #041615 100%)' }}
+          style={{ background: 'linear-gradient(135deg, #14305c 0%, #0b1a33 100%)' }}
         >
           <img
             src={SWK_BRAND.skylineFront}
@@ -1793,7 +1793,7 @@ export function PayHrAndSecurityTab({
               className="p-3 rounded-2xl bg-[#fbf8f2] border border-[#efe9dc] flex items-center justify-between text-xs"
             >
               <div>
-                <div className="font-bold text-[#041615]">{doc.title}</div>
+                <div className="font-bold text-[#0b1a33]">{doc.title}</div>
                 <div className="text-[11px] font-mono text-[#6b7488]">
                   Ref: {doc.ref} · Expires: {doc.expiry_date}
                 </div>
@@ -1811,7 +1811,7 @@ export function PayHrAndSecurityTab({
         variants={itemRise}
         className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-2.5"
       >
-        <h3 className="font-bold font-display text-sm text-[#041615]">
+        <h3 className="font-bold font-display text-sm text-[#0b1a33]">
           Attendance History & Correction Requests ({attendanceHistory.length})
         </h3>
         <div className="space-y-2">
@@ -1821,12 +1821,12 @@ export function PayHrAndSecurityTab({
               className="p-3 rounded-2xl bg-[#fbf8f2] border border-[#efe9dc] text-xs space-y-1.5"
             >
               <div className="flex items-center justify-between">
-                <b className="text-[#041615]">
+                <b className="text-[#0b1a33]">
                   {att.work_date} · {att.terminal_type} ({att.event_no})
                 </b>
                 <button
                   onClick={() => setCorrId(corrId === att.id ? null : att.id)}
-                  className="px-2.5 py-0.5 rounded-full bg-white border border-[#d9d1c1] text-[10px] font-bold text-[#11423e] cursor-pointer"
+                  className="px-2.5 py-0.5 rounded-full bg-white border border-[#d9d1c1] text-[10px] font-bold text-[#14305c] cursor-pointer"
                 >
                   Challenge / Correct
                 </button>
@@ -1842,7 +1842,7 @@ export function PayHrAndSecurityTab({
                     value={corrReason}
                     onChange={e => setCorrReason(e.target.value)}
                     placeholder="Reason for attendance correction (e.g. client morning meeting at DLD)…"
-                    className="flex-1 px-2.5 py-1.5 rounded-xl bg-white border border-[#d9d1c1] text-xs text-[#041615]"
+                    className="flex-1 px-2.5 py-1.5 rounded-xl bg-white border border-[#d9d1c1] text-xs text-[#0b1a33]"
                   />
                   <button
                     onClick={async () => {
@@ -1850,7 +1850,7 @@ export function PayHrAndSecurityTab({
                       setCorrId(null)
                       setCorrReason('')
                     }}
-                    className="px-3.5 py-1.5 rounded-full bg-[#041615] text-[#F3EFE6] text-xs font-bold border-0 cursor-pointer"
+                    className="px-3.5 py-1.5 rounded-full bg-[#0b1a33] text-[#F3EFE6] text-xs font-bold border-0 cursor-pointer"
                   >
                     Submit
                   </button>
@@ -1864,13 +1864,13 @@ export function PayHrAndSecurityTab({
       {/* 5. Leave Request & Shift Handover (Features #7 & #8) */}
       <motion.div variants={itemRise} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-2.5 text-xs">
-          <div className="font-bold font-display text-sm text-[#041615] flex items-center gap-1.5">
+          <div className="font-bold font-display text-sm text-[#0b1a33] flex items-center gap-1.5">
             <Plane size={15} className="text-[#6F513B]" /> Leave & Emergency Absence
           </div>
           <select
             value={leaveType}
             onChange={e => setLeaveType(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           >
             <option value="Annual">Annual Leave</option>
             <option value="Sick">Medical / Sick Leave</option>
@@ -1881,13 +1881,13 @@ export function PayHrAndSecurityTab({
               type="date"
               value={leaveFrom}
               onChange={e => setLeaveFrom(e.target.value)}
-              className="px-2.5 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+              className="px-2.5 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
             />
             <input
               type="date"
               value={leaveTo}
               onChange={e => setLeaveTo(e.target.value)}
-              className="px-2.5 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+              className="px-2.5 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
             />
           </div>
           <input
@@ -1895,14 +1895,14 @@ export function PayHrAndSecurityTab({
             value={leaveReason}
             onChange={e => setLeaveReason(e.target.value)}
             placeholder="Reason & cover notes…"
-            className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           />
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={() =>
               void onSubmitLeave({ type: leaveType, from_date: leaveFrom, to_date: leaveTo, reason: leaveReason })
             }
-            className="w-full py-2.5 rounded-2xl text-[#041615] font-bold border-0 cursor-pointer"
+            className="w-full py-2.5 rounded-2xl text-[#0b1a33] font-bold border-0 cursor-pointer"
             style={{ background: 'linear-gradient(135deg, #E0C1A3, #B68F70)' }}
           >
             Submit Leave Request
@@ -1910,13 +1910,13 @@ export function PayHrAndSecurityTab({
         </div>
 
         <div className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-2.5 text-xs">
-          <div className="font-bold font-display text-sm text-[#041615] flex items-center gap-1.5">
+          <div className="font-bold font-display text-sm text-[#0b1a33] flex items-center gap-1.5">
             <UserCheck size={15} className="text-[#6F513B]" /> Shift Handover
           </div>
           <select
             value={handoverUser}
             onChange={e => setHandoverUser(Number(e.target.value))}
-            className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           >
             {colleagues.map(u => (
               <option key={u.id} value={u.id}>
@@ -1929,12 +1929,12 @@ export function PayHrAndSecurityTab({
             value={handoverNotes}
             onChange={e => setHandoverNotes(e.target.value)}
             placeholder="Pending viewings, hot leads, or key custody notes for next shift…"
-            className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           />
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={() => void onShiftHandover(handoverUser, handoverNotes || 'Standard EOD shift handover')}
-            className="w-full py-2.5 rounded-2xl bg-[#041615] text-[#F3EFE6] font-bold border-0 cursor-pointer"
+            className="w-full py-2.5 rounded-2xl bg-[#0b1a33] text-[#F3EFE6] font-bold border-0 cursor-pointer"
           >
             Hand Over Unfinished Work
           </motion.button>
@@ -1946,7 +1946,7 @@ export function PayHrAndSecurityTab({
         variants={itemRise}
         className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-2.5 text-xs"
       >
-        <div className="font-bold font-display text-sm text-[#041615] flex items-center gap-1.5">
+        <div className="font-bold font-display text-sm text-[#0b1a33] flex items-center gap-1.5">
           <BookOpen size={15} className="text-[#6F513B]" /> Company Policy & RERA Knowledge Assistant
         </div>
         <div className="flex gap-2">
@@ -1955,7 +1955,7 @@ export function PayHrAndSecurityTab({
             value={kbQuery}
             onChange={e => setKbQuery(e.target.value)}
             placeholder="Ask about commission splits, location privacy, NOC rules, WABA policy…"
-            className="flex-1 px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+            className="flex-1 px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
           />
           <motion.button
             whileTap={{ scale: 0.95 }}
@@ -1963,13 +1963,13 @@ export function PayHrAndSecurityTab({
               const res = await onAskKnowledge(kbQuery || 'commission policy')
               setKbAnswer(res.answer)
             }}
-            className="px-4 py-2 rounded-full bg-[#041615] text-[#F3EFE6] font-bold border-0 cursor-pointer"
+            className="px-4 py-2 rounded-full bg-[#0b1a33] text-[#F3EFE6] font-bold border-0 cursor-pointer"
           >
             Ask
           </motion.button>
         </div>
         {kbAnswer && (
-          <div className="p-3 rounded-2xl bg-[#fbf8f2] text-[#041615] border border-[#B68F70]">
+          <div className="p-3 rounded-2xl bg-[#fbf8f2] text-[#0b1a33] border border-[#B68F70]">
             {kbAnswer}
           </div>
         )}
@@ -1980,7 +1980,7 @@ export function PayHrAndSecurityTab({
         variants={itemRise}
         className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-3 text-xs"
       >
-        <h3 className="font-bold font-display text-sm text-[#041615]">
+        <h3 className="font-bold font-display text-sm text-[#0b1a33]">
           Employee Onboarding & Asset Exit Checklists
         </h3>
         <div className="space-y-1.5">
@@ -1995,7 +1995,7 @@ export function PayHrAndSecurityTab({
                 checked={!!item.done}
                 onChange={e => void onToggleChecklist('onboarding', item.id, e.target.checked)}
               />
-              <span className={item.done ? 'line-through text-[#6b7488]' : 'font-semibold text-[#041615]'}>
+              <span className={item.done ? 'line-through text-[#6b7488]' : 'font-semibold text-[#0b1a33]'}>
                 {item.label}
               </span>
               <span className="ml-auto text-[10px] text-[#6F513B] font-bold">{item.owner}</span>

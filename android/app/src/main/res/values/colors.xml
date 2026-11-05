@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- SWK ONE "Deep Emerald & Champagne Gold" Brand Architecture -->
-    <color name="swk_midnight">#041615</color>
-    <color name="swk_midnight_raised">#0A2E2C</color>
-    <color name="swk_royal">#11423E</color>
+    <color name="swk_midnight">#0b1a33</color>
+    <color name="swk_midnight_raised">#0D1F3C</color>
+    <color name="swk_royal">#14305C</color>
     <color name="swk_champagne">#E0C1A3</color>
     <color name="swk_bronze">#B68F70</color>
     <color name="swk_deep_bronze">#6F513B</color>

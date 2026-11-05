@@ -191,7 +191,7 @@ export function Shell() {
           <div className="flex-1" />
           <DubaiClock />
           <Link to="/swk-one" className="swk-chip swk-hide-md no-underline hover:border-[#B68F70]" title="Open SWK ONE Mobile Workspace (one.swkpropertiesuae.com)">
-            <Smartphone size={14} className="text-[#0a2e2c]" />
+            <Smartphone size={14} className="text-[#0d1f3c]" />
             <b>SWK ONE Mobile</b>
           </Link>
           <button className="swk-tbtn" onClick={() => setPalette(true)} aria-label="Search (Ctrl K)"><Search size={17} /></button>
@@ -215,7 +215,7 @@ export function Shell() {
               </motion.div>)}</AnimatePresence>
           </div>
         </header>
-        {pwa.updateReady && <div className="no-print" role="status" style={{ position: 'fixed', left: 16, right: 16, bottom: 16, zIndex: 80, maxWidth: 440, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', borderRadius: 12, background: '#041615', color: '#F3EFE6', boxShadow: '0 8px 30px rgba(0,0,0,.3)' }}><RefreshCw size={16} /><span style={{ flex: 1, fontSize: 13.5 }}>A new version of SWK ONE is ready.</span><button className="btn sm" onClick={applyUpdate}>Reload</button></div>}
+        {pwa.updateReady && <div className="no-print" role="status" style={{ position: 'fixed', left: 16, right: 16, bottom: 16, zIndex: 80, maxWidth: 440, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', borderRadius: 12, background: '#0b1a33', color: '#F3EFE6', boxShadow: '0 8px 30px rgba(0,0,0,.3)' }}><RefreshCw size={16} /><span style={{ flex: 1, fontSize: 13.5 }}>A new version of SWK ONE is ready.</span><button className="btn sm" onClick={applyUpdate}>Reload</button></div>}
         {me?.demo && <div className="demo-notice no-print"><span><strong>Demo workspace</strong> · sample data · external messages switched off</span><details><summary>Details</summary><p>Safe practice environment. Resets every night. External email and WhatsApp messages are disabled.</p><button className="btn outline sm" onClick={async () => { if (confirm('Restore the demo to its original state and sign out?')) { await post('/api/demo/reset'); window.location.href = '/login' } }}>Reset demo</button></details></div>}
         {me?.defaultPassword && !me?.demo && <div className="no-print bg-[#F3EFE6] text-[#6F513B] border-b border-[#B68F70]/30 px-5 py-2 text-sm font-semibold flex items-center gap-3 flex-wrap">You are signed in with the default password. <Link to="/profile" className="underline">Change it now</Link></div>}
         <div className={cls('swk-body', !isHome && !!here && 'has-sidebar', !isHome && !!here && collapsed && 'is-collapsed')}>

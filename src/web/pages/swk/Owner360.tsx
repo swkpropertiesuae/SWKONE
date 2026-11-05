@@ -270,7 +270,7 @@ export default function Owner360() {
                     onClick={() => setSelectedId(p.id)}
                     className="text-start p-4 rounded-2xl border transition-all cursor-pointer"
                     style={{
-                      background: active ? 'linear-gradient(145deg,#11423e,#041615)' : '#fff',
+                      background: active ? 'linear-gradient(145deg,#14305c,#0b1a33)' : '#fff',
                       borderColor: active ? '#1d3a66' : 'var(--line)',
                       color: active ? '#fff' : 'var(--ink)',
                     }}

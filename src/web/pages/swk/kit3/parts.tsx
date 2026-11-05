@@ -26,10 +26,10 @@ export function Drawer({ open, onClose, title, eyebrow, children, width = 560, f
     <AnimatePresence>
       {open && (
         <div className="fixed inset-0 z-[80]">
-          <motion.div className="absolute inset-0" style={{ background: 'rgba(4,22,21,.42)', backdropFilter: 'blur(3px)' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
+          <motion.div className="absolute inset-0" style={{ background: 'rgba(8,20,42,.42)', backdropFilter: 'blur(3px)' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
           <motion.aside ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-label={typeof title === 'string' ? title : 'Details'}
             className="absolute right-0 top-0 h-full flex flex-col outline-none"
-            style={{ width: `min(${width}px, 100vw)`, background: SWK.sand, boxShadow: '-30px 0 60px -30px rgba(4,22,21,.5)' }}
+            style={{ width: `min(${width}px, 100vw)`, background: SWK.sand, boxShadow: '-30px 0 60px -30px rgba(8,20,42,.5)' }}
             initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', stiffness: 320, damping: 34 }}>
             <header className="flex items-start justify-between gap-3 px-6 pt-5 pb-4" style={{ borderBottom: `1px solid ${SWK.line}`, background: '#fff' }}>
               <div className="min-w-0">
@@ -62,7 +62,7 @@ export function useToasts() {
         {items.map(t => (
           <motion.div key={t.id} layout initial={{ opacity: 0, y: 16, scale: .96 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, x: 40 }}
             className="pointer-events-auto flex items-start gap-2.5 max-w-[380px] rounded-2xl px-4 py-3 text-[13px] text-white"
-            style={{ background: SWK.midnight, boxShadow: '0 18px 40px -18px rgba(4,22,21,.8)', borderLeft: `3px solid ${t.tone === 'warn' ? SWK.dune : t.tone === 'info' ? SWK.champ : SWK.oasis}` }}>
+            style={{ background: SWK.midnight, boxShadow: '0 18px 40px -18px rgba(8,20,42,.8)', borderLeft: `3px solid ${t.tone === 'warn' ? SWK.dune : t.tone === 'info' ? SWK.champ : SWK.oasis}` }}>
             {t.tone === 'info' || t.tone === 'warn' ? <Info size={16} className="flex-none mt-0.5" style={{ color: SWK.champ }} /> : <CheckCircle2 size={16} className="flex-none mt-0.5" style={{ color: '#6fd0c4' }} />}
             <div>{t.text}</div>
           </motion.div>

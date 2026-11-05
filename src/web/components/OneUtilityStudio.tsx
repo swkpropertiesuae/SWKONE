@@ -180,7 +180,7 @@ export function OneUtilityStudio({ compact = false }: { compact?: boolean }) {
   return <section aria-label="SWK ONE Utility Studio" className="grid gap-4">
     <div
       className="rounded-2xl p-4 text-white border border-[#B68F70]/40 flex flex-wrap items-center justify-between gap-4 shadow-md"
-      style={{ background: 'linear-gradient(135deg, #041615 0%, #0a2e2c 55%, #11423e 100%)' }}
+      style={{ background: 'linear-gradient(135deg, #0b1a33 0%, #0d1f3c 55%, #14305c 100%)' }}
     >
       <div className="flex items-center gap-3.5">
         <img

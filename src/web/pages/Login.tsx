@@ -9,7 +9,7 @@ import { COMMUNITIES } from '../swk/uae'
 
 /**
  * SWK ONE sign-in — split-screen layout with official SWK ONE Brand Architecture Assets
- * (Portal Arch Emblem + Primary Script Logo + Master Lockup on Deep Emerald #041615 & Champagne Gold #E0C1A3 / Brushed Bronze #B68F70).
+ * (Portal Arch Emblem + Primary Script Logo + Master Lockup on Deep Emerald #0b1a33 & Champagne Gold #E0C1A3 / Brushed Bronze #B68F70).
  */
 const ease = [0.16, 1, 0.3, 1] as const
 const item = { hidden: { opacity: 0, y: 12, filter: 'blur(6px)' }, show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease } } }
@@ -183,7 +183,7 @@ export function Login() {
                         <button
                           type="button"
                           onClick={() => { setServerUrl(SWK_MOBILE_DOMAIN); setSwkApiBaseUrl(SWK_MOBILE_DOMAIN); setServerSaved(true) }}
-                          className="px-2.5 py-1 rounded-lg bg-[#11423e] border border-[#E0C1A3]/40 text-[#E0C1A3] text-[11px] font-bold cursor-pointer"
+                          className="px-2.5 py-1 rounded-lg bg-[#14305c] border border-[#E0C1A3]/40 text-[#E0C1A3] text-[11px] font-bold cursor-pointer"
                         >
                           one.swkpropertiesuae.com (SWK ONE)
                         </button>
@@ -209,7 +209,7 @@ export function Login() {
                             setSwkApiBaseUrl(serverUrl)
                             setServerSaved(true)
                           }}
-                          className="px-3.5 py-2 rounded-xl bg-[#B68F70] text-[#041615] text-[12px] font-bold border-0 cursor-pointer"
+                          className="px-3.5 py-2 rounded-xl bg-[#B68F70] text-[#0b1a33] text-[12px] font-bold border-0 cursor-pointer"
                         >
                           {serverSaved ? 'Saved ✓' : 'Save'}
                         </button>
@@ -233,7 +233,7 @@ export function Login() {
 
       {/* ---------------------------------------------------------------- hero side: SWK ONE Master Brand Architecture showcase */}
       <section className="swk-login-hero" aria-hidden>
-        <motion.div className="swk-login-hero-img" style={{ backgroundImage: 'url(/brand/one/master-lockup-solid.png)', backgroundPosition: 'center 34%', backgroundSize: '58%', backgroundRepeat: 'no-repeat', backgroundColor: '#041615' }}
+        <motion.div className="swk-login-hero-img" style={{ backgroundImage: 'url(/brand/one/master-lockup-solid.png)', backgroundPosition: 'center 34%', backgroundSize: '58%', backgroundRepeat: 'no-repeat', backgroundColor: '#0b1a33' }}
           initial={{ opacity: 0, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, ease }}>
         </motion.div>
         <div className="swk-login-hero-shade" />
@@ -253,7 +253,7 @@ export function Login() {
             <div className="font-display text-[#F3EFE6] text-[34px] xl:text-[40px] leading-[1.08] font-semibold max-w-[540px] mb-5">Every listing, viewing, lease and transfer — <span className="text-[#E0C1A3]">in SWK ONE.</span></div>
             <MarketMoments />
           </motion.div>
-          <motion.div className="hidden xl:flex flex-col items-center justify-between w-[196px] rounded-2xl overflow-hidden border border-[#E0C1A3]/35 shadow-2xl flex-none bg-[#041615]/95 p-3.5 gap-2.5" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.6, ease }}>
+          <motion.div className="hidden xl:flex flex-col items-center justify-between w-[196px] rounded-2xl overflow-hidden border border-[#E0C1A3]/35 shadow-2xl flex-none bg-[#0b1a33]/95 p-3.5 gap-2.5" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.6, ease }}>
             <img src="/brand/one/app-icons-pair-labeled.png" alt="SWK ONE Dark & Light App Icons" className="w-full h-auto object-contain rounded-xl" />
             <div className="text-[10px] tracking-[.18em] uppercase text-[#E0C1A3] font-bold text-center">SWK ONE · iOS & Android</div>
           </motion.div>

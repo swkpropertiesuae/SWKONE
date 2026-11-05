@@ -50,14 +50,14 @@ export function AdminAttendanceRollCallCard({
   const lateCount = roster.filter(r => r.is_late).length
 
   return (
-    <div className="rounded-3xl bg-white border-2 border-[#B68F70]/50 p-4 shadow-[0_14px_34px_-22px_rgba(4,22,21,0.32)] space-y-3">
+    <div className="rounded-3xl bg-white border-2 border-[#B68F70]/50 p-4 shadow-[0_14px_34px_-22px_rgba(8,20,42,0.32)] space-y-3">
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <div>
           <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] font-extrabold text-[#6F513B]">
             <ShieldCheck size={13} className="text-[#B68F70]" />
             Admin &amp; Manager Live Roll-Call (Shabib Siraj &amp; Haseeb)
           </div>
-          <h3 className="font-bold font-display text-sm text-[#041615] mt-0.5">
+          <h3 className="font-bold font-display text-sm text-[#0b1a33] mt-0.5">
             Staff Reception QR Attendance Board (@swk.property)
           </h3>
         </div>
@@ -79,7 +79,7 @@ export function AdminAttendanceRollCallCard({
           return (
             <div key={staff.id || staff.email} className="py-2.5 flex items-center justify-between gap-2 text-xs">
               <div className="min-w-0">
-                <div className="font-bold text-[#041615] truncate flex items-center gap-1.5">
+                <div className="font-bold text-[#0b1a33] truncate flex items-center gap-1.5">
                   <span>{staff.name}</span>
                   <span className="text-[10px] font-mono text-[#6b7488]">{staff.email}</span>
                 </div>
@@ -114,7 +114,7 @@ export function AdminAttendanceRollCallCard({
       <div className="flex items-center justify-between gap-2 pt-0.5">
         <Link
           to="/reception-qr?print=1"
-          className="text-[11px] font-bold text-[#11423e] underline no-underline hover:underline"
+          className="text-[11px] font-bold text-[#14305c] underline no-underline hover:underline"
         >
           Print Single Office QR Code →
         </Link>
@@ -211,7 +211,7 @@ export function SwkOneRestrictedStaffView({
   return (
     <div className="space-y-4">
       {/* Hardcoded Staff Access Scope Banner */}
-      <div className="rounded-2xl bg-[#041615] text-white border border-[#B68F70]/45 p-3.5 shadow-sm flex items-center justify-between gap-3 flex-wrap">
+      <div className="rounded-2xl bg-[#0b1a33] text-white border border-[#B68F70]/45 p-3.5 shadow-sm flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="w-9 h-9 rounded-xl bg-[#B68F70]/20 border border-[#B68F70]/50 grid place-items-center shrink-0 text-[#E0C1A3]">
             <Lock size={16} />
@@ -231,7 +231,7 @@ export function SwkOneRestrictedStaffView({
       </div>
 
       {/* 4 Allowed Sub-Navigation Pills */}
-      <div className="grid grid-cols-4 gap-1.5 p-1.5 rounded-2xl bg-[#041615] border border-[#B68F70]/35 text-white">
+      <div className="grid grid-cols-4 gap-1.5 p-1.5 rounded-2xl bg-[#0b1a33] border border-[#B68F70]/35 text-white">
         {[
           { id: 'attendance', label: 'Attendance', icon: QrCode },
           { id: 'manual', label: 'Manual', icon: BookOpen },
@@ -247,7 +247,7 @@ export function SwkOneRestrictedStaffView({
               onClick={() => setTab(t.id as RestrictedStaffTabId)}
               className={`py-2.5 px-2 rounded-xl text-xs font-bold flex flex-col sm:flex-row items-center justify-center gap-1.5 border-0 cursor-pointer transition ${
                 active
-                  ? 'bg-[#B68F70] text-[#041615] shadow-xs'
+                  ? 'bg-[#B68F70] text-[#0b1a33] shadow-xs'
                   : 'bg-transparent text-[#c8d4e8] hover:text-white'
               }`}
             >
@@ -267,7 +267,7 @@ export function SwkOneRestrictedStaffView({
                 <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#6F513B]">
                   Daily Office Reception Attendance · Saved to SWK OS
                 </div>
-                <h3 className="font-bold font-display text-base text-[#041615] mt-0.5">
+                <h3 className="font-bold font-display text-base text-[#0b1a33] mt-0.5">
                   {todayAtt
                     ? `Checked In Today at ${String(todayAtt.check_in_at || '').slice(11, 16)} GST`
                     : 'Not Checked In Yet Today'}
@@ -288,7 +288,7 @@ export function SwkOneRestrictedStaffView({
             </div>
 
             {todayAtt && (
-              <div className="p-3 rounded-2xl bg-[#fbf8f2] border border-[#e7e1d4] text-xs space-y-1 text-[#041615]">
+              <div className="p-3 rounded-2xl bg-[#fbf8f2] border border-[#e7e1d4] text-xs space-y-1 text-[#0b1a33]">
                 <div>
                   <b>Event Reference:</b> <span className="font-mono">{todayAtt.event_no}</span> ·{' '}
                   <b>Method:</b> {todayAtt.terminal_type || 'Reception QR'}
@@ -303,7 +303,7 @@ export function SwkOneRestrictedStaffView({
               </div>
             )}
 
-            <div className="p-3 rounded-2xl bg-[#fbf8f2] border border-[#e7e1d4] text-xs text-[#041615] flex items-center gap-2">
+            <div className="p-3 rounded-2xl bg-[#fbf8f2] border border-[#e7e1d4] text-xs text-[#0b1a33] flex items-center gap-2">
               <Wifi size={15} className="text-[#6F513B] shrink-0" />
               <span>
                 To check in at the office, connect to <b>Office Wi-Fi</b> and scan the single printed Office QR code using your phone’s camera.
@@ -318,7 +318,7 @@ export function SwkOneRestrictedStaffView({
                     checked={clientVarHours}
                     onChange={e => setClientVarHours(e.target.checked)}
                   />
-                  <span className="font-semibold text-[#041615]">
+                  <span className="font-semibold text-[#0b1a33]">
                     Client-Based Variable Working Hours (Late / Early Client Appointment)
                   </span>
                 </label>
@@ -346,7 +346,7 @@ export function SwkOneRestrictedStaffView({
           {/* Daily Work Summary (For Checkout Gate) */}
           <div className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold font-display text-sm text-[#041615] flex items-center gap-1.5">
+              <h3 className="font-bold font-display text-sm text-[#0b1a33] flex items-center gap-1.5">
                 <FileText size={15} className="text-[#6F513B]" />
                 Daily Work Summary (End-of-Day Report)
               </h3>
@@ -359,7 +359,7 @@ export function SwkOneRestrictedStaffView({
               value={eodSummary}
               onChange={e => setEodSummary(e.target.value)}
               placeholder="Summarize today’s completed tasks and attendance notes…"
-              className="w-full rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] p-2.5 text-xs text-[#041615]"
+              className="w-full rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] p-2.5 text-xs text-[#0b1a33]"
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <input
@@ -367,20 +367,20 @@ export function SwkOneRestrictedStaffView({
                 value={eodBlockers}
                 onChange={e => setEodBlockers(e.target.value)}
                 placeholder="Any blockers (or None)"
-                className="w-full rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#041615]"
+                className="w-full rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#0b1a33]"
               />
               <input
                 type="text"
                 value={eodPriorities}
                 onChange={e => setEodPriorities(e.target.value)}
                 placeholder="Tomorrow’s top priorities"
-                className="w-full rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#041615]"
+                className="w-full rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#0b1a33]"
               />
             </div>
             <button
               type="button"
               onClick={onSubmitDailyReport}
-              className="w-full py-2.5 px-4 rounded-xl bg-[#041615] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer flex items-center justify-center gap-1.5"
+              className="w-full py-2.5 px-4 rounded-xl bg-[#0b1a33] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer flex items-center justify-center gap-1.5"
             >
               <Send size={13} />
               Save &amp; Submit Daily Work Summary
@@ -389,7 +389,7 @@ export function SwkOneRestrictedStaffView({
 
           {/* Personal Attendance Log */}
           <div className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-3">
-            <h3 className="font-bold font-display text-sm text-[#041615] flex items-center gap-1.5">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33] flex items-center gap-1.5">
               <Clock size={15} className="text-[#6F513B]" />
               My Recent Attendance History
             </h3>
@@ -402,7 +402,7 @@ export function SwkOneRestrictedStaffView({
                 {history.slice(0, 10).map((item: any) => (
                   <div key={item.id} className="py-2.5 flex items-center justify-between gap-2 text-xs">
                     <div>
-                      <div className="font-bold text-[#041615]">
+                      <div className="font-bold text-[#0b1a33]">
                         {item.work_date} · In: {String(item.check_in_at || '').slice(11, 16) || '—'} GST
                         {item.check_out_at ? ` · Out: ${String(item.check_out_at).slice(11, 16)} GST` : ''}
                       </div>
@@ -421,7 +421,7 @@ export function SwkOneRestrictedStaffView({
 
           {/* Leave Request */}
           <div className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-3">
-            <h3 className="font-bold font-display text-sm text-[#041615] flex items-center gap-1.5">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33] flex items-center gap-1.5">
               <Calendar size={15} className="text-[#6F513B]" />
               Request Leave
             </h3>
@@ -429,7 +429,7 @@ export function SwkOneRestrictedStaffView({
               <select
                 value={leaveType}
                 onChange={e => setLeaveType(e.target.value)}
-                className="rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs font-bold text-[#041615]"
+                className="rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs font-bold text-[#0b1a33]"
               >
                 <option value="Annual Leave">Annual Leave</option>
                 <option value="Sick Leave">Sick Leave</option>
@@ -439,13 +439,13 @@ export function SwkOneRestrictedStaffView({
                 type="date"
                 value={leaveStart}
                 onChange={e => setLeaveStart(e.target.value)}
-                className="rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#041615]"
+                className="rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#0b1a33]"
               />
               <input
                 type="date"
                 value={leaveEnd}
                 onChange={e => setLeaveEnd(e.target.value)}
-                className="rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#041615]"
+                className="rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#0b1a33]"
               />
             </div>
             <input
@@ -453,7 +453,7 @@ export function SwkOneRestrictedStaffView({
               value={leaveReason}
               onChange={e => setLeaveReason(e.target.value)}
               placeholder="Reason for leave request…"
-              className="w-full rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#041615]"
+              className="w-full rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#0b1a33]"
             />
             <button
               type="button"
@@ -468,7 +468,7 @@ export function SwkOneRestrictedStaffView({
                 })
                 setLeaveReason('')
               }}
-              className="px-4 py-2 rounded-xl bg-[#041615] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-[#0b1a33] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer"
             >
               Submit Leave Request to Admin
             </button>
@@ -484,7 +484,7 @@ export function SwkOneRestrictedStaffView({
               <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#6F513B]">
                 SWK Properties LLC · Official Staff Handbook
               </div>
-              <h3 className="font-bold font-display text-base text-[#041615] mt-0.5">
+              <h3 className="font-bold font-display text-base text-[#0b1a33] mt-0.5">
                 Company Manual, SOPs &amp; RERA Guidelines
               </h3>
             </div>
@@ -495,19 +495,19 @@ export function SwkOneRestrictedStaffView({
                 value={manualQuery}
                 onChange={e => setManualQuery(e.target.value)}
                 placeholder="Ask a question about attendance, Wi-Fi, RERA rules, or SOPs…"
-                className="flex-1 rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#041615]"
+                className="flex-1 rounded-xl border border-[#d8d0c0] bg-[#fbf8f2] px-3 py-2 text-xs text-[#0b1a33]"
               />
               <button
                 type="submit"
                 disabled={askingManual}
-                className="px-3.5 py-2 rounded-xl bg-[#041615] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer"
+                className="px-3.5 py-2 rounded-xl bg-[#0b1a33] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer"
               >
                 {askingManual ? 'Searching…' : 'Ask Manual'}
               </button>
             </form>
 
             {manualAnswer && (
-              <div className="p-3 rounded-2xl bg-[#fbf8f2] border border-[#B68F70] text-xs text-[#041615] leading-relaxed">
+              <div className="p-3 rounded-2xl bg-[#fbf8f2] border border-[#B68F70] text-xs text-[#0b1a33] leading-relaxed">
                 <b className="text-[#6F513B] block mb-1">Company Manual Response:</b>
                 {manualAnswer}
               </div>
@@ -519,7 +519,7 @@ export function SwkOneRestrictedStaffView({
                   <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#6F513B]">
                     {sec.category}
                   </div>
-                  <div className="font-bold font-display text-xs text-[#041615]">{sec.title}</div>
+                  <div className="font-bold font-display text-xs text-[#0b1a33]">{sec.title}</div>
                   <p className="text-xs text-[#3a4660] leading-relaxed m-0">{sec.body}</p>
                 </div>
               ))}
@@ -529,7 +529,7 @@ export function SwkOneRestrictedStaffView({
                   <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#6F513B]">
                     {art.category || 'Company SOP'}
                   </div>
-                  <div className="font-bold font-display text-xs text-[#041615]">{art.title}</div>
+                  <div className="font-bold font-display text-xs text-[#0b1a33]">{art.title}</div>
                   <p className="text-xs text-[#3a4660] leading-relaxed m-0">
                     {art.summary || art.content || art.body}
                   </p>
@@ -553,12 +553,12 @@ export function SwkOneRestrictedStaffView({
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(180deg, rgba(4,22,21,0.35) 0%, rgba(4,22,21,0.62) 45%, rgba(4,22,21,0.94) 100%)',
+                  'linear-gradient(180deg, rgba(8,20,42,0.35) 0%, rgba(8,20,42,0.62) 45%, rgba(8,20,42,0.94) 100%)',
               }}
             />
             <div className="relative z-10 h-full p-4 flex flex-col justify-between text-white">
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#041615]/70 border border-[#B68F70]/40 text-[10px] font-bold uppercase tracking-[0.16em] text-[#E0C1A3]">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0b1a33]/70 border border-[#B68F70]/40 text-[10px] font-bold uppercase tracking-[0.16em] text-[#E0C1A3]">
                   DLD Market Pulse · {activeCommunity.segment}
                 </span>
                 <div className="flex items-center gap-1">
@@ -616,7 +616,7 @@ export function SwkOneRestrictedStaffView({
 
           {/* Area Companion */}
           {areaCompanionData && (
-            <div className="rounded-3xl bg-[#041615] text-white border border-[#B68F70]/40 p-4 shadow-md space-y-3">
+            <div className="rounded-3xl bg-[#0b1a33] text-white border border-[#B68F70]/40 p-4 shadow-md space-y-3">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <div>
                   <div className="text-[10px] uppercase tracking-widest text-[#E0C1A3] font-bold">
@@ -651,14 +651,14 @@ export function SwkOneRestrictedStaffView({
 
           {/* All Dubai Communities Grid */}
           <div className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-3">
-            <h3 className="font-bold font-display text-sm text-[#041615]">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">
               Dubai Communities Market Index ({COMMUNITIES.length} Districts)
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {COMMUNITIES.slice(0, 12).map(c => (
                 <div key={c.id} className="p-3 rounded-2xl bg-[#fbf8f2] border border-[#e7e1d4] flex items-center justify-between gap-2">
                   <div>
-                    <div className="font-bold text-xs text-[#041615]">{c.name}</div>
+                    <div className="font-bold text-xs text-[#0b1a33]">{c.name}</div>
                     <div className="text-[10.5px] text-[#6b7488]">
                       AED {c.ppsf.toLocaleString()}/sqft · Yield {c.yieldPct.toFixed(1)}%
                     </div>
@@ -673,12 +673,12 @@ export function SwkOneRestrictedStaffView({
 
           {/* Master Developers */}
           <div className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-2.5">
-            <h3 className="font-bold font-display text-sm text-[#041615]">
+            <h3 className="font-bold font-display text-sm text-[#0b1a33]">
               UAE Master Developers
             </h3>
             <div className="flex flex-wrap gap-2">
               {DEVELOPERS.map(dev => (
-                <span key={dev.name} className="px-3 py-1.5 rounded-xl bg-[#fbf8f2] border border-[#e7e1d4] text-xs font-bold text-[#041615]">
+                <span key={dev.name} className="px-3 py-1.5 rounded-xl bg-[#fbf8f2] border border-[#e7e1d4] text-xs font-bold text-[#0b1a33]">
                   {dev.name}
                 </span>
               ))}
@@ -692,9 +692,9 @@ export function SwkOneRestrictedStaffView({
         <div className="space-y-4">
           <div className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-xs space-y-3">
             <div className="flex items-center gap-3">
-              <img src={SWK_BRAND.mark} alt="SWK" className="w-11 h-11 rounded-2xl object-contain bg-[#041615] p-1.5" />
+              <img src={SWK_BRAND.mark} alt="SWK" className="w-11 h-11 rounded-2xl object-contain bg-[#0b1a33] p-1.5" />
               <div>
-                <div className="font-bold font-display text-sm text-[#041615]">
+                <div className="font-bold font-display text-sm text-[#0b1a33]">
                   {data?.employee?.name || data?.user?.name}
                 </div>
                 <div className="text-xs text-[#6b7488]">
@@ -710,7 +710,7 @@ export function SwkOneRestrictedStaffView({
               <button
                 type="button"
                 onClick={onOpenAiStudio}
-                className="p-3 rounded-2xl bg-[#041615] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer flex items-center justify-center gap-2"
+                className="p-3 rounded-2xl bg-[#0b1a33] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer flex items-center justify-center gap-2"
               >
                 <Sparkles size={15} className="text-[#B68F70]" />
                 Open Internal SWK AI Assistant
@@ -718,7 +718,7 @@ export function SwkOneRestrictedStaffView({
               <button
                 type="button"
                 onClick={onOpenApkModal}
-                className="p-3 rounded-2xl bg-[#fbf8f2] text-[#041615] font-bold text-xs border border-[#d8d0c0] cursor-pointer flex items-center justify-center gap-2"
+                className="p-3 rounded-2xl bg-[#fbf8f2] text-[#0b1a33] font-bold text-xs border border-[#d8d0c0] cursor-pointer flex items-center justify-center gap-2"
               >
                 <Smartphone size={15} className="text-[#6F513B]" />
                 Handset &amp; Android App Settings
@@ -727,13 +727,13 @@ export function SwkOneRestrictedStaffView({
 
             <div className="p-3 rounded-2xl bg-[#fbf8f2] border border-[#e7e1d4] text-xs space-y-1 text-[#3a4660]">
               <div>
-                <b>Bound Handset ID:</b> <span className="font-mono text-[#041615]">{device?.device_id || 'WEB'}</span>
+                <b>Bound Handset ID:</b> <span className="font-mono text-[#0b1a33]">{device?.device_id || 'WEB'}</span>
               </div>
               <div>
                 <b>Connection Telemetry:</b> {telemetry.network_type} · {telemetry.online ? 'Online' : 'Offline'}
               </div>
               <div>
-                <b>Mobile Domain:</b> <span className="font-mono text-[#041615]">https://one.swkpropertiesuae.com</span>
+                <b>Mobile Domain:</b> <span className="font-mono text-[#0b1a33]">https://one.swkpropertiesuae.com</span>
               </div>
             </div>
           </div>

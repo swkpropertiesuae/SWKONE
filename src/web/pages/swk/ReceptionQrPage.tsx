@@ -57,7 +57,7 @@ export default function ReceptionQrPage() {
     void QRCode.toDataURL(scanUrl, {
       width: 420,
       margin: 2,
-      color: { dark: '#041615', light: '#ffffff' },
+      color: { dark: '#0b1a33', light: '#ffffff' },
       errorCorrectionLevel: 'H',
     }).then(setQrDataUrl)
   }, [isPrintMode])
@@ -109,12 +109,12 @@ export default function ReceptionQrPage() {
     const origin = typeof window !== 'undefined' ? window.location.origin : 'https://one.swkpropertiesuae.com'
     const scanUrl = `${origin}/reception-qr?scan=1&stand=${PRINTED_QR_CODE}`
     return (
-      <div className="min-h-screen bg-[#041615] text-white flex flex-col items-center justify-center p-6">
-        <div className="w-full max-w-md bg-white text-[#041615] rounded-3xl p-8 shadow-2xl border-4 border-[#B68F70] text-center space-y-5">
+      <div className="min-h-screen bg-[#0b1a33] text-white flex flex-col items-center justify-center p-6">
+        <div className="w-full max-w-md bg-white text-[#0b1a33] rounded-3xl p-8 shadow-2xl border-4 border-[#B68F70] text-center space-y-5">
           <div className="flex items-center justify-center gap-2.5">
             <img src="/brand/one/portal-arch-emblem.png" alt="SWK ONE" className="h-12 w-12 object-contain" />
             <div className="text-left">
-              <div className="font-display font-bold text-lg leading-tight text-[#041615]">SWK Properties</div>
+              <div className="font-display font-bold text-lg leading-tight text-[#0b1a33]">SWK Properties</div>
               <div className="text-[10px] uppercase tracking-[0.2em] text-[#6F513B] font-bold">
                 Office Attendance QR
               </div>
@@ -130,7 +130,7 @@ export default function ReceptionQrPage() {
           </div>
 
           <div className="space-y-1">
-            <h1 className="font-display font-bold text-xl text-[#041615]">Scan to Sign In &amp; Check In</h1>
+            <h1 className="font-display font-bold text-xl text-[#0b1a33]">Scan to Sign In &amp; Check In</h1>
             <p className="text-xs text-[#5a6578] leading-relaxed">
               1. Connect your phone to <b>{networkInfo?.ssid || 'SWK-Properties-Office'}</b> Wi-Fi.
               <br />
@@ -144,14 +144,14 @@ export default function ReceptionQrPage() {
             <a
               href="/SWK_Office_Attendance_QR_Poster.pdf"
               download="SWK_Office_Attendance_QR_Poster.pdf"
-              className="px-5 py-2.5 rounded-xl bg-[#B68F70] text-[#041615] font-bold text-xs no-underline inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-[#B68F70] text-[#0b1a33] font-bold text-xs no-underline inline-flex items-center gap-2"
             >
               Download Print PDF (A4)
             </a>
             <button
               type="button"
               onClick={() => window.print()}
-              className="px-5 py-2.5 rounded-xl bg-[#041615] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-[#0b1a33] text-[#F3EFE6] font-bold text-xs border-0 cursor-pointer inline-flex items-center gap-2"
             >
               <Printer size={15} /> Print QR Code
             </button>
@@ -164,8 +164,8 @@ export default function ReceptionQrPage() {
 
   // Scanned from camera -> ONLY Sign-In page, then ONLY Check-In confirmation message
   return (
-    <div className="min-h-screen bg-[#041615] text-white flex items-center justify-center p-4">
-      <div className="w-full max-w-[400px] rounded-3xl bg-[#0a2e2c] border border-[#B68F70]/35 p-6 shadow-2xl">
+    <div className="min-h-screen bg-[#0b1a33] text-white flex items-center justify-center p-4">
+      <div className="w-full max-w-[400px] rounded-3xl bg-[#0d1f3c] border border-[#B68F70]/35 p-6 shadow-2xl">
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-6">
           <div className="flex items-center gap-2.5 mb-3">
@@ -193,7 +193,7 @@ export default function ReceptionQrPage() {
               )}
             </div>
 
-            <div className="rounded-2xl bg-[#041615]/90 border border-white/10 p-4 text-xs space-y-2 text-left">
+            <div className="rounded-2xl bg-[#0b1a33]/90 border border-white/10 p-4 text-xs space-y-2 text-left">
               <div className="flex items-center justify-between">
                 <span className="text-[#8a9ab5]">Check-In Time (GST)</span>
                 <span className="font-mono font-bold text-white">
@@ -284,7 +284,7 @@ export default function ReceptionQrPage() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="name@swk.property"
-                  className="w-full pl-10 pr-3.5 py-3 rounded-xl bg-[#041615] border border-white/15 text-white text-sm outline-none focus:border-[#B68F70]"
+                  className="w-full pl-10 pr-3.5 py-3 rounded-xl bg-[#0b1a33] border border-white/15 text-white text-sm outline-none focus:border-[#B68F70]"
                 />
               </div>
             </div>
@@ -303,7 +303,7 @@ export default function ReceptionQrPage() {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-10 py-3 rounded-xl bg-[#041615] border border-white/15 text-white text-sm outline-none focus:border-[#B68F70]"
+                  className="w-full pl-10 pr-10 py-3 rounded-xl bg-[#0b1a33] border border-white/15 text-white text-sm outline-none focus:border-[#B68F70]"
                 />
                 <button
                   type="button"
@@ -319,7 +319,7 @@ export default function ReceptionQrPage() {
             <button
               type="submit"
               disabled={busy || !networkApproved}
-              className="w-full py-3.5 rounded-xl font-bold text-sm text-[#041615] border-0 cursor-pointer flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
+              className="w-full py-3.5 rounded-xl font-bold text-sm text-[#0b1a33] border-0 cursor-pointer flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
               style={{ background: 'linear-gradient(135deg, #E0C1A3 0%, #B68F70 100%)' }}
             >
               {busy ? (

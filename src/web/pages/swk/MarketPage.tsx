@@ -166,7 +166,7 @@ export default function MarketPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
               {/* Left 5 cols: Stock Ticker Card + 15-Year Forecast */}
               <div className="lg:col-span-5 space-y-4">
-                <div className="rounded-2xl p-4 text-white" style={{ background: 'linear-gradient(135deg, #041615 0%, #174B3B 100%)' }}>
+                <div className="rounded-2xl p-4 text-white" style={{ background: 'linear-gradient(135deg, #0b1a33 0%, #174B3B 100%)' }}>
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="text-[11px] uppercase tracking-widest text-[#E8D4A2] font-bold">{companionArea.ticker} · {companionArea.segment} Index</div>
@@ -204,7 +204,7 @@ export default function MarketPage() {
                   <div className="space-y-2">
                     {(companionArea.forecast15Y ?? []).map((f: any) => (
                       <div key={f.year} className="flex items-center justify-between gap-2 text-xs p-2 rounded-xl bg-white border border-[#efe9dc]">
-                        <span className="font-mono font-extrabold text-[#041615] bg-[#E8D4A2]/40 px-2 py-0.5 rounded">{f.year}</span>
+                        <span className="font-mono font-extrabold text-[#0b1a33] bg-[#E8D4A2]/40 px-2 py-0.5 rounded">{f.year}</span>
                         <span className="flex-1 text-muted truncate" title={f.catalyst}>{f.catalyst}</span>
                         <span className="font-mono font-extrabold text-[#174B3B]">AED {num(f.projectedPpsf)}/sqft</span>
                       </div>
@@ -228,7 +228,7 @@ export default function MarketPage() {
                         key={kw}
                         type="button"
                         onClick={() => { void navigator.clipboard?.writeText(kw); toast.ok(`Copied keyword: "${kw}"`) }}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-extrabold bg-[#041615] text-[#E8D4A2] hover:opacity-90 transition"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-extrabold bg-[#0b1a33] text-[#E8D4A2] hover:opacity-90 transition"
                       >
                         <Sparkles size={11} /> {kw} <Copy size={10} />
                       </button>
@@ -463,7 +463,7 @@ export default function MarketPage() {
                 key={seg}
                 type="button"
                 onClick={() => setSegFilter(seg)}
-                className={`px-3 py-1 rounded-full text-xs font-bold border transition ${segFilter === seg ? 'bg-[#041615] text-white border-[#041615]' : 'bg-white text-ink border-[#efe9dc]'}`}
+                className={`px-3 py-1 rounded-full text-xs font-bold border transition ${segFilter === seg ? 'bg-[#0b1a33] text-white border-[#0b1a33]' : 'bg-white text-ink border-[#efe9dc]'}`}
               >
                 {seg}
               </button>
@@ -714,13 +714,13 @@ function CommunityDrawer({ c, companion, props, onClose }: { c: Community; compa
   const rent = [{ k: 'Studio', v: c.rentStudio }, { k: '1 BR', v: c.rent1 }, { k: '2 BR', v: c.rent2 }, { k: '3 BR', v: c.rent3 }]
   return (
     <>
-      <motion.div className="fixed inset-0 z-[80] bg-[#041615]/45 backdrop-blur-[2px]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
+      <motion.div className="fixed inset-0 z-[80] bg-[#0b1a33]/45 backdrop-blur-[2px]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
       <motion.aside role="dialog" aria-modal="true" aria-label={`${c.name} market detail`}
         className="fixed right-0 top-0 bottom-0 z-[81] w-full sm:w-[560px] bg-[#F3EFE6] shadow-2xl overflow-y-auto"
         initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', stiffness: 260, damping: 32 }}>
         <div className="relative h-[220px]">
           <motion.div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${c.image})` }} initial={{ scale: 1.12 }} animate={{ scale: 1 }} transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }} />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(4,22,21,.1), rgba(4,22,21,.9))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(8,20,42,.1), rgba(8,20,42,.9))' }} />
           <button type="button" onClick={onClose} autoFocus className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/90 grid place-items-center text-ink hover:bg-white" aria-label="Close"><X size={18} /></button>
           <div className="absolute left-5 right-5 bottom-4 text-white">
             <div className="flex gap-1.5 mb-2"><Pill tone="champ">{c.ticker ?? c.segment}</Pill><Pill tone="grey"><MapPin size={11} /> {c.lat.toFixed(3)}, {c.lng.toFixed(3)}</Pill></div>
@@ -749,7 +749,7 @@ function CommunityDrawer({ c, companion, props, onClose }: { c: Community; compa
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {(companion.closingKeywords ?? []).map((kw: string) => (
-                  <span key={kw} className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#041615] text-[#E8D4A2]">{kw}</span>
+                  <span key={kw} className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#0b1a33] text-[#E8D4A2]">{kw}</span>
                 ))}
               </div>
               <p className="text-xs text-muted">{companion.future15YearOutlook}</p>

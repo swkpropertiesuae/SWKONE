@@ -68,7 +68,7 @@ export default function App() {
     loc.pathname.startsWith('/qr-reception/')
   if (isStandaloneReceptionQr) {
     return (
-      <Suspense fallback={<div className="h-full grid place-items-center bg-[#041615] text-white"><Loading label="Starting Standalone Reception QR Terminal…" /></div>}>
+      <Suspense fallback={<div className="h-full grid place-items-center bg-[#0b1a33] text-white"><Loading label="Starting Standalone Reception QR Terminal…" /></div>}>
         <ReceptionQrPage />
       </Suspense>
     )
@@ -84,7 +84,7 @@ export default function App() {
             <Route
               path="*"
               element={
-                <div className="max-w-2xl mx-auto my-12 p-8 rounded-2xl border border-[#B68F70]/40 bg-[#0a2e2c] text-white shadow-xl">
+                <div className="max-w-2xl mx-auto my-12 p-8 rounded-2xl border border-[#B68F70]/40 bg-[#0d1f3c] text-white shadow-xl">
                   <div className="text-xs font-extrabold uppercase tracking-widest text-[#E0C1A3] mb-2">
                     Hardcoded Staff Access Policy · SWK Properties OS
                   </div>
@@ -93,7 +93,7 @@ export default function App() {
                     Signed in as <b>{me.name}</b> (<code className="text-[#E0C1A3]">{me.email}</code>). Per company security policy, full OS operational modules are restricted exclusively to <b>Admin (Shabib Siraj)</b> and <b>Mohammad Haseeb (Haseeb@swk.property)</b>. Your account is authorised for <b>Attendance &amp; QR Check-In</b>, <b>Company Manual</b>, <b>Market Pulse</b>, and <b>General Workspace</b>.
                   </p>
                   <div className="flex flex-wrap gap-3">
-                    <Link to="/reception-qr?scan=1" className="px-4 py-2.5 rounded-xl bg-[#B68F70] text-[#041615] font-bold text-xs no-underline">
+                    <Link to="/reception-qr?scan=1" className="px-4 py-2.5 rounded-xl bg-[#B68F70] text-[#0b1a33] font-bold text-xs no-underline">
                       Scan &amp; Check In Attendance
                     </Link>
                     <Link to="/competency" className="px-4 py-2.5 rounded-xl bg-white/10 text-white font-bold text-xs no-underline border border-white/15">

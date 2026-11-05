@@ -495,7 +495,7 @@ export default function SwkOneApp() {
       sub: todayAtt?.check_in_at ? 'Checked In ✓' : 'Scan Reception QR',
       icon: QrCode,
       badge: todayAtt?.verification_status || 'QR + Wi-Fi',
-      tone: 'linear-gradient(145deg, #11423e, #041615)',
+      tone: 'linear-gradient(145deg, #14305c, #0b1a33)',
       iconColor: '#B68F70',
       onClick: () => setQrModalOpen(true),
     },
@@ -518,7 +518,7 @@ export default function SwkOneApp() {
       icon: Building2,
       badge: `${data?.inventory_submissions?.length || 0} Units`,
       tone: 'linear-gradient(145deg, #E0C1A3, #6F513B)',
-      iconColor: '#041615',
+      iconColor: '#0b1a33',
       onClick: () => setActiveTab('inventory'),
     },
     {
@@ -527,7 +527,7 @@ export default function SwkOneApp() {
       sub: data?.today_report ? 'Submitted Today' : '1-Tap Auto Journal',
       icon: FileText,
       badge: `${journal.sys_calls_count} Calls`,
-      tone: 'linear-gradient(145deg, #16534e, #0a2e2c)',
+      tone: 'linear-gradient(145deg, #1d4f86, #0d1f3c)',
       iconColor: '#e6f0fb',
       onClick: () => {
         setActiveTab('command')
@@ -550,7 +550,7 @@ export default function SwkOneApp() {
       sub: 'Check-In & Feedback',
       icon: Eye,
       badge: `${briefing.counts.viewings_today} Today`,
-      tone: 'linear-gradient(145deg, #11423e, #041615)',
+      tone: 'linear-gradient(145deg, #14305c, #0b1a33)',
       iconColor: '#E0C1A3',
       onClick: () => setActiveTab('duty'),
     },
@@ -598,7 +598,7 @@ export default function SwkOneApp() {
 
   return (
     <div
-      className={`relative min-h-screen bg-[#041615] text-[#041615] flex flex-col items-center justify-start overflow-x-hidden ${
+      className={`relative min-h-screen bg-[#0b1a33] text-[#0b1a33] flex flex-col items-center justify-start overflow-x-hidden ${
         phoneFrameMode ? 'py-5 px-3' : ''
       }`}
     >
@@ -615,7 +615,7 @@ export default function SwkOneApp() {
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(75% 60% at 15% 10%, rgba(17,66,62,0.5), transparent 65%), radial-gradient(65% 55% at 85% 85%, rgba(182,143,112,0.22), transparent 65%), linear-gradient(180deg, rgba(4,22,21,0.72) 0%, rgba(4,22,21,0.95) 100%)',
+                'radial-gradient(75% 60% at 15% 10%, rgba(20,48,92,0.5), transparent 65%), radial-gradient(65% 55% at 85% 85%, rgba(182,143,112,0.22), transparent 65%), linear-gradient(180deg, rgba(8,20,42,0.72) 0%, rgba(8,20,42,0.95) 100%)',
             }}
           />
           {!reduce && (
@@ -646,7 +646,7 @@ export default function SwkOneApp() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: EASE }}
-          className="relative z-10 w-full max-w-[468px] mb-3 px-4 py-2.5 rounded-2xl bg-[#0a2e2c]/85 backdrop-blur-xl border border-white/15 text-white flex items-center justify-between text-xs shadow-xl"
+          className="relative z-10 w-full max-w-[468px] mb-3 px-4 py-2.5 rounded-2xl bg-[#0d1f3c]/85 backdrop-blur-xl border border-white/15 text-white flex items-center justify-between text-xs shadow-xl"
         >
           <div className="flex items-center gap-2.5">
             <img src={SWK_BRAND.mark} alt="" className="h-7 w-7 object-contain" />
@@ -676,7 +676,7 @@ export default function SwkOneApp() {
             </button>
             <Link
               to="/home"
-              className="px-2.5 py-1 rounded-full text-[#041615] text-[10.5px] font-bold no-underline shadow-xs"
+              className="px-2.5 py-1 rounded-full text-[#0b1a33] text-[10.5px] font-bold no-underline shadow-xs"
               style={{ background: 'linear-gradient(135deg, #E0C1A3, #B68F70)' }}
             >
               SWK OS
@@ -691,12 +691,12 @@ export default function SwkOneApp() {
         transition={{ duration: 0.35, ease: EASE }}
         className={`relative z-10 w-full bg-[#F3EFE6] flex flex-col overflow-hidden ${
           phoneFrameMode
-            ? 'max-w-[468px] rounded-[42px] border-[8px] border-[#0a2e2c] shadow-[0_32px_90px_-18px_rgba(0,0,0,0.78),0_0_0_1px_rgba(182,143,112,0.32)] min-h-[880px]'
+            ? 'max-w-[468px] rounded-[42px] border-[8px] border-[#0d1f3c] shadow-[0_32px_90px_-18px_rgba(0,0,0,0.78),0_0_0_1px_rgba(182,143,112,0.32)] min-h-[880px]'
             : 'min-h-screen'
         }`}
       >
         {/* 1. Android System Status Bar + Dynamic Camera Cutout */}
-        <div className="relative bg-[#041615] text-white px-4 pt-2.5 pb-2 flex items-center justify-between text-[11px] font-medium select-none border-b border-white/10">
+        <div className="relative bg-[#0b1a33] text-white px-4 pt-2.5 pb-2 flex items-center justify-between text-[11px] font-medium select-none border-b border-white/10">
           <div className="flex items-center gap-2">
             <span className="font-mono font-bold text-[#F3EFE6]">{dubaiClock} GST</span>
             <span className="px-1.5 py-0.5 rounded-md bg-white/10 text-[9.5px] font-mono text-[#E0C1A3] border border-[#B68F70]/30">
@@ -709,7 +709,7 @@ export default function SwkOneApp() {
               className="hidden sm:flex items-center justify-center w-20 h-4 rounded-full bg-black/80 border border-white/10 absolute left-1/2 -translate-x-1/2"
               aria-hidden
             >
-              <span className="w-2 h-2 rounded-full bg-[#11423e] ring-1 ring-white/20 mr-2" />
+              <span className="w-2 h-2 rounded-full bg-[#14305c] ring-1 ring-white/20 mr-2" />
               <span className="w-1.5 h-1.5 rounded-full bg-[#4fd39a]/80" />
             </div>
           )}
@@ -755,7 +755,7 @@ export default function SwkOneApp() {
         </div>
 
         {/* 2. SWK ONE Luxury Hero Header (Midnight & Champagne + Dubai Skyline + Official Brand Logo) */}
-        <header className="relative overflow-hidden bg-[#041615] text-white px-4 pt-3.5 pb-4 space-y-3 border-b border-[#B68F70]/30">
+        <header className="relative overflow-hidden bg-[#0b1a33] text-white px-4 pt-3.5 pb-4 space-y-3 border-b border-[#B68F70]/30">
           {/* Animated Dubai Skyline Hero Photography & Vector Skyline Overlay */}
           <motion.div
             className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none"
@@ -768,7 +768,7 @@ export default function SwkOneApp() {
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                'linear-gradient(180deg, rgba(4,22,21,0.75) 0%, rgba(4,22,21,0.88) 65%, rgba(17,66,62,0.96) 100%)',
+                'linear-gradient(180deg, rgba(8,20,42,0.75) 0%, rgba(8,20,42,0.88) 65%, rgba(20,48,92,0.96) 100%)',
             }}
             aria-hidden
           />
@@ -846,7 +846,7 @@ export default function SwkOneApp() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -6, scale: 0.98 }}
                   transition={{ duration: 0.3, ease: EASE }}
-                  className="p-3 rounded-2xl bg-[#041615]/90 backdrop-blur-md border border-[#4fd39a]/60 text-white flex items-center justify-between gap-2.5 shadow-lg"
+                  className="p-3 rounded-2xl bg-[#0b1a33]/90 backdrop-blur-md border border-[#4fd39a]/60 text-white flex items-center justify-between gap-2.5 shadow-lg"
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className="relative flex items-center justify-center w-8 h-8 rounded-xl bg-[#1f9d6b]/25 border border-[#4fd39a]/50 shrink-0">
@@ -908,7 +908,7 @@ export default function SwkOneApp() {
               className={`mx-4 mt-3 px-4 py-2.5 rounded-2xl text-xs font-semibold flex items-center justify-between shadow-md ${
                 toast.tone === 'warn'
                   ? 'bg-[#fbf0d9] text-[#8c4329] border border-[#B68F70]'
-                  : 'bg-[#041615] text-[#F3EFE6] border border-[#B68F70]/60'
+                  : 'bg-[#0b1a33] text-[#F3EFE6] border border-[#B68F70]/60'
               }`}
             >
               <span className="flex items-center gap-2">
@@ -985,7 +985,7 @@ export default function SwkOneApp() {
                 {/* A. Agent Morning Briefing & Verified Activity Ring (SWK ONE 2.0 Priority #1) */}
                 <motion.div
                   variants={cardRise}
-                  className="relative overflow-hidden rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(4,22,21,0.32)] space-y-3.5"
+                  className="relative overflow-hidden rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_14px_34px_-22px_rgba(8,20,42,0.32)] space-y-3.5"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
@@ -993,7 +993,7 @@ export default function SwkOneApp() {
                         <span className="w-4 h-px bg-[#B68F70]" />
                         SWK ONE 2.0 · Daily Command Centre
                       </div>
-                      <h2 className="text-[17px] font-bold font-display text-[#041615] mt-0.5">
+                      <h2 className="text-[17px] font-bold font-display text-[#0b1a33] mt-0.5">
                         {briefing.greeting || 'Good day'} · Dubai Workday Briefing
                       </h2>
                       <p className="text-[11px] text-[#6b7488] mt-0.5">
@@ -1014,7 +1014,7 @@ export default function SwkOneApp() {
                           cx={24}
                           cy={24}
                           r={19}
-                          stroke="#11423e"
+                          stroke="#14305c"
                           strokeWidth={4}
                           fill="none"
                           strokeLinecap="round"
@@ -1027,7 +1027,7 @@ export default function SwkOneApp() {
                         />
                       </svg>
                       <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
-                        <span className="text-[12px] font-extrabold font-display text-[#041615]">
+                        <span className="text-[12px] font-extrabold font-display text-[#0b1a33]">
                           {activityScore}
                         </span>
                         <span className="text-[7.5px] uppercase tracking-wider font-bold text-[#6F513B]">
@@ -1042,7 +1042,7 @@ export default function SwkOneApp() {
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={() => void handleInitializeDemoData()}
-                      className="w-full py-2.5 px-4 rounded-2xl text-[#041615] text-xs font-bold border-0 cursor-pointer shadow-sm flex items-center justify-center gap-2"
+                      className="w-full py-2.5 px-4 rounded-2xl text-[#0b1a33] text-xs font-bold border-0 cursor-pointer shadow-sm flex items-center justify-center gap-2"
                       style={{ background: 'linear-gradient(135deg, #E0C1A3 0%, #B68F70 100%)' }}
                     >
                       <Sparkles size={14} /> + Populate Live Dubai Field Workspace Data
@@ -1056,7 +1056,7 @@ export default function SwkOneApp() {
                       whileTap={{ scale: 0.96 }}
                       onClick={() => setActiveTab('duty')}
                       className="p-2.5 rounded-2xl text-left cursor-pointer border border-[#1d3a66] text-white shadow-xs"
-                      style={{ background: 'linear-gradient(150deg, #11423e 0%, #041615 100%)' }}
+                      style={{ background: 'linear-gradient(150deg, #14305c 0%, #0b1a33 100%)' }}
                     >
                       <div className="text-lg font-extrabold font-display text-[#F3EFE6]">
                         <AnimatedNumber value={Number(briefing.counts.viewings_today || 0)} />
@@ -1070,7 +1070,7 @@ export default function SwkOneApp() {
                       onClick={() => setActiveTab('crm')}
                       className="p-2.5 rounded-2xl bg-[#fbf8f2] border border-[#e7e1d4] cursor-pointer text-left hover:border-[#B68F70] transition"
                     >
-                      <div className="text-lg font-extrabold font-display text-[#041615]">
+                      <div className="text-lg font-extrabold font-display text-[#0b1a33]">
                         <AnimatedNumber value={Number(briefing.counts.urgent_follow_ups || 0)} />
                       </div>
                       <div className="text-[10px] font-semibold text-[#6b7488]">Follow-Ups</div>
@@ -1082,7 +1082,7 @@ export default function SwkOneApp() {
                       onClick={() => setActiveTab('inventory')}
                       className="p-2.5 rounded-2xl bg-[#fbf8f2] border border-[#e7e1d4] cursor-pointer text-left hover:border-[#B68F70] transition"
                     >
-                      <div className="text-lg font-extrabold font-display text-[#11423e]">
+                      <div className="text-lg font-extrabold font-display text-[#14305c]">
                         <AnimatedNumber value={Number(briefing.counts.inventory_tasks || 0)} />
                       </div>
                       <div className="text-[10px] font-semibold text-[#6b7488]">Inventory</div>
@@ -1109,7 +1109,7 @@ export default function SwkOneApp() {
                           initial={{ opacity: 0, x: -8 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.1 + idx * 0.06 }}
-                          className="px-3 py-2 rounded-xl bg-[#fbf8f2] border border-[#efe9dc] text-xs text-[#041615] flex items-center gap-2"
+                          className="px-3 py-2 rounded-xl bg-[#fbf8f2] border border-[#efe9dc] text-xs text-[#0b1a33] flex items-center gap-2"
                         >
                           <Sparkles size={13} className="text-[#B68F70] shrink-0" />
                           <span className="font-medium">{p}</span>
@@ -1122,7 +1122,7 @@ export default function SwkOneApp() {
                 {/* B. Live Animated Dubai Market Pulse Hero Card (Using SWK OS Community Photography) */}
                 <motion.div
                   variants={cardRise}
-                  className="relative h-44 rounded-3xl overflow-hidden border border-[#1d3a66] shadow-[0_18px_40px_-22px_rgba(4,22,21,0.55)] select-none"
+                  className="relative h-44 rounded-3xl overflow-hidden border border-[#1d3a66] shadow-[0_18px_40px_-22px_rgba(8,20,42,0.55)] select-none"
                 >
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -1139,13 +1139,13 @@ export default function SwkOneApp() {
                     className="absolute inset-0"
                     style={{
                       background:
-                        'linear-gradient(180deg, rgba(4,22,21,0.35) 0%, rgba(4,22,21,0.62) 45%, rgba(4,22,21,0.94) 100%)',
+                        'linear-gradient(180deg, rgba(8,20,42,0.35) 0%, rgba(8,20,42,0.62) 45%, rgba(8,20,42,0.94) 100%)',
                     }}
                   />
 
                   <div className="relative z-10 h-full p-4 flex flex-col justify-between text-white">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#041615]/70 backdrop-blur-md border border-[#B68F70]/40 text-[10px] font-bold uppercase tracking-[0.16em] text-[#E0C1A3]">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0b1a33]/70 backdrop-blur-md border border-[#B68F70]/40 text-[10px] font-bold uppercase tracking-[0.16em] text-[#E0C1A3]">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#4fd39a] animate-ping" />
                         DLD Market Pulse · {activeCommunity.segment}
                       </span>
@@ -1218,7 +1218,7 @@ export default function SwkOneApp() {
                 <motion.div variants={cardRise} className="space-y-2.5">
                   <div className="flex items-center justify-between px-1">
                     <div>
-                      <span className="text-xs font-bold font-display text-[#041615]">
+                      <span className="text-xs font-bold font-display text-[#0b1a33]">
                         SWK ONE Mobile Workspace
                       </span>
                       <span className="text-[10.5px] text-[#6b7488] block">
@@ -1237,7 +1237,7 @@ export default function SwkOneApp() {
                           whileHover={{ y: -3, scale: 1.01 }}
                           whileTap={{ scale: 0.96 }}
                           onClick={tile.onClick}
-                          className="p-3.5 rounded-2xl bg-white hover:bg-[#fbf8f2] border border-[#e7e1d4] hover:border-[#B68F70] text-left transition shadow-[0_10px_24px_-18px_rgba(4,22,21,0.35)] cursor-pointer flex flex-col justify-between gap-2.5 group"
+                          className="p-3.5 rounded-2xl bg-white hover:bg-[#fbf8f2] border border-[#e7e1d4] hover:border-[#B68F70] text-left transition shadow-[0_10px_24px_-18px_rgba(8,20,42,0.35)] cursor-pointer flex flex-col justify-between gap-2.5 group"
                         >
                           <div className="flex items-center justify-between w-full">
                             <div
@@ -1251,7 +1251,7 @@ export default function SwkOneApp() {
                             </span>
                           </div>
                           <div>
-                            <div className="font-bold font-display text-[12.5px] text-[#041615] flex items-center justify-between">
+                            <div className="font-bold font-display text-[12.5px] text-[#0b1a33] flex items-center justify-between">
                               <span>{tile.label}</span>
                               <ArrowUpRight size={12} className="text-[#6F513B] opacity-60 group-hover:opacity-100" />
                             </div>
@@ -1267,7 +1267,7 @@ export default function SwkOneApp() {
                 <motion.div variants={cardRise} className="space-y-2.5">
                   <div className="flex items-center justify-between px-1">
                     <div>
-                      <span className="text-xs font-bold font-display text-[#041615]">
+                      <span className="text-xs font-bold font-display text-[#0b1a33]">
                         Verified SWK Luxury Stock & Viewings
                       </span>
                       <span className="text-[10.5px] text-[#6b7488] block">
@@ -1302,11 +1302,11 @@ export default function SwkOneApp() {
                             className="absolute inset-0"
                             style={{
                               background:
-                                'linear-gradient(180deg, rgba(4,22,21,0.1) 0%, rgba(4,22,21,0.88) 100%)',
+                                'linear-gradient(180deg, rgba(8,20,42,0.1) 0%, rgba(8,20,42,0.88) 100%)',
                             }}
                           />
                           <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between">
-                            <span className="px-2 py-0.5 rounded-full bg-[#041615]/80 backdrop-blur-xs text-[#E0C1A3] text-[9.5px] font-bold border border-[#B68F70]/40">
+                            <span className="px-2 py-0.5 rounded-full bg-[#0b1a33]/80 backdrop-blur-xs text-[#E0C1A3] text-[9.5px] font-bold border border-[#B68F70]/40">
                               {prop.property_type || 'Luxury Unit'}
                             </span>
                             <span className="px-2 py-0.5 rounded-full bg-[#1f9d6b]/90 text-white text-[9.5px] font-bold">
@@ -1329,17 +1329,17 @@ export default function SwkOneApp() {
                 {/* E. Office Attendance, Site-Visit Live GPS & Mandatory Checkout Gate */}
                 <motion.div
                   variants={cardRise}
-                  className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_12px_28px_-20px_rgba(4,22,21,0.28)] space-y-3"
+                  className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_12px_28px_-20px_rgba(8,20,42,0.28)] space-y-3"
                 >
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <div>
-                      <h3 className="font-bold font-display text-sm text-[#041615]">
+                      <h3 className="font-bold font-display text-sm text-[#0b1a33]">
                         Attendance, Site-Visit Live GPS & Checkout Gate
                       </h3>
                       <p className="text-[11px] text-[#6b7488]">
                         {data?.shift_schedule?.scheduleLabel || 'Mon–Fri 10:00 AM – 7:00 PM · Sat 10:00 AM – 4:00 PM · Sun Holiday (10:05 AM Grace)'}
                       </p>
-                      <p className="text-[11px] font-semibold text-[#11423e] mt-0.5">
+                      <p className="text-[11px] font-semibold text-[#14305c] mt-0.5">
                         {todayAtt
                           ? `Checked in at ${String(todayAtt.check_in_at || '').slice(11, 16) || '10:00'} via ${todayAtt.terminal_type} (${todayAtt.event_no})`
                           : 'Scan Office Reception QR or check in via Field Site-Visit Live GPS'}
@@ -1367,7 +1367,7 @@ export default function SwkOneApp() {
 
                   {/* Checkout Gate Requirements Banner */}
                   <div className="p-2.5 rounded-2xl bg-[#fbf8f2] border border-[#e7e1d4] text-[11px] space-y-1.5">
-                    <div className="font-bold text-[#041615] flex items-center justify-between">
+                    <div className="font-bold text-[#0b1a33] flex items-center justify-between">
                       <span>Mandatory Checkout Gate Status</span>
                       <span className={data?.checkout_gate?.canCheckOut ? 'text-[#174B3B] font-extrabold' : 'text-[#7E3039] font-extrabold'}>
                         {data?.checkout_gate?.canCheckOut ? '✓ Ready for Checkout' : '⚠ Complete Requirements Before Checkout'}
@@ -1383,7 +1383,7 @@ export default function SwkOneApp() {
                     </div>
                     <label className="flex items-center gap-2 pt-1 cursor-pointer">
                       <input type="checkbox" checked={clientVarHours} onChange={e => setClientVarHours(e.target.checked)} />
-                      <span className="font-semibold text-[#041615]">Client-Based Variable Working Hours (Late/Early Client Appointment)</span>
+                      <span className="font-semibold text-[#0b1a33]">Client-Based Variable Working Hours (Late/Early Client Appointment)</span>
                     </label>
                     {clientVarHours && (
                       <input
@@ -1406,14 +1406,14 @@ export default function SwkOneApp() {
                             key={mode}
                             onClick={() => void handleSetWorkdayMode(mode)}
                             className={`relative px-3 py-1.5 rounded-xl text-xs font-semibold border-0 cursor-pointer transition ${
-                              active ? 'text-white font-bold' : 'bg-transparent text-[#3a4660] hover:text-[#041615]'
+                              active ? 'text-white font-bold' : 'bg-transparent text-[#3a4660] hover:text-[#0b1a33]'
                             }`}
                           >
                             {active && (
                               <motion.span
                                 layoutId="swk-workday-mode-pill"
                                 className="absolute inset-0 rounded-xl shadow-xs"
-                                style={{ background: 'linear-gradient(135deg, #11423e, #041615)' }}
+                                style={{ background: 'linear-gradient(135deg, #14305c, #0b1a33)' }}
                                 transition={{ type: 'spring', stiffness: 420, damping: 32 }}
                               />
                             )}
@@ -1429,7 +1429,7 @@ export default function SwkOneApp() {
                 {areaCompanionData && (
                   <motion.div
                     variants={cardRise}
-                    className="rounded-3xl bg-[#041615] text-white border border-[#B68F70]/40 p-4 shadow-lg space-y-3"
+                    className="rounded-3xl bg-[#0b1a33] text-white border border-[#B68F70]/40 p-4 shadow-lg space-y-3"
                   >
                     <div className="flex items-center justify-between gap-2 flex-wrap">
                       <div>
@@ -1477,11 +1477,11 @@ export default function SwkOneApp() {
                 <motion.div
                   variants={cardRise}
                   id="swk-one-daily-report"
-                  className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_12px_28px_-20px_rgba(4,22,21,0.28)] space-y-3"
+                  className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_12px_28px_-20px_rgba(8,20,42,0.28)] space-y-3"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="font-bold font-display text-sm text-[#041615]">
+                      <h3 className="font-bold font-display text-sm text-[#0b1a33]">
                         Automatic Daily Activity Journal & 1-Tap EOD Report
                       </h3>
                       <p className="text-[11px] text-[#6b7488]">
@@ -1503,7 +1503,7 @@ export default function SwkOneApp() {
                       { label: 'Tasks', val: journal.sys_tasks_completed },
                     ].map(stat => (
                       <div key={stat.label} className="p-2 rounded-2xl bg-[#fbf8f2] border border-[#efe9dc]">
-                        <div className="font-extrabold font-display text-sm text-[#11423e]">
+                        <div className="font-extrabold font-display text-sm text-[#14305c]">
                           <AnimatedNumber value={Number(stat.val || 0)} />
                         </div>
                         <div className="text-[10px] font-medium text-[#6b7488]">{stat.label}</div>
@@ -1517,7 +1517,7 @@ export default function SwkOneApp() {
                       value={eodSummary}
                       onChange={e => setEodSummary(e.target.value)}
                       placeholder="Workday narrative (auto-filled if left blank)…"
-                      className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615] focus:outline-none focus:border-[#B68F70]"
+                      className="w-full px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33] focus:outline-none focus:border-[#B68F70]"
                     />
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       <input
@@ -1525,21 +1525,21 @@ export default function SwkOneApp() {
                         value={eodBlockers}
                         onChange={e => setEodBlockers(e.target.value)}
                         placeholder="Blockers / Exceptions"
-                        className="px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+                        className="px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
                       />
                       <input
                         type="text"
                         value={eodPriorities}
                         onChange={e => setEodPriorities(e.target.value)}
                         placeholder="Tomorrow's Top Priorities"
-                        className="px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#041615]"
+                        className="px-3 py-2 rounded-xl bg-[#fbf9f5] border border-[#d9d1c1] text-[#0b1a33]"
                       />
                     </div>
                     <motion.button
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => void handleOneTapDailyReport()}
-                      className="w-full py-3 rounded-2xl text-[#041615] font-bold text-xs border-0 cursor-pointer shadow-md flex items-center justify-center gap-2"
+                      className="w-full py-3 rounded-2xl text-[#0b1a33] font-bold text-xs border-0 cursor-pointer shadow-md flex items-center justify-center gap-2"
                       style={{ background: 'linear-gradient(135deg, #E0C1A3 0%, #B68F70 55%, #6F513B 100%)' }}
                     >
                       <CheckCircle2 size={15} /> Submit 1-Tap Verified Daily Report to SWK OS
@@ -1550,10 +1550,10 @@ export default function SwkOneApp() {
                 {/* G. Role-Specific Workday Checklist (Feature #6) */}
                 <motion.div
                   variants={cardRise}
-                  className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_12px_28px_-20px_rgba(4,22,21,0.28)] space-y-2.5"
+                  className="rounded-3xl bg-white border border-[#e7e1d4] p-4 shadow-[0_12px_28px_-20px_rgba(8,20,42,0.28)] space-y-2.5"
                 >
                   <div className="flex items-center justify-between">
-                    <h3 className="font-bold font-display text-sm text-[#041615]">
+                    <h3 className="font-bold font-display text-sm text-[#0b1a33]">
                       Role-Specific Daily Workday Checklist
                     </h3>
                     <span className="text-[11px] font-bold text-[#6F513B]">
@@ -1565,7 +1565,7 @@ export default function SwkOneApp() {
                   <div className="w-full h-2 rounded-full bg-[#efe9dc] overflow-hidden">
                     <motion.div
                       className="h-full rounded-full"
-                      style={{ background: 'linear-gradient(90deg, #11423e, #B68F70)' }}
+                      style={{ background: 'linear-gradient(90deg, #14305c, #B68F70)' }}
                       initial={{ width: 0 }}
                       animate={{ width: `${checklistPct}%` }}
                       transition={{ duration: 0.8, ease: EASE }}
@@ -1592,7 +1592,7 @@ export default function SwkOneApp() {
                             await loadBootstrap()
                           }}
                         />
-                        <span className={item.done ? 'line-through text-[#6b7488]' : 'font-semibold text-[#041615]'}>
+                        <span className={item.done ? 'line-through text-[#6b7488]' : 'font-semibold text-[#0b1a33]'}>
                           {item.label}
                         </span>
                         <span className="ml-auto px-2 py-0.5 rounded-full bg-[#F3EFE6] text-[10px] font-semibold text-[#6F513B]">
@@ -1622,7 +1622,7 @@ export default function SwkOneApp() {
                         title={dev.name}
                       >
                         <img src={dev.logo} alt={dev.name} className="h-5 w-auto object-contain" />
-                        <span className="text-[10.5px] font-semibold text-[#041615] whitespace-nowrap">
+                        <span className="text-[10.5px] font-semibold text-[#0b1a33] whitespace-nowrap">
                           {dev.name}
                         </span>
                       </div>
@@ -1858,7 +1858,7 @@ export default function SwkOneApp() {
 
         {/* Bottom Android App Navigation Dock with Spring-Animated Pill (Full Access Users Only) */}
         {!isRestrictedStaffUser(data?.user) && (
-        <nav className="sticky bottom-0 z-30 bg-[#041615]/95 backdrop-blur-xl border-t border-[#B68F70]/30 px-2 pt-2 pb-2.5 grid grid-cols-5 gap-1 text-white">
+        <nav className="sticky bottom-0 z-30 bg-[#0b1a33]/95 backdrop-blur-xl border-t border-[#B68F70]/30 px-2 pt-2 pb-2.5 grid grid-cols-5 gap-1 text-white">
           {[
             { id: 'command', label: 'Command', icon: Compass, badge: 0 },
             {
@@ -1889,7 +1889,7 @@ export default function SwkOneApp() {
                 whileTap={{ scale: 0.92 }}
                 onClick={() => setActiveTab(tab.id as SwkOneTabId)}
                 className={`relative py-2 px-1 rounded-2xl flex flex-col items-center justify-center gap-0.5 border-0 cursor-pointer transition ${
-                  active ? 'text-[#041615] font-bold' : 'bg-transparent text-[#a9b8d2] font-medium hover:text-white'
+                  active ? 'text-[#0b1a33] font-bold' : 'bg-transparent text-[#a9b8d2] font-medium hover:text-white'
                 }`}
               >
                 {active && (
@@ -1908,8 +1908,8 @@ export default function SwkOneApp() {
                       tab.badge === 'LIVE'
                         ? 'bg-[#1f9d6b] text-white animate-pulse'
                         : active
-                          ? 'bg-[#041615] text-[#F3EFE6]'
-                          : 'bg-[#B68F70] text-[#041615]'
+                          ? 'bg-[#0b1a33] text-[#F3EFE6]'
+                          : 'bg-[#B68F70] text-[#0b1a33]'
                     }`}
                   >
                     {tab.badge}
@@ -1966,7 +1966,7 @@ export default function SwkOneApp() {
           <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-end sm:items-center justify-center p-2 sm:p-4">
             <div className="w-full max-w-[540px] max-h-[90vh] overflow-y-auto rounded-3xl bg-[#F3EFE6] border-2 border-[#B68F70]/50 shadow-2xl p-3 sm:p-4">
               <div className="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-line">
-                <div className="font-display font-bold text-[#041615] text-sm flex items-center gap-2">
+                <div className="font-display font-bold text-[#0b1a33] text-sm flex items-center gap-2">
                   <img src={SWK_BRAND.mark} alt="SWK" className="w-5 h-5 object-contain" />
                   <Sparkles size={15} className="text-[#B68F70]" />
                   SWK ONE · AI & Utilities

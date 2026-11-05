@@ -299,7 +299,7 @@ export default function ToolkitPage() {
 
           <Card className="lg:col-span-7" title="Upfront cash required at transfer" subtitle="Breakdown of DLD, Registration Trustee, NOC, bank & agency fees" tone="champ">
             <div className="grid sm:grid-cols-3 gap-3 mb-4">
-              <div className="p-4 rounded-2xl bg-[#041615] text-white">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
                 <div className="text-[11px] uppercase tracking-wider text-[#E0C1A3]">Total cash to close</div>
                 <div className="font-display text-[24px] font-semibold mt-1"><AnimatedNumber value={costRes.cashRequired} format={v => aed(v)} /></div>
                 <div className="text-[11.5px] text-white/70 mt-1">Down payment + all closing costs</div>
@@ -371,7 +371,7 @@ export default function ToolkitPage() {
 
           <Card className="lg:col-span-7" title="CBUAE pre-qualification & amortisation" subtitle="Maximum LTV, monthly EMI & Debt-Burden Ratio check">
             <div className="grid sm:grid-cols-3 gap-3 mb-4">
-              <div className="p-4 rounded-2xl bg-[#041615] text-white">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
                 <div className="text-[11px] uppercase tracking-wider text-[#E0C1A3]">Monthly EMI</div>
                 <div className="font-display text-[24px] font-semibold mt-1"><AnimatedNumber value={mortRes.emi} format={v => aed(v)} /></div>
                 <div className="text-[11.5px] text-white/70 mt-1">Loan {aed(mortRes.loan, { compact: true })} ({(mortRes.appliedLtv * 100).toFixed(0)}% LTV)</div>
@@ -443,7 +443,7 @@ export default function ToolkitPage() {
 
           <Card className="lg:col-span-7" title="RERA renewal calculation" subtitle="90-day written notice required prior to lease expiry (Law 26/2007)">
             <div className="grid sm:grid-cols-3 gap-3 mb-4">
-              <div className="p-4 rounded-2xl bg-[#041615] text-white">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
                 <div className="text-[11px] uppercase tracking-wider text-[#E0C1A3]">Maximum new rent</div>
                 <div className="font-display text-[24px] font-semibold mt-1"><AnimatedNumber value={reraRes.maxRent} format={v => aed(v)} /></div>
                 <div className="text-[11.5px] text-white/70 mt-1">+{aed(reraRes.maxIncrease)} / year</div>
@@ -610,7 +610,7 @@ export default function ToolkitPage() {
 
           <Card className="lg:col-span-7" title="Commission waterfall & FTA tax invoice" subtitle="Net brokerage retention and agent wallet payout">
             <div className="grid sm:grid-cols-3 gap-3 mb-4">
-              <div className="p-4 rounded-2xl bg-[#041615] text-white">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
                 <div className="text-[11px] uppercase tracking-wider text-[#E0C1A3]">Tax invoice (incl. 5% VAT)</div>
                 <div className="font-display text-[22px] font-semibold mt-1"><AnimatedNumber value={commRes.invoiceTotal} format={v => aed(v)} /></div>
                 <div className="text-[11px] text-white/70 mt-1">VAT 5%: {aed(commRes.vat)}</div>
@@ -672,7 +672,7 @@ export default function ToolkitPage() {
 
           <Card className="lg:col-span-7" title="Day-1 tenant cash summary" subtitle="Includes first rent cheque, deposits, Ejari & agency fee">
             <div className="grid sm:grid-cols-3 gap-3 mb-4">
-              <div className="p-4 rounded-2xl bg-[#041615] text-white">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
                 <div className="text-[11px] uppercase tracking-wider text-[#E0C1A3]">Upfront move-in total</div>
                 <div className="font-display text-[22px] font-semibold mt-1"><AnimatedNumber value={moveRes.moveIn} format={v => aed(v)} /></div>
                 <div className="text-[11px] text-white/70 mt-1">Includes 1st cheque</div>

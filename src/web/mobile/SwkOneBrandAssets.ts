@@ -14,16 +14,16 @@ import { COMMUNITIES, DEVELOPERS, RERA_FORMS } from '../swk/uae'
  *   - 09a_SWK_ONE_App_Icon_Light_Unlabeled / 09b_SWK_ONE_App_Icon_Dark_Unlabeled
  *
  * Official Brand Color Palette:
- *   - Deep Emerald Background:       #041615 (RGB: 4, 22, 21)
+ *   - Deep Emerald Background:       #0b1a33 (RGB: 4, 22, 21)
  *   - Champagne Gold Highlight:      #E0C1A3 (RGB: 224, 193, 163)
  *   - Brushed Bronze / Rose Gold:    #B68F70 (RGB: 182, 143, 112)
  *   - Deep Bronze Shadow:            #6F513B (RGB: 111, 81, 59)
  *   - App Icon Warm Ivory Surface:   #F3EFE6 (RGB: 243, 239, 230)
  */
 export const SWK_ONE_PALETTE = {
-  deepEmerald: '#041615',
-  emeraldRaised: '#0a2e2c',
-  emeraldRoyal: '#11423e',
+  deepEmerald: '#0b1a33',
+  emeraldRaised: '#0d1f3c',
+  emeraldRoyal: '#14305c',
   champagneGold: '#E0C1A3',
   brushedBronze: '#B68F70',
   deepBronze: '#6F513B',

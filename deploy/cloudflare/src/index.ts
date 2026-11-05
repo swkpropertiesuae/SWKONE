@@ -20,9 +20,9 @@ interface Env {
   ONE_PRIVATE_REVIEW_MODEL?: string
 }
 
-const INSTANCE = 'swk-one-brand-v3'
-const DEFAULT_RELEASE = '2026-11-05-swk-one-brand-v3'
-const EXPECTED_HTML_MARKER = 'SWK ONE | Staff Workspace'
+const INSTANCE = 'swk-one-blue-v4'
+const DEFAULT_RELEASE = '2026-11-05-swk-one-blue-v4'
+const EXPECTED_HTML_MARKER = 'midnight-blue-v4'
 
 export class SwkOs extends Container<Env> {
   defaultPort = 8080

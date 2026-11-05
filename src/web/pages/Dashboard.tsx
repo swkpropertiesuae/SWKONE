@@ -75,10 +75,10 @@ export function Dashboard() {
   return (
     <div className="grid gap-5 max-w-[1680px] mx-auto">
       {/* ------------------------------------------------------------ hero */}
-      <motion.section className="relative overflow-hidden rounded-[26px] text-white" style={{ background: 'linear-gradient(120deg, #041615 0%, #11423e 55%, #1d4f86 120%)' }}
+      <motion.section className="relative overflow-hidden rounded-[26px] text-white" style={{ background: 'linear-gradient(120deg, #0b1a33 0%, #14305c 55%, #1d4f86 120%)' }}
         initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}>
         <div className="absolute inset-0 opacity-[.22] bg-cover bg-center mix-blend-luminosity" style={{ backgroundImage: 'url(/media/hero/dubai-skyline-hero.webp)', backgroundPosition: 'center 40%' }} />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(4,22,21,.96) 0%, rgba(4,22,21,.78) 45%, rgba(4,22,21,.25) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(8,20,42,.96) 0%, rgba(8,20,42,.78) 45%, rgba(8,20,42,.25) 100%)' }} />
         {!reduce && <motion.div className="absolute -top-24 right-[12%] w-[420px] h-[420px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(182,143,112,.28), transparent 65%)' }} animate={{ x: [0, -30, 0], y: [0, 20, 0] }} transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }} />}
         <img src="/brand/skyline-front.svg" alt="" aria-hidden className="absolute bottom-0 left-0 w-full h-[70px] opacity-[.18] pointer-events-none" />
         <div className="relative grid gap-6 lg:grid-cols-[1.4fr_1fr] items-end p-6 sm:p-8">
@@ -150,7 +150,7 @@ export function Dashboard() {
               <div className="font-display font-bold text-lg text-ink mt-2.5">{dept.title}</div>
               <p className="text-xs text-muted mt-1 leading-relaxed">{dept.sub}</p>
             </div>
-            <div className="mt-3 pt-2.5 border-t border-[#efe9dc] flex items-center justify-between text-xs font-bold text-[#041615]">
+            <div className="mt-3 pt-2.5 border-t border-[#efe9dc] flex items-center justify-between text-xs font-bold text-[#0b1a33]">
               <span>Open Department Pipeline</span>
               <ArrowRight size={14} />
             </div>
@@ -189,7 +189,7 @@ export function Dashboard() {
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-[#041615] text-[#e8d4a2]">{st.step}</span>
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-[#0b1a33] text-[#e8d4a2]">{st.step}</span>
                   <ArrowUpRight size={14} className="text-muted group-hover:text-ink" />
                 </div>
                 <div className="font-bold text-[13px] text-ink mt-2 leading-snug">{st.title}</div>
@@ -288,7 +288,7 @@ export function Dashboard() {
               {agenda.map((a, i) => (
                 <motion.li key={a.id} className="relative" initial={{ opacity: 0, x: -8 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
                   <Link to={a.to} className="flex items-start gap-3 py-2.5 group">
-                    <span className="relative z-[1] w-9 h-9 rounded-xl grid place-items-center flex-none bg-white border border-[#e7e1d4] text-[#11423e] group-hover:border-[#B68F70] transition-colors"><a.Icon size={16} /></span>
+                    <span className="relative z-[1] w-9 h-9 rounded-xl grid place-items-center flex-none bg-white border border-[#e7e1d4] text-[#14305c] group-hover:border-[#B68F70] transition-colors"><a.Icon size={16} /></span>
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center gap-2"><span className="text-[11px] font-semibold uppercase tracking-wider text-[#6F513B]">{a.kind}</span><span className="text-[11.5px] text-muted">{a.kind === 'Viewing' ? fmtDateTime(a.at) : fmtDate(a.at)}</span></span>
                       <span className="block text-[13.5px] font-semibold text-ink truncate">{a.title}</span>
@@ -365,7 +365,7 @@ export function Dashboard() {
                 <Link to={`/e/properties/${p.id}`} className="block swk-card group">
                   <div className="relative h-[170px] overflow-hidden">
                     <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.06]" style={{ backgroundImage: `url(${photoFor(p.id)})` }} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#041615]/70 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b1a33]/70 to-transparent" />
                     <div className="absolute top-3 left-3 flex gap-1.5">{p.is_off_plan ? <Pill tone="champ">Off-plan</Pill> : <Pill tone="navy">Ready</Pill>}{p.is_exclusive && <Pill tone="oasis">Exclusive</Pill>}</div>
                     <div className="absolute bottom-3 left-3 right-3 text-white font-display text-[19px] font-semibold">{p.price ? aed(p.price) : p.rent_annual ? `${aed(p.rent_annual)}/yr` : 'Price on request'}</div>
                   </div>
@@ -445,8 +445,8 @@ export function Dashboard() {
             { l: 'Activity', s: 'Calls & follow-ups', to: '/e/activities', I: Clock },
           ].map(m => (
             <motion.div key={m.to} variants={rise} whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 320, damping: 22 }}>
-              <Link to={m.to} className="group flex flex-col gap-3 h-full p-4 rounded-[18px] bg-white border border-[#e7e1d4] hover:border-[#dccaa6] hover:shadow-[0_18px_36px_-24px_rgba(4,22,21,.45)] transition-all">
-                <span className="w-10 h-10 rounded-xl grid place-items-center text-[#B68F70] transition-transform group-hover:rotate-[-6deg] group-hover:scale-110" style={{ background: 'linear-gradient(145deg,#1b3a6b,#041615)' }}><m.I size={18} /></span>
+              <Link to={m.to} className="group flex flex-col gap-3 h-full p-4 rounded-[18px] bg-white border border-[#e7e1d4] hover:border-[#dccaa6] hover:shadow-[0_18px_36px_-24px_rgba(8,20,42,.45)] transition-all">
+                <span className="w-10 h-10 rounded-xl grid place-items-center text-[#B68F70] transition-transform group-hover:rotate-[-6deg] group-hover:scale-110" style={{ background: 'linear-gradient(145deg,#1b3a6b,#0b1a33)' }}><m.I size={18} /></span>
                 <span><span className="block text-[14px] font-semibold text-ink">{m.l}</span><span className="block text-[12px] text-muted">{m.s}</span></span>
               </Link>
             </motion.div>))}
@@ -459,7 +459,7 @@ export function Dashboard() {
 function DashboardSkeleton() {
   return (
     <div className="grid gap-5 max-w-[1680px] mx-auto" aria-busy="true" aria-label="Loading dashboard">
-      <div className="h-[230px] rounded-[26px] animate-pulse" style={{ background: 'linear-gradient(120deg,#041615,#11423e)' }} />
+      <div className="h-[230px] rounded-[26px] animate-pulse" style={{ background: 'linear-gradient(120deg,#0b1a33,#14305c)' }} />
       <div className="grid gap-3 grid-cols-2 md:grid-cols-3 xl:grid-cols-6">{Array.from({ length: 6 }, (_, i) => <div key={i} className="h-[118px] rounded-[18px] bg-white border border-[#e7e1d4] animate-pulse" />)}</div>
       <div className="grid gap-4 xl:grid-cols-12"><div className="xl:col-span-8 h-[320px] rounded-[20px] bg-white border border-[#e7e1d4] animate-pulse" /><div className="xl:col-span-4 h-[320px] rounded-[20px] bg-white border border-[#e7e1d4] animate-pulse" /></div>
     </div>
