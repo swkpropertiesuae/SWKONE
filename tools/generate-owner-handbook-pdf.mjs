@@ -372,8 +372,8 @@ async function main() {
       imageMap[shot.file] = toDataUri(path.join(ASSETS_DIR, shot.file))
     }
 
-    const logoWhiteUri = toDataUri(path.join(REPO_DIR, 'public/brand/swk-logo-white.png'))
-    const studioGoldUri = toDataUri(path.join(REPO_DIR, 'assets-src/SWK_Studio_Logo_Gold.jpg'))
+    const logoWhiteUri = toDataUri(path.join(REPO_DIR, 'public/brand/one/Logo/SWK_One_Wordmark_ForDark.png'))
+    const studioGoldUri = toDataUri(path.join(REPO_DIR, 'public/brand/one/Master/SWK_One_Master_Satin_ForDark.png'))
 
     const mdContent = fs.readFileSync(HANDBOOK_MD, 'utf8')
     const bodyHtml = parseMarkdownToHtml(mdContent, imageMap)
