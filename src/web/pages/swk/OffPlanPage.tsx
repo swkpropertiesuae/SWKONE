@@ -188,12 +188,12 @@ function Spotlight({ items, now, onOpen }: { items: Project[]; now: Date; onOpen
       <AnimatePresence mode="popLayout">
         <motion.div key={p.id} className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${p.image})` }} initial={{ opacity: 0, scale: 1.12 }} animate={{ opacity: 1, scale: 1.02 }} exit={{ opacity: 0 }} transition={{ opacity: { duration: .8 }, scale: { duration: 7, ease: 'linear' } }} />
       </AnimatePresence>
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(100deg, rgba(11,26,51,.94) 0%, rgba(11,26,51,.7) 45%, rgba(11,26,51,.1) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(100deg, rgba(4,22,21,.94) 0%, rgba(4,22,21,.7) 45%, rgba(4,22,21,.1) 100%)' }} />
       <div className="relative z-[1] p-6 md:p-10 flex flex-col md:flex-row gap-6 md:items-end justify-between min-h-[340px] md:min-h-[380px]">
         <AnimatePresence mode="wait">
           <motion.div key={p.id} initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: .5, ease: [0.16, 1, 0.3, 1] }} className="max-w-[620px] text-white flex flex-col gap-3 mt-auto">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="swk-pill" style={{ background: 'rgba(201,169,110,.2)', color: '#ecdcb9' }}>Featured launch</span>
+              <span className="swk-pill" style={{ background: 'rgba(182,143,112,.2)', color: '#ecdcb9' }}>Featured launch</span>
               <span className="swk-pill" style={{ background: 'rgba(255,255,255,.12)', color: '#fff' }}>{p.handoverQ} handover</span>
               {logo && <span className="h-7 px-2 rounded-lg bg-white/95 grid place-items-center"><img src={logo} alt={p.developer} className="h-5 object-contain" /></span>}
             </div>
@@ -247,7 +247,7 @@ function ProjectCard({ p, i, now, onOpen }: { p: Project; i: number; now: Date; 
     <motion.article layout initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: .95 }} transition={{ duration: .45, delay: Math.min(i, 8) * .04 }} whileHover={{ y: -4 }} className="swk-card overflow-hidden flex flex-col group">
       <button onClick={onOpen} className="relative h-[180px] overflow-hidden text-left" aria-label={`Open ${p.project}`}>
         <div className="absolute inset-0 bg-cover bg-center transition-transform duration-[1.2s] group-hover:scale-[1.06]" style={{ backgroundImage: `url(${p.image || communityImg(p.community)})` }} />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(11,26,51,0) 35%, rgba(11,26,51,.82) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(4,22,21,0) 35%, rgba(4,22,21,.82) 100%)' }} />
         <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap">
           <Pill tone="oasis">SWK inventory</Pill>
           {isPost(p) && <Pill tone="sky">Post-handover</Pill>}
@@ -305,7 +305,7 @@ function ProjectDetail({ p, now, onToast }: { p: Project; now: Date; onToast: (m
   return (
     <div className="flex flex-col gap-5">
       <div className="relative h-[170px] rounded-2xl overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url(${p.image})` }}>
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 30%, rgba(11,26,51,.85))' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 30%, rgba(4,22,21,.85))' }} />
         <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between text-white">
           <div><div className="text-[12px] opacity-75">{p.blurb}</div></div>
           <Link to={`/e/properties/${p.swkId}`} className="swk-pill swk-pill-champ">Open property record</Link>

@@ -281,7 +281,7 @@ export function OllamaStudio({ compact = false }: { compact?: boolean }) {
       {/* Top Status & Controls Bar */}
       <div className="rounded-2xl border border-line bg-soft p-3 flex items-center justify-between gap-2 flex-wrap">
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0b1a33] text-white text-xs font-semibold">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#041615] text-white text-xs font-semibold">
             <img src="/brand/swk-mark.png" alt="SWK" className="w-4 h-4 object-contain" />
             <span className={cls('w-2 h-2 rounded-full', st?.online ? 'bg-[#4fd39a]' : 'bg-[#f59e0b]')} />
             <span>{st?.online ? 'Ollama Live' : 'Ollama Standby'}</span>
@@ -368,7 +368,7 @@ export function OllamaStudio({ compact = false }: { compact?: boolean }) {
                   className={cls(
                     'group flex items-center justify-between gap-1.5 px-2.5 py-2 rounded-xl text-[13px] cursor-pointer transition',
                     t.id === activeThread?.id
-                      ? 'bg-[#0b1a33] text-white font-semibold'
+                      ? 'bg-[#041615] text-white font-semibold'
                       : 'hover:bg-soft text-ink'
                   )}
                 >
@@ -447,7 +447,7 @@ export function OllamaStudio({ compact = false }: { compact?: boolean }) {
                 className={cls(
                   'max-w-[92%] rounded-2xl px-4 py-3 text-[14px] leading-relaxed',
                   m.role === 'user'
-                    ? 'justify-self-end bg-[#0b1a33] text-white'
+                    ? 'justify-self-end bg-[#041615] text-white'
                     : 'justify-self-start bg-soft border border-line text-ink w-full'
                 )}
               >

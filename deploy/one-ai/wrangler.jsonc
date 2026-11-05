@@ -1,0 +1,11 @@
+{
+  "name": "swk-one-ai-gateway",
+  "main": "src/worker.mjs",
+  "compatibility_date": "2026-10-07",
+  "workers_dev": false,
+  "preview_urls": false,
+  "ai": { "binding": "AI" },
+  "d1_databases": [{ "binding": "DB", "database_name": "swk-one-ai", "database_id": "4476cce5-c378-4225-ad8a-21e5a97b1704" }],
+  "routes": [{ "pattern": "one-ai-gateway.swkpropertiesuae.com", "custom_domain": true }],
+  "vars": { "CF_DAILY_NEURONS": "6500" }
+}

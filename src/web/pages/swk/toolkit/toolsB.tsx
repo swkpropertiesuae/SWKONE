@@ -113,7 +113,7 @@ export function CommissionTool() {
             <CartesianGrid stroke="#efe9dc" vertical={false} />
             <XAxis dataKey="label" tick={{ fontSize: 10.5, fill: SWK.muted }} axisLine={false} tickLine={false} interval={0} tickFormatter={(s: string) => s.split(' ')[0]} />
             <YAxis tick={{ fontSize: 11, fill: SWK.muted }} axisLine={false} tickLine={false} tickFormatter={v => `${Math.round(v / 1000)}k`} width={40} />
-            <Tooltip cursor={{ fill: '#f6f2ea' }} formatter={(_v: any, k: any, item: any) => (k === 'base' ? [null, null] : [aed(item?.payload?.raw), item?.payload?.label])} contentStyle={{ borderRadius: 12, fontSize: 12 }} />
+            <Tooltip cursor={{ fill: '#F3EFE6' }} formatter={(_v: any, k: any, item: any) => (k === 'base' ? [null, null] : [aed(item?.payload?.raw), item?.payload?.label])} contentStyle={{ borderRadius: 12, fontSize: 12 }} />
             <RBar dataKey="base" stackId="w" fill="transparent" isAnimationActive={false} />
             <RBar dataKey="v" stackId="w" radius={[6, 6, 6, 6]} animationDuration={800}>
               {data.map(d => <Cell key={d.label} fill={d.color} />)}

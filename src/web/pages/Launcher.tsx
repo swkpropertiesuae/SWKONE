@@ -12,8 +12,8 @@ function greeting() { const h = dubaiHour(); return h < 12 ? 'Good morning' : h 
 const today = () => new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Dubai', weekday: 'long', day: 'numeric', month: 'long' }).format(new Date())
 
 /**
- * Clean, simple post-sign-in App Launcher grid (icon + short title).
- * Selecting any app opens that app with its compact charcoal App-Icon sidebar.
+ * Clean, simple post-sign-in App Launcher grid (icon + short title) in SWK ONE Deep Emerald & Champagne Gold.
+ * Selecting any app opens that app with its compact App-Icon sidebar.
  */
 export function Launcher() {
   const { me, can } = useMeta()
@@ -38,8 +38,9 @@ export function Launcher() {
     <div className="swk-launch">
       <motion.header className="swk-launch-hero" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease }}>
         <div className="swk-launch-identity">
-          <img src="/brand/swk-os-emblem.svg" alt="SWK Properties" width={38} height={38} />
-          <span className="swk-eyebrow" style={{ margin: 0 }}>SWK Properties · Business Workspace · {today()}</span>
+          <img src="/brand/one/portal-arch-emblem.png" alt="SWK ONE" width={34} height={34} />
+          <img src="/brand/one/script-logo-compact.png" alt="SWK ONE" width={54} height={24} style={{ height: 22, width: 'auto', objectFit: 'contain' }} />
+          <span className="swk-eyebrow" style={{ margin: 0 }}>SWK ONE · Staff Workspace · {today()}</span>
         </div>
         <h1>{greeting()}{firstName ? `, ${firstName}` : ''}.</h1>
         <form className="swk-launch-search" role="search" onSubmit={e => { e.preventDefault(); openFirst() }}>

@@ -20,8 +20,9 @@ interface Env {
   ONE_PRIVATE_REVIEW_MODEL?: string
 }
 
-const INSTANCE = 'main' // one instance only – the app holds a single database connection and runs its own scheduler
-const DEFAULT_RELEASE = '2026-11-04-reception-qr-v1'
+const INSTANCE = 'swk-one-brand-v3'
+const DEFAULT_RELEASE = '2026-11-05-swk-one-brand-v3'
+const EXPECTED_HTML_MARKER = 'SWK ONE | Staff Workspace'
 
 export class SwkOs extends Container<Env> {
   defaultPort = 8080
@@ -56,30 +57,90 @@ export class SwkOs extends Container<Env> {
 
   async ensureReleaseRunning(releaseId: string): Promise<void> {
     const runningRelease = await this.ctx.storage.get<string>('running_release_id')
-    if (runningRelease !== releaseId) {
+    if (runningRelease && runningRelease !== releaseId) {
       await this.ctx.storage.put('running_release_id', releaseId)
+      await this.ctx.storage.put('last_recycle_at', Date.now())
       try {
         await this.destroy()
       } catch {
         // ignore if already stopped
       }
-      await new Promise(r => setTimeout(r, 2500))
+      await new Promise(r => setTimeout(r, 2000))
       await this.startAndWaitForPorts({ ports: 8080, cancellationOptions: { portReadyTimeoutMS: 240_000 } })
       return
     }
+    if (!runningRelease) {
+      await this.ctx.storage.put('running_release_id', releaseId)
+    }
     const state = await this.getState()
     if (state.status !== 'healthy') {
+      await this.ctx.storage.put('last_recycle_at', Date.now())
       await this.startAndWaitForPorts({ ports: 8080, cancellationOptions: { portReadyTimeoutMS: 240_000 } })
     }
   }
+
+  async isReleaseVerified(expectedMarker: string): Promise<boolean> {
+    const verified = await this.ctx.storage.get<string>('verified_image_marker')
+    return verified === expectedMarker
+  }
+
+  async markReleaseVerified(expectedMarker: string): Promise<void> {
+    await this.ctx.storage.put('verified_image_marker', expectedMarker)
+  }
+
+  async recycleIfStaleImage(): Promise<boolean> {
+    const lastRecycle = (await this.ctx.storage.get<number>('last_recycle_at')) ?? 0
+    if (Date.now() - lastRecycle < 15_000) {
+      return false
+    }
+    await this.ctx.storage.put('last_recycle_at', Date.now())
+    try {
+      await this.destroy()
+    } catch {
+      // ignore if already stopped
+    }
+    await new Promise(r => setTimeout(r, 2000))
+    await this.startAndWaitForPorts({ ports: 8080, cancellationOptions: { portReadyTimeoutMS: 240_000 } })
+    return true
+  }
 }
+
+let legacyCleaned = false
 
 /** Start the container if it is not up (or roll it over when a new release image is deployed). */
 async function ensureRunning(env: Env) {
   const missing = ['DATABASE_URL', 'APP_SECRET', 'ADMIN_PASSWORD', 'MANAGER_PASSWORD'].filter(k => !(env as unknown as Record<string, string | undefined>)[k])
   if (missing.length) throw new Error(`Missing secret(s): ${missing.join(', ')}. Set them with "npx wrangler secret put <NAME>".`)
+  if (!legacyCleaned) {
+    legacyCleaned = true
+    for (const staleId of ['main', 'os-swkproperties-os-v4', 'swk-one-brand-v2']) {
+      try {
+        await getContainer(env.SWK_OS, staleId).destroy()
+      } catch {
+        // ignore if not running
+      }
+    }
+  }
   const c = getContainer(env.SWK_OS, INSTANCE)
   await c.ensureReleaseRunning(env.RELEASE_SHA || DEFAULT_RELEASE)
+  if (!(await c.isReleaseVerified(EXPECTED_HTML_MARKER))) {
+    const probe = await c.fetch(new Request('http://container/'))
+    const text = probe.ok ? await probe.text() : ''
+    if (text.includes(EXPECTED_HTML_MARKER)) {
+      await c.markReleaseVerified(EXPECTED_HTML_MARKER)
+    } else {
+      const recycled = await c.recycleIfStaleImage()
+      if (recycled) {
+        const probe2 = await c.fetch(new Request('http://container/'))
+        const text2 = probe2.ok ? await probe2.text() : ''
+        if (text2.includes(EXPECTED_HTML_MARKER)) {
+          await c.markReleaseVerified(EXPECTED_HTML_MARKER)
+          return c
+        }
+      }
+      throw new Error('Container image rollout in progress (waiting for SWK ONE release image)')
+    }
+  }
   return c
 }
 
@@ -91,6 +152,26 @@ export default {
       const headers = new Headers(request.headers)
       headers.set('x-forwarded-proto', url.protocol.replace(':', ''))
       headers.set('x-forwarded-host', url.host)
+      const bodyBuf = ['GET', 'HEAD'].includes(request.method) ? undefined : await request.clone().arrayBuffer()
+      for (let attempt = 1; attempt <= 6; attempt++) {
+        try {
+          const reqClone = new Request(request.url, { method: request.method, headers, body: bodyBuf })
+          const res = await c.fetch(reqClone)
+          if (res.status >= 500 && attempt < 6) {
+            const peek = await res.clone().text().catch(() => '')
+            if (peek.includes('Failed to start container') || peek.includes('not listening in the TCP address')) {
+              await new Promise(r => setTimeout(r, 3000))
+              await c.startAndWaitForPorts({ ports: 8080, cancellationOptions: { portReadyTimeoutMS: 240_000 } }).catch(() => {})
+              continue
+            }
+          }
+          return res
+        } catch (err) {
+          if (attempt >= 6) throw err
+          await new Promise(r => setTimeout(r, 3000))
+          await c.startAndWaitForPorts({ ports: 8080, cancellationOptions: { portReadyTimeoutMS: 240_000 } }).catch(() => {})
+        }
+      }
       return await c.fetch(new Request(request, { headers }))
     } catch (e) {
       return new Response('SWK OS is starting or temporarily unavailable. Please retry in a minute.\n' + (e instanceof Error ? e.message : ''), { status: 503, headers: { 'retry-after': '30' } })

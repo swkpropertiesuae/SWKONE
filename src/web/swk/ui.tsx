@@ -1,5 +1,5 @@
 /**
- * SWK OS design primitives — "Midnight & Champagne".
+ * SWK ONE design primitives — "Deep Emerald & Champagne Gold".
  * Animated building blocks shared by the dashboard and every real-estate module.
  * All motion respects prefers-reduced-motion through motion's useReducedMotion.
  */
@@ -10,11 +10,23 @@ import { ArrowUpRight, TrendingDown, TrendingUp } from 'lucide-react'
 import { cls } from '../lib/format'
 
 export const SWK = {
-  navy: '#14305c', midnight: '#0b1a33', ocean: '#1d4f86', sky: '#5b86c4', champ: '#c9a96e', champDeep: '#9a7a42',
-  champSoft: '#f3ead8', sand: '#f6f2ea', oasis: '#1f7a7a', dune: '#c4492f', ink: '#0b1a33', muted: '#6b7488', line: '#e7e1d4',
+  navy: '#0a2e2c',
+  midnight: '#041615',
+  ocean: '#11423e',
+  sky: '#2a6f68',
+  champ: '#E0C1A3',
+  champMid: '#B68F70',
+  champDeep: '#6F513B',
+  champSoft: '#F3EFE6',
+  sand: '#F3EFE6',
+  oasis: '#1f7a7a',
+  dune: '#c4492f',
+  ink: '#041615',
+  muted: '#5e6b68',
+  line: '#e4ddd0',
 }
-/** Ordered chart palette — navy → champagne → oasis → ocean → dune → sky → deep gold */
-export const CHART = [SWK.navy, SWK.champ, SWK.oasis, SWK.ocean, SWK.dune, SWK.sky, SWK.champDeep, '#8e9ab3']
+/** Ordered chart palette — deep emerald → brushed bronze → champagne gold → royal emerald → deep bronze → oasis → dune */
+export const CHART = [SWK.navy, SWK.champMid, SWK.champ, SWK.ocean, SWK.champDeep, SWK.oasis, SWK.dune, '#7c8a86']
 
 export const aed = (n: number | null | undefined, opts: { compact?: boolean; decimals?: number } = {}) => {
   const v = Number(n ?? 0)
@@ -134,7 +146,7 @@ export function Sparkline({ data, color = SWK.navy, width = 92, height = 30 }: {
 }
 
 /** Animated circular progress (occupancy, compliance, completion %). */
-export function ProgressRing({ value, size = 92, stroke = 9, color = SWK.navy, track = '#ece5d6', label, sub }: { value: number; size?: number; stroke?: number; color?: string; track?: string; label?: ReactNode; sub?: ReactNode }) {
+export function ProgressRing({ value, size = 92, stroke = 9, color = SWK.navy, track = '#e7dfd1', label, sub }: { value: number; size?: number; stroke?: number; color?: string; track?: string; label?: ReactNode; sub?: ReactNode }) {
   const r = (size - stroke) / 2, c = 2 * Math.PI * r, v = Math.max(0, Math.min(100, value))
   return (
     <div className="relative grid place-items-center flex-none" style={{ width: size, height: size }}>
@@ -154,7 +166,7 @@ export function ProgressRing({ value, size = 92, stroke = 9, color = SWK.navy, t
 export function Bar({ value, max = 100, color = SWK.navy, height = 8, delay = 0 }: { value: number; max?: number; color?: string; height?: number; delay?: number }) {
   const w = max ? Math.max(0, Math.min(100, (value / max) * 100)) : 0
   return (
-    <div className="w-full rounded-full overflow-hidden" style={{ height, background: '#efe9dc' }}>
+    <div className="w-full rounded-full overflow-hidden" style={{ height, background: '#ebe3d5' }}>
       <motion.div className="h-full rounded-full" style={{ background: color }} initial={{ width: 0 }} whileInView={{ width: `${w}%` }} viewport={{ once: true }} transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }} />
     </div>
   )
@@ -193,9 +205,9 @@ export function Field({ label, value, onChange, suffix, prefix, step = 1, min = 
   )
 }
 
-/** Empty / placeholder state with brand mark. */
+/** Empty / placeholder state with SWK ONE Horizontal Portal Lockup. */
 export function EmptyState({ title, hint, action }: { title: string; hint?: ReactNode; action?: ReactNode }) {
-  return <div className="swk-empty"><img src="/brand/swk-full-logo-light.png" alt="" aria-hidden /><b>{title}</b>{hint && <p>{hint}</p>}{action}</div>
+  return <div className="swk-empty"><img src="/brand/one/horizontal-lockup.png" alt="" aria-hidden /><b>{title}</b>{hint && <p>{hint}</p>}{action}</div>
 }
 
 /** Parallax-free tilt-on-hover photo card for properties/communities. */

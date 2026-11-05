@@ -1,12 +1,12 @@
 {
   "id": "/",
-  "name": "SWK Properties",
-  "short_name": "SWK",
+  "name": "SWK ONE — SWK Properties UAE",
+  "short_name": "SWK ONE",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#17191C",
-  "theme_color": "#17191C",
+  "background_color": "#041615",
+  "theme_color": "#041615",
   "icons": [
     {
       "src": "/brand/app-icons/android-chrome-192x192.png",

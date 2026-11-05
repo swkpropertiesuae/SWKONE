@@ -32,7 +32,7 @@ const OFFLINE_QUEUE_KEY = 'swk.one.offline_queue'
 const SESSION_TOKEN_KEY = 'swk.one.session_token'
 const SERVER_URL_KEY = 'swk.one.server_url'
 
-export const SWK_MOBILE_DOMAIN = 'https://one.swk.properties'
+export const SWK_MOBILE_DOMAIN = 'https://one.swkpropertiesuae.com'
 export const SWK_OS_DOMAIN = 'https://os.swkpropertiesuae.com'
 
 type SwkBridge = {
@@ -351,7 +351,7 @@ export async function requestCameraAccess(
     return {
       granted: false,
       stream: null,
-      error: 'Camera API is not available. Ensure you are connected via HTTPS (https://ae.swkpropertiesuae.com or https://os.swkpropertiesuae.com).',
+      error: 'Camera API is not available. Ensure you are connected via HTTPS (https://one.swkpropertiesuae.com or https://os.swkpropertiesuae.com).',
     }
   }
 

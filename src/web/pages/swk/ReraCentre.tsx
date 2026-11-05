@@ -257,11 +257,11 @@ export default function ReraCentre() {
           <Card className="xl:col-span-4" title="UAE PDPL (Federal Decree-Law 45/2021)" subtitle="Personal data protection & DSAR controls" tone="champ">
             <div className="grid gap-3 text-[13px]">
               <div className="p-3.5 rounded-xl bg-white border border-[#e7e1d4]">
-                <div className="font-semibold text-ink flex items-center gap-2"><Lock size={15} className="text-[#9a7a42]" />Explicit marketing consent</div>
+                <div className="font-semibold text-ink flex items-center gap-2"><Lock size={15} className="text-[#6F513B]" />Explicit marketing consent</div>
                 <div className="text-xs text-muted mt-1">All WhatsApp & email campaigns check party opt-in flags before dispatch.</div>
               </div>
               <div className="p-3.5 rounded-xl bg-white border border-[#e7e1d4]">
-                <div className="font-semibold text-ink flex items-center gap-2"><Scale size={15} className="text-[#9a7a42]" />5-year AML retention rule</div>
+                <div className="font-semibold text-ink flex items-center gap-2"><Scale size={15} className="text-[#6F513B]" />5-year AML retention rule</div>
                 <div className="text-xs text-muted mt-1">Emirates ID, passport, UBO declarations and Form F contracts are retained for 5 years per Ministry of Economy DNFBP rules.</div>
               </div>
             </div>

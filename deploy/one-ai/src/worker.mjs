@@ -84,6 +84,12 @@ export default {
     try {
       const path = new URL(request.url).pathname
       if (path === '/health' && request.method === 'GET') return json({ ok: true })
+      if (path === '/' && request.method === 'GET') {
+        if ((request.headers.get('accept') || '').includes('text/html')) {
+          return Response.redirect('https://one.swkpropertiesuae.com/ai', 302)
+        }
+        return json({ ok: true, service: 'swk-one-ai-gateway', app: 'https://one.swkpropertiesuae.com' })
+      }
       if (!['/api/text', '/api/media'].includes(path) || request.method !== 'POST') return json({ error: 'not_found' }, 404)
       const userId = await identity(request, env)
       if (!userId) return json({ error: 'sign_in_required' }, 401)

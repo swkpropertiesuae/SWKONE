@@ -1,28 +1,29 @@
 {
   "id": "/",
-  "name": "SWK Properties Business OS",
-  "short_name": "SWK OS",
-  "description": "CRM, sales, accounting, tax, procurement, inventory, HR, payroll, projects and documents for SWK Properties.",
+  "name": "SWK ONE — SWK Properties UAE",
+  "short_name": "SWK ONE",
+  "description": "CRM, sales, accounting, tax, procurement, inventory, HR, payroll, projects, AI & Utilities and documents for SWK Properties.",
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone"],
   "orientation": "any",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#041615",
+  "theme_color": "#041615",
   "lang": "en",
   "categories": ["business", "productivity"],
   "icons": [
-    {"src": "/favicon/favicon-192.png?v=swk-os-brand-3", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-    {"src": "/favicon/favicon-512.png?v=swk-os-brand-3", "sizes": "512x512", "type": "image/png", "purpose": "any"},
-    {"src": "/app-icon-192.png?v=swk-os-brand-3", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
-    {"src": "/app-icon-512.png?v=swk-os-brand-3", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+    {"src": "/favicon/favicon-192.png?v=swk-one-brand-4", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/favicon/favicon-512.png?v=swk-one-brand-4", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "/app-icon-192.png?v=swk-one-brand-4", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
+    {"src": "/app-icon-512.png?v=swk-one-brand-4", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
   ],
   "shortcuts": [
-    {"name": "Dashboard", "short_name": "Dashboard", "url": "/?source=shortcut", "icons": [{"src": "/app-icon-192.png?v=swk-os-brand-3", "sizes": "192x192", "type": "image/png"}]},
-    {"name": "Attendance QR", "short_name": "Attendance QR", "url": "/reception-qr", "icons": [{"src": "/app-icon-192.png?v=swk-os-brand-3", "sizes": "192x192", "type": "image/png"}]},
-    {"name": "Calendar", "short_name": "Calendar", "url": "/calendar", "icons": [{"src": "/app-icon-192.png?v=swk-os-brand-3", "sizes": "192x192", "type": "image/png"}]},
-    {"name": "Leads", "short_name": "Leads", "url": "/e/leads", "icons": [{"src": "/app-icon-192.png?v=swk-os-brand-3", "sizes": "192x192", "type": "image/png"}]},
-    {"name": "Leases", "short_name": "Leases", "url": "/e/leases", "icons": [{"src": "/app-icon-192.png?v=swk-os-brand-3", "sizes": "192x192", "type": "image/png"}]}
+    {"name": "Dashboard", "short_name": "Dashboard", "url": "/?source=shortcut", "icons": [{"src": "/app-icon-192.png?v=swk-one-brand-4", "sizes": "192x192", "type": "image/png"}]},
+    {"name": "SWK ONE Mobile", "short_name": "SWK ONE", "url": "/swk-one", "icons": [{"src": "/app-icon-192.png?v=swk-one-brand-4", "sizes": "192x192", "type": "image/png"}]},
+    {"name": "Attendance QR", "short_name": "Attendance QR", "url": "/reception-qr", "icons": [{"src": "/app-icon-192.png?v=swk-one-brand-4", "sizes": "192x192", "type": "image/png"}]},
+    {"name": "Calendar", "short_name": "Calendar", "url": "/calendar", "icons": [{"src": "/app-icon-192.png?v=swk-one-brand-4", "sizes": "192x192", "type": "image/png"}]},
+    {"name": "Leads", "short_name": "Leads", "url": "/e/leads", "icons": [{"src": "/app-icon-192.png?v=swk-one-brand-4", "sizes": "192x192", "type": "image/png"}]},
+    {"name": "Leases", "short_name": "Leases", "url": "/e/leases", "icons": [{"src": "/app-icon-192.png?v=swk-one-brand-4", "sizes": "192x192", "type": "image/png"}]}
   ]
 }

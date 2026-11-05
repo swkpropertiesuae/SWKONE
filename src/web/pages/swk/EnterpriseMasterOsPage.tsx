@@ -197,7 +197,7 @@ export default function EnterpriseMasterOsPage() {
                   className="p-3 rounded-2xl border border-[#e7e1d4] bg-white hover:border-[#c8a96b] transition flex flex-col justify-between gap-2"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#f3ead8] text-[#6e521c]">Module {m.code}</span>
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#F3EFE6] text-[#6e521c]">Module {m.code}</span>
                     <Pill tone="oasis">{m.status}</Pill>
                   </div>
                   <div className="font-semibold text-[13px] text-ink leading-snug">{m.name}</div>

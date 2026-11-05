@@ -1,10 +1,60 @@
 import { COMMUNITIES, DEVELOPERS, RERA_FORMS } from '../swk/uae'
 
 /**
- * Official SWK Properties OS Brand Assets & High-Resolution Media Registry
- * Powered by the official SWK_OS brand package (Emblem, Wordmark, Horizontal, Stacked, Master & Favicons).
+ * Official SWK ONE Brand Architecture Assets & Color Palette Registry
+ * Powered by the official SWK ONE Brand Assets package:
+ *   - 01_SWK_ONE_Primary_Logo
+ *   - 02_SWK_ONE_Master_Lockup
+ *   - 03_SWK_ONE_Portal_Arch_Emblem
+ *   - 04a_SWK_ONE_App_Icon_Dark_Labeled / 04b_SWK_ONE_App_Icon_Light_Labeled
+ *   - 05_SWK_ONE_Horizontal_Portal_Lockup
+ *   - 06_SWK_ONE_Portal_Map_Pin
+ *   - 07_SWK_ONE_Portal_Arch_With_Wordmark
+ *   - 08_SWK_ONE_Script_Logo_Compact
+ *   - 09a_SWK_ONE_App_Icon_Light_Unlabeled / 09b_SWK_ONE_App_Icon_Dark_Unlabeled
+ *
+ * Official Brand Color Palette:
+ *   - Deep Emerald Background:       #041615 (RGB: 4, 22, 21)
+ *   - Champagne Gold Highlight:      #E0C1A3 (RGB: 224, 193, 163)
+ *   - Brushed Bronze / Rose Gold:    #B68F70 (RGB: 182, 143, 112)
+ *   - Deep Bronze Shadow:            #6F513B (RGB: 111, 81, 59)
+ *   - App Icon Warm Ivory Surface:   #F3EFE6 (RGB: 243, 239, 230)
  */
+export const SWK_ONE_PALETTE = {
+  deepEmerald: '#041615',
+  emeraldRaised: '#0a2e2c',
+  emeraldRoyal: '#11423e',
+  champagneGold: '#E0C1A3',
+  brushedBronze: '#B68F70',
+  deepBronze: '#6F513B',
+  warmIvory: '#F3EFE6',
+} as const
+
 export const SWK_BRAND = {
+  // Official SWK ONE 11-asset brand suite (Transparent & Solid variants)
+  primaryLogo: '/brand/one/primary-logo.png',
+  primaryLogoSolid: '/brand/one/primary-logo-solid.png',
+  masterLockup: '/brand/one/master-lockup.png',
+  masterLockupSolid: '/brand/one/master-lockup-solid.png',
+  portalArchEmblem: '/brand/one/portal-arch-emblem.png',
+  portalArchEmblemSolid: '/brand/one/portal-arch-emblem-solid.png',
+  appIconDarkLabeled: '/brand/one/app-icon-dark-labeled.png',
+  appIconLightLabeled: '/brand/one/app-icon-light-labeled.png',
+  horizontalLockup: '/brand/one/horizontal-lockup.png',
+  horizontalLockupSolid: '/brand/one/horizontal-lockup-solid.png',
+  portalMapPin: '/brand/one/portal-map-pin.png',
+  portalMapPinSolid: '/brand/one/portal-map-pin-solid.png',
+  portalArchWordmark: '/brand/one/portal-arch-wordmark.png',
+  portalArchWordmarkSolid: '/brand/one/portal-arch-wordmark-solid.png',
+  scriptLogoCompact: '/brand/one/script-logo-compact.png',
+  scriptLogoCompactSolid: '/brand/one/script-logo-compact-solid.png',
+  appIconLightUnlabeled: '/brand/one/app-icon-light-unlabeled.png',
+  appIconDarkUnlabeled: '/brand/one/app-icon-dark-unlabeled.png',
+  masterSheetComplete: '/brand/one/sheet-complete-brand-system.png',
+  masterSheetAppIcons: '/brand/one/sheet-app-icon-suite.png',
+  masterSheetCoreIdentity: '/brand/one/sheet-core-identity-lockups.png',
+
+  // Standardized aliases used across Web, Shell, Studio, Reception & Mobile UI
   logoWhite: '/brand/swk-logo-white.png',
   logoInk: '/brand/swk-logo-ink.png',
   logoDark: '/brand/swk-logo-dark.png',

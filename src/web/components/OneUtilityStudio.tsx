@@ -76,6 +76,31 @@ export function OneUtilityStudio({ compact = false }: { compact?: boolean }) {
   }
 
   return <section aria-label="SWK ONE Utility Studio" className="grid gap-4">
+    <div
+      className="rounded-2xl p-4 text-white border border-[#B68F70]/40 flex flex-wrap items-center justify-between gap-4 shadow-md"
+      style={{ background: 'linear-gradient(135deg, #041615 0%, #0a2e2c 55%, #11423e 100%)' }}
+    >
+      <div className="flex items-center gap-3.5">
+        <img
+          src="/brand/one/portal-arch-emblem.png"
+          alt="SWK ONE Portal Arch"
+          className="h-11 w-11 object-contain drop-shadow-md"
+        />
+        <div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-[#E0C1A3] font-bold">
+            SWK ONE · Private &amp; Cloud AI Studio
+          </div>
+          <div className="font-display font-bold text-base text-white">
+            Executive Brokerage Intelligence &amp; Document Utilities
+          </div>
+        </div>
+      </div>
+      <img
+        src="/brand/one/primary-logo.png"
+        alt="SWK ONE"
+        className="h-9 w-auto object-contain opacity-95 hidden sm:block"
+      />
+    </div>
     <div className="flex flex-wrap gap-2">
       {[['cloud', 'Cloud AI'], ['private', 'Local Ollama'], ['photo', 'Photo Resize'], ['pdf', 'PDF Tools'], ['ocr', 'OCR'], ['review', 'Document Review'], ['transcribe', 'Speech to Text'], ['speak', 'Text to Speech'], ['image', 'Image Generation']].map(([key, label]) =>
         <button type="button" key={key} className={tab === key ? 'btn green sm' : 'btn outline sm'}

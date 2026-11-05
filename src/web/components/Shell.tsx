@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'motion/react'
-import { Bell, Search, Plus, Check, ChevronDown, ChevronRight, LogOut, UserRound, LifeBuoy, LayoutGrid, Languages, Download, RefreshCw, ArrowLeft, PanelLeftClose, PanelLeftOpen, Smartphone, QrCode, Sparkles, Camera } from 'lucide-react'
+import { Bell, Search, Plus, Check, ChevronDown, ChevronRight, LogOut, UserRound, LifeBuoy, LayoutGrid, Languages, Download, RefreshCw, ArrowLeft, PanelLeftClose, PanelLeftOpen, Smartphone, QrCode, Sparkles } from 'lucide-react'
 import { useMeta } from '../lib/meta'
 import { get, post } from '../lib/api'
 import { cls, fmtIsoStamp } from '../lib/format'
@@ -38,7 +38,7 @@ function NotificationBell() {
           <div className="max-h-[60vh] overflow-auto">
             {!q.data?.rows.length ? <div className="p-8 text-center text-muted text-sm">You're all caught up.</div> : q.data.rows.map(n => (
               <button key={n.id} className={cls('w-full text-start px-4 py-3 border-0 border-b border-line bg-transparent cursor-pointer hover:bg-[#faf6ec]', !n.read_at && 'bg-[#fbf6e9]')} onClick={() => { void read([n.id]); setOpen(false); if (n.link) nav(n.link) }}>
-                <div className="flex gap-2 items-start">{!n.read_at && <span className="w-2 h-2 rounded-full bg-[#c9a96e] mt-1.5 flex-none" />}<div className="min-w-0"><div className="text-[13.5px] font-semibold text-ink">{n.title}</div>{n.body && <div className="text-xs text-muted line-clamp-2">{n.body}</div>}<div className="text-[11px] text-muted mt-0.5">{fmtIsoStamp(n.created_at)}</div></div></div>
+                <div className="flex gap-2 items-start">{!n.read_at && <span className="w-2 h-2 rounded-full bg-[#B68F70] mt-1.5 flex-none" />}<div className="min-w-0"><div className="text-[13.5px] font-semibold text-ink">{n.title}</div>{n.body && <div className="text-xs text-muted line-clamp-2">{n.body}</div>}<div className="text-[11px] text-muted mt-0.5">{fmtIsoStamp(n.created_at)}</div></div></div>
               </button>))}
           </div>
         </motion.div>)}</AnimatePresence>
@@ -68,10 +68,9 @@ function QuickCreate() {
 }
 
 /**
- * Compact Charcoal App-Icon Sidebar (#202421):
- * - Uses the SWK Architectural Tower Monogram (/brand/swk-mark.png) at the top
+ * Compact App-Icon Sidebar:
+ * - Uses the official SWK ONE Portal Arch Emblem (/brand/one/portal-arch-emblem.png) at the top
  * - Places related pages inside the opened app as clean App-Icon tiles in workflow order
- * - Zero cluttered descriptions or badge spam
  */
 function AppSidebar({ pathname, collapsed, onToggle }: { pathname: string; collapsed: boolean; onToggle: () => void }) {
   const { me, can } = useMeta()
@@ -88,8 +87,8 @@ function AppSidebar({ pathname, collapsed, onToggle }: { pathname: string; colla
       <nav className="swk-sidebar-nav" aria-label={`${here.section.label} pages`}>
         <div className="swk-sidebar-head">
           <div className="swk-sidebar-toprow">
-            <Link to="/home" className="swk-sidebar-monogram" title="All apps · SWK Properties OS">
-              <img src="/brand/swk-os-emblem.svg" alt="SWK" width={28} height={28} />
+            <Link to="/home" className="swk-sidebar-monogram" title="All apps · SWK ONE Workspace">
+              <img src="/brand/one/portal-arch-emblem.png" alt="SWK ONE" width={28} height={28} />
               {!collapsed && (
                 <span className="swk-sidebar-back-lbl">
                   <ArrowLeft size={12} />
@@ -158,7 +157,7 @@ export function Shell() {
     return next
   })
   const pwa = usePwa(), toast = useToast(), ios = isIosBrowser()
-  const install = async () => { setUserMenu(false); if (ios) { toast.ok('On iPhone or iPad: tap Share, then Add to Home Screen.'); return } const r = await promptInstall(); if (r === 'accepted') toast.ok('SWK OS is being installed.') }
+  const install = async () => { setUserMenu(false); if (ios) { toast.ok('On iPhone or iPad: tap Share, then Add to Home Screen.'); return } const r = await promptInstall(); if (r === 'accepted') toast.ok('SWK ONE is being installed.') }
   const userRef = useClickOutside<HTMLDivElement>(() => setUserMenu(false))
   useEffect(() => {
     const h = (e: KeyboardEvent) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); setPalette(true) } }
@@ -176,12 +175,12 @@ export function Shell() {
     <div className="swk-app">
       <div className="swk-main-col">
         <header className="swk-top no-print">
-          <Link to="/home" className="swk-brand" aria-label="SWK Properties Business Workspace home">
-            <img src="/brand/swk-os-emblem.svg" alt="SWK Properties Monogram" className="swk-brand-monogram" />
-            <img src="/brand/swk-os-wordmark.svg" alt="SWK OS" className="swk-brand-wordmark" />
+          <Link to="/home" className="swk-brand" aria-label="SWK ONE Staff Workspace home">
+            <img src="/brand/one/portal-arch-emblem.png" alt="SWK ONE Portal Arch Emblem" className="swk-brand-monogram" />
+            <img src="/brand/one/primary-logo.png" alt="SWK ONE" className="swk-brand-wordmark" />
             <span className="swk-os-tag">
-              <b>OS</b>
-              <small className="swk-hide-md">Business Workspace</small>
+              <b>ONE</b>
+              <small className="swk-hide-md">Staff Workspace</small>
             </span>
           </Link>
           <Link to="/home" className={cls('swk-apps-btn', isHome && 'on')} aria-label="All apps" title="All apps"><LayoutGrid size={16} /><span className="swk-hide-sm">All apps</span></Link>
@@ -191,9 +190,9 @@ export function Shell() {
           </div>
           <div className="flex-1" />
           <DubaiClock />
-          <Link to="/swk-one" className="swk-chip swk-hide-md no-underline hover:border-[#c9a96e]" title="Open SWK ONE Mobile OS (ae.swkpropertiesuae.com)">
-            <Smartphone size={14} className="text-[#157a52]" />
-            <b>Mobile OS</b>
+          <Link to="/swk-one" className="swk-chip swk-hide-md no-underline hover:border-[#B68F70]" title="Open SWK ONE Mobile Workspace (one.swkpropertiesuae.com)">
+            <Smartphone size={14} className="text-[#0a2e2c]" />
+            <b>SWK ONE Mobile</b>
           </Link>
           <button className="swk-tbtn" onClick={() => setPalette(true)} aria-label="Search (Ctrl K)"><Search size={17} /></button>
           <NotificationBell />
@@ -216,9 +215,9 @@ export function Shell() {
               </motion.div>)}</AnimatePresence>
           </div>
         </header>
-        {pwa.updateReady && <div className="no-print" role="status" style={{ position: 'fixed', left: 16, right: 16, bottom: 16, zIndex: 80, maxWidth: 440, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', borderRadius: 12, background: '#0b1a33', color: '#f6f2ea', boxShadow: '0 8px 30px rgba(0,0,0,.3)' }}><RefreshCw size={16} /><span style={{ flex: 1, fontSize: 13.5 }}>A new version of SWK OS is ready.</span><button className="btn sm" onClick={applyUpdate}>Reload</button></div>}
+        {pwa.updateReady && <div className="no-print" role="status" style={{ position: 'fixed', left: 16, right: 16, bottom: 16, zIndex: 80, maxWidth: 440, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', borderRadius: 12, background: '#041615', color: '#F3EFE6', boxShadow: '0 8px 30px rgba(0,0,0,.3)' }}><RefreshCw size={16} /><span style={{ flex: 1, fontSize: 13.5 }}>A new version of SWK ONE is ready.</span><button className="btn sm" onClick={applyUpdate}>Reload</button></div>}
         {me?.demo && <div className="demo-notice no-print"><span><strong>Demo workspace</strong> · sample data · external messages switched off</span><details><summary>Details</summary><p>Safe practice environment. Resets every night. External email and WhatsApp messages are disabled.</p><button className="btn outline sm" onClick={async () => { if (confirm('Restore the demo to its original state and sign out?')) { await post('/api/demo/reset'); window.location.href = '/login' } }}>Reset demo</button></details></div>}
-        {me?.defaultPassword && !me?.demo && <div className="no-print bg-[#f3e6c4] text-[#6b4a00] px-5 py-2 text-sm font-semibold flex items-center gap-3 flex-wrap">You are signed in with the default password. <Link to="/profile" className="underline">Change it now</Link></div>}
+        {me?.defaultPassword && !me?.demo && <div className="no-print bg-[#F3EFE6] text-[#6F513B] border-b border-[#B68F70]/30 px-5 py-2 text-sm font-semibold flex items-center gap-3 flex-wrap">You are signed in with the default password. <Link to="/profile" className="underline">Change it now</Link></div>}
         <div className={cls('swk-body', !isHome && !!here && 'has-sidebar', !isHome && !!here && collapsed && 'is-collapsed')}>
           {!isHome && <AppSidebar pathname={loc.pathname} collapsed={collapsed} onToggle={toggleSidebar} />}
           <main className="swk-main" id="main">
@@ -238,11 +237,11 @@ export function Shell() {
           </NavLink>
           <NavLink to="/swk-one" className={({ isActive }) => cls('swk-mnav-item', isActive && 'active')}>
             <Smartphone size={18} />
-            <span>Mobile OS</span>
+            <span>SWK ONE</span>
           </NavLink>
           <NavLink to="/ai" className={({ isActive }) => cls('swk-mnav-item', isActive && 'active')}>
             <Sparkles size={18} />
-            <span>SWK AI</span>
+            <span>ONE AI</span>
           </NavLink>
           <button type="button" onClick={() => setPalette(true)} className="swk-mnav-item border-0 bg-transparent cursor-pointer">
             <Search size={18} />
@@ -251,9 +250,9 @@ export function Shell() {
         </nav>
       </div>
       {palette && <CommandPalette onClose={() => setPalette(false)} />}
-      <Modal open={guide} onClose={() => setGuide(false)} title="How to use SWK OS" width={660}>
+      <Modal open={guide} onClose={() => setGuide(false)} title="How to use SWK ONE" width={660}>
         <div className="grid gap-4 text-sm">
-          <div><b className="font-display text-ink">App icons & workflow</b> — Click <b>All apps</b> in the top bar to switch between departments. Inside any app, use the compact charcoal app-icon sidebar to move step-by-step through the workflow.</div>
+          <div><b className="font-display text-ink">App icons & workflow</b> — Click <b>All apps</b> in the top bar to switch between departments. Inside any app, use the compact app-icon sidebar to move step-by-step through the workflow.</div>
           <div><b className="font-display text-ink">Quick search</b> — Press <kbd className="border border-line rounded px-1.5">Ctrl</kbd> + <kbd className="border border-line rounded px-1.5">K</kbd> anytime to find properties, leads, deals, leases, cheques, and invoices.</div>
           <div><b className="font-display text-ink">Selling a property</b> — Seller Form A → Viewings → Buyer Offers → Sale Contract (F) → Escrow → Developer NOC → DLD Transfer → Deal Folders.</div>
           <div><b className="font-display text-ink">Leasing a property</b> — Leases & Ejari → Rent Schedules → Rent Cheques → Rent Receipts → Inspections → Handovers → Maintenance.</div>
