@@ -20,8 +20,8 @@ interface Env {
   ONE_PRIVATE_REVIEW_MODEL?: string
 }
 
-const INSTANCE = 'swk-one-blue-v4'
-const DEFAULT_RELEASE = '2026-11-05-swk-one-blue-v4'
+const INSTANCE = 'swk-one-blue-v5'
+const DEFAULT_RELEASE = '2026-11-05-swk-one-blue-v5'
 const EXPECTED_HTML_MARKER = 'midnight-blue-v4'
 
 export class SwkOs extends Container<Env> {
