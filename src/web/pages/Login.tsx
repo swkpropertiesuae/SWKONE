@@ -83,12 +83,12 @@ export function Login() {
         <img src="/brand/skyline-front.svg" alt="" aria-hidden className="absolute left-0 right-0 bottom-0 w-full h-[120px] opacity-[.07] pointer-events-none" />
 
         <motion.header className="relative flex items-center gap-3.5" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}>
-          <img src="/brand/one/Icon/SWK_One_Crest_ForDark.svg" alt="SWK ONE Crest" className="h-[46px] w-[46px] object-contain" />
-          <img src="/brand/one/Logo/SWK_One_Wordmark_ForDark.svg" alt="SWK ONE" className="h-[44px] w-auto" />
+          <img src="/brand/one/Icon/SWK_One_Crest_ForDark.svg?v=swk-one" alt="SWK ONE Crest" className="h-[46px] w-[46px] object-contain" />
+          <img src="/brand/one/Logo/SWK_One_Wordmark_ForDark.svg?v=swk-one" alt="SWK ONE" className="h-[44px] w-auto" />
           <div className="h-8 w-px bg-white/15 mx-0.5" />
           <div>
             <div className="font-display text-white text-[16px] font-semibold leading-none tracking-tight">Business Workspace</div>
-            <div className="text-[10px] tracking-[.22em] uppercase text-[#c9a96e] mt-1.5 font-semibold">SWK Properties · OS</div>
+            <div className="text-[10px] tracking-[.22em] uppercase text-[#c9a96e] mt-1.5 font-semibold">SWK Properties · ONE</div>
           </div>
         </motion.header>
 
@@ -233,13 +233,13 @@ export function Login() {
 
       {/* ---------------------------------------------------------------- hero side: studio brand showcase */}
       <section className="swk-login-hero" aria-hidden>
-        <motion.div className="swk-login-hero-img" style={{ backgroundImage: 'url(/brand/swk-signage-logo.png)', backgroundPosition: 'center center', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundColor: '#000000' }}
+        <motion.div className="swk-login-hero-img" style={{ backgroundImage: 'url(/brand/one/Logo/SWK_One_Stacked_ForDark.svg?v=swk-one)', backgroundPosition: 'center center', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundColor: '#000000' }}
           initial={{ opacity: 0, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, ease }}>
         </motion.div>
         <div className="swk-login-hero-shade" />
 
         <motion.div className="absolute top-10 left-10 swk-glass px-3.5 py-2.5 flex items-center gap-3 text-[12.5px] text-white" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5, ease }}>
-          <img src="/brand/swk-mark.png" alt="" className="w-7 h-7 object-contain" />
+          <img src="/brand/one/Icon/SWK_One_Crest_ForDark.svg?v=swk-one" alt="" className="w-7 h-7 object-contain" />
           <span>SWK Properties L.L.C · <b>RERA ORN 51517</b></span>
         </motion.div>
 
@@ -254,7 +254,7 @@ export function Login() {
             <MarketMoments />
           </motion.div>
           <motion.div className="hidden xl:block w-[180px] h-[180px] rounded-2xl overflow-hidden border border-[#c9a96e]/35 shadow-2xl flex-none bg-black p-2" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.6, ease }}>
-            <img src="/brand/swk-signage-icon.png" alt="" className="w-full h-full object-contain" />
+            <img src="/brand/one/App_Icon/SWK_One_App_Dark.svg?v=swk-one" alt="" className="w-full h-full object-contain" />
           </motion.div>
         </div>
       </section>

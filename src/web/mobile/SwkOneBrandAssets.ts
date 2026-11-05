@@ -1,38 +1,38 @@
 import { COMMUNITIES, DEVELOPERS, RERA_FORMS } from '../swk/uae'
 
 /**
- * Official SWK Properties OS Brand Assets & High-Resolution Media Registry
- * Powered by the official SWK_OS brand package (Emblem, Wordmark, Horizontal, Stacked, Master & Favicons).
+ * Official SWK ONE Brand Assets & High-Resolution Media Registry
+ * Powered by the official SWK_One_Brand_Pack (Crest, Wordmark, Horizontal, Stacked, Master & Favicons).
  */
 export const SWK_BRAND = {
-  logoWhite: '/brand/one/Logo/SWK_One_Wordmark_ForDark.png',
-  logoInk: '/brand/one/Logo/SWK_One_Wordmark_ForLight.png',
-  logoDark: '/brand/one/Logo/SWK_One_Wordmark_ForDark.png',
-  logoGold: '/brand/one/Logo/SWK_One_Wordmark_ForDark.png',
-  fullLogoDark: '/brand/one/Logo/SWK_One_Horizontal_ForDark.png',
-  fullLogoLight: '/brand/one/Logo/SWK_One_Horizontal_ForLight.png',
-  mark: '/brand/one/Icon/SWK_One_Crest_ForDark.png',
-  markLight: '/brand/one/Icon/SWK_One_Crest_ForLight.png',
-  markBlack: '/brand/one/Icon/SWK_One_Crest_ForLight.png',
-  signageLogo: '/brand/one/Logo/SWK_One_Stacked_ForDark.png',
-  signageIcon: '/brand/one/Icon/SWK_One_Crest_ForDark.png',
-  emblemSvg: '/brand/one/Icon/SWK_One_Crest_ForLight.svg',
-  emblemDarkSvg: '/brand/one/Icon/SWK_One_Crest_ForDark.svg',
-  wordmarkSvg: '/brand/one/Logo/SWK_One_Wordmark_ForLight.svg',
-  wordmarkDarkSvg: '/brand/one/Logo/SWK_One_Wordmark_ForDark.svg',
-  horizontalLogoSvg: '/brand/one/Logo/SWK_One_Horizontal_ForLight.svg',
-  horizontalDarkSvg: '/brand/one/Logo/SWK_One_Horizontal_ForDark.svg',
-  stackedLogoSvg: '/brand/one/Logo/SWK_One_Stacked_ForDark.svg',
-  stackedLightSvg: '/brand/one/Logo/SWK_One_Stacked_ForLight.svg',
-  masterSvg: '/brand/one/Master/SWK_One_Master_Satin_ForDark.svg',
-  masterLightSvg: '/brand/one/Master/SWK_One_Master_Satin_ForLight.svg',
-  appDarkSvg: '/brand/one/App_Icon/SWK_One_App_Dark.svg',
-  appLightSvg: '/brand/one/App_Icon/SWK_One_App_Light.svg',
+  logoWhite: '/brand/one/Logo/SWK_One_Wordmark_ForDark.png?v=swk-one',
+  logoInk: '/brand/one/Logo/SWK_One_Wordmark_ForLight.png?v=swk-one',
+  logoDark: '/brand/one/Logo/SWK_One_Wordmark_ForDark.png?v=swk-one',
+  logoGold: '/brand/one/Logo/SWK_One_Wordmark_ForDark.png?v=swk-one',
+  fullLogoDark: '/brand/one/Logo/SWK_One_Horizontal_ForDark.png?v=swk-one',
+  fullLogoLight: '/brand/one/Logo/SWK_One_Horizontal_ForLight.png?v=swk-one',
+  mark: '/brand/one/Icon/SWK_One_Crest_ForDark.png?v=swk-one',
+  markLight: '/brand/one/Icon/SWK_One_Crest_ForLight.png?v=swk-one',
+  markBlack: '/brand/one/Icon/SWK_One_Crest_ForLight.png?v=swk-one',
+  signageLogo: '/brand/one/Logo/SWK_One_Stacked_ForDark.png?v=swk-one',
+  signageIcon: '/brand/one/Icon/SWK_One_Crest_ForDark.png?v=swk-one',
+  emblemSvg: '/brand/one/Icon/SWK_One_Crest_ForLight.svg?v=swk-one',
+  emblemDarkSvg: '/brand/one/Icon/SWK_One_Crest_ForDark.svg?v=swk-one',
+  wordmarkSvg: '/brand/one/Logo/SWK_One_Wordmark_ForLight.svg?v=swk-one',
+  wordmarkDarkSvg: '/brand/one/Logo/SWK_One_Wordmark_ForDark.svg?v=swk-one',
+  horizontalLogoSvg: '/brand/one/Logo/SWK_One_Horizontal_ForLight.svg?v=swk-one',
+  horizontalDarkSvg: '/brand/one/Logo/SWK_One_Horizontal_ForDark.svg?v=swk-one',
+  stackedLogoSvg: '/brand/one/Logo/SWK_One_Stacked_ForDark.svg?v=swk-one',
+  stackedLightSvg: '/brand/one/Logo/SWK_One_Stacked_ForLight.svg?v=swk-one',
+  masterSvg: '/brand/one/Master/SWK_One_Master_Satin_ForDark.svg?v=swk-one',
+  masterLightSvg: '/brand/one/Master/SWK_One_Master_Satin_ForLight.svg?v=swk-one',
+  appDarkSvg: '/brand/one/App_Icon/SWK_One_App_Dark.svg?v=swk-one',
+  appLightSvg: '/brand/one/App_Icon/SWK_One_App_Light.svg?v=swk-one',
   skylineFront: '/brand/skyline-front.svg',
   skylineBack: '/brand/skyline-back.svg',
-  heroDubai: '/brand/one/Logo/SWK_One_Stacked_ForDark.png',
-  appIcon512: '/app-icon-512.png',
-  appIcon192: '/app-icon-192.png',
+  heroDubai: '/brand/one/Logo/SWK_One_Stacked_ForDark.png?v=swk-one',
+  appIcon512: '/brand/one/Favicon/icon-512.png?v=swk-one',
+  appIcon192: '/brand/one/Favicon/icon-192.png?v=swk-one',
 } as const
 
 export const SWK_PROPERTY_PHOTOS = [

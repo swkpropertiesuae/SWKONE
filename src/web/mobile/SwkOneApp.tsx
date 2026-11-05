@@ -650,7 +650,7 @@ export default function SwkOneApp() {
         >
           <div className="flex items-center gap-2.5">
             <img src={SWK_BRAND.mark} alt="" className="h-7 w-7 object-contain" />
-            <img src="/brand/one/wordmark.png" alt="SWK ONE" className="h-5 w-auto object-contain" />
+            <img src={SWK_BRAND.wordmarkDarkSvg} alt="SWK ONE" className="h-5 w-auto object-contain" />
             <div className="h-4 w-px bg-white/20" />
             <div>
               <div className="font-bold font-display text-[12px] tracking-tight text-white flex items-center gap-1.5">
@@ -793,8 +793,8 @@ export default function SwkOneApp() {
                   className="h-7 w-7 object-contain"
                 />
                 <img
-                  src="/brand/one/wordmark.png"
-                  alt="SWK Properties"
+                  src={SWK_BRAND.wordmarkDarkSvg}
+                  alt="SWK ONE"
                   className="h-6 w-auto object-contain"
                 />
               </motion.div>

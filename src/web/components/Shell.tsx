@@ -69,7 +69,7 @@ function QuickCreate() {
 
 /**
  * Compact Charcoal App-Icon Sidebar (#202421):
- * - Uses the SWK Architectural Tower Monogram (/brand/swk-mark.png) at the top
+ * - Uses the SWK ONE Architectural Crest (/brand/one/Icon/SWK_One_Crest_ForLight.svg) at the top
  * - Places related pages inside the opened app as clean App-Icon tiles in workflow order
  * - Zero cluttered descriptions or badge spam
  */
@@ -88,8 +88,8 @@ function AppSidebar({ pathname, collapsed, onToggle }: { pathname: string; colla
       <nav className="swk-sidebar-nav" aria-label={`${here.section.label} pages`}>
         <div className="swk-sidebar-head">
           <div className="swk-sidebar-toprow">
-            <Link to="/home" className="swk-sidebar-monogram" title="All apps · SWK Properties OS">
-              <img src="/brand/swk-os-emblem.svg" alt="SWK" width={28} height={28} />
+            <Link to="/home" className="swk-sidebar-monogram" title="All apps · SWK ONE">
+              <img src="/brand/one/Icon/SWK_One_Crest_ForLight.svg?v=swk-one" alt="SWK ONE" width={28} height={28} />
               {!collapsed && (
                 <span className="swk-sidebar-back-lbl">
                   <ArrowLeft size={12} />
@@ -176,11 +176,11 @@ export function Shell() {
     <div className="swk-app">
       <div className="swk-main-col">
         <header className="swk-top no-print">
-          <Link to="/home" className="swk-brand" aria-label="SWK Properties Business Workspace home">
-            <img src="/brand/swk-os-emblem.svg" alt="SWK Properties Monogram" className="swk-brand-monogram" />
-            <img src="/brand/swk-os-wordmark.svg" alt="SWK OS" className="swk-brand-wordmark" />
+          <Link to="/home" className="swk-brand" aria-label="SWK ONE Business Workspace home">
+            <img src="/brand/one/Icon/SWK_One_Crest_ForLight.svg?v=swk-one" alt="SWK ONE Crest" className="swk-brand-monogram" />
+            <img src="/brand/one/Logo/SWK_One_Wordmark_ForLight.svg?v=swk-one" alt="SWK ONE" className="swk-brand-wordmark" />
             <span className="swk-os-tag">
-              <b>OS</b>
+              <b>ONE</b>
               <small className="swk-hide-md">Business Workspace</small>
             </span>
           </Link>

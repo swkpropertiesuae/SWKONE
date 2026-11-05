@@ -112,9 +112,9 @@ export default function ReceptionQrPage() {
       <div className="min-h-screen bg-[#08142a] text-white flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-md bg-white text-[#0b1a33] rounded-3xl p-8 shadow-2xl border-4 border-[#c9a96e] text-center space-y-5">
           <div className="flex items-center justify-center gap-2.5">
-            <img src="/brand/swk-mark.png" alt="SWK" className="h-10 w-10 object-contain" />
+            <img src="/brand/one/Icon/SWK_One_Crest_ForLight.svg?v=swk-one" alt="SWK ONE" className="h-10 w-10 object-contain" />
             <div className="text-left">
-              <div className="font-display font-bold text-lg leading-tight text-[#0b1a33]">SWK Properties</div>
+              <div className="font-display font-bold text-lg leading-tight text-[#0b1a33]">SWK ONE</div>
               <div className="text-[10px] uppercase tracking-[0.2em] text-[#9a7a42] font-bold">
                 Office Attendance QR
               </div>
@@ -169,8 +169,8 @@ export default function ReceptionQrPage() {
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-6">
           <div className="flex items-center gap-2.5 mb-3">
-            <img src="/brand/swk-os-emblem.svg" alt="SWK" className="h-10 w-10 object-contain" />
-            <img src="/brand/swk-os-wordmark.svg" alt="SWK OS" className="h-8 w-auto object-contain" />
+            <img src="/brand/one/Icon/SWK_One_Crest_ForDark.svg?v=swk-one" alt="SWK ONE" className="h-10 w-10 object-contain" />
+            <img src="/brand/one/Logo/SWK_One_Wordmark_ForDark.svg?v=swk-one" alt="SWK ONE" className="h-8 w-auto object-contain" />
           </div>
           <h1 className="font-display font-bold text-xl text-white m-0">
             {checkInResult ? 'Attendance Confirmed' : 'Office Attendance Sign-In'}
