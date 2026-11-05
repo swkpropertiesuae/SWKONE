@@ -73,9 +73,9 @@ export const SWK_BRAND = {
   masterSvg: '/brand/swk-os-master.svg',
   skylineFront: '/brand/skyline-front.svg',
   skylineBack: '/brand/skyline-back.svg',
-  heroDubai: '/brand/swk-signage-logo.png',
-  appIcon512: '/app-icon-512.png',
-  appIcon192: '/app-icon-192.png',
+  heroDubai: '/brand/one/Logo/SWK_One_Stacked_ForDark.png?v=swk-one',
+  appIcon512: '/brand/one/Favicon/icon-512.png?v=swk-one',
+  appIcon192: '/brand/one/Favicon/icon-192.png?v=swk-one',
 } as const
 
 export const SWK_PROPERTY_PHOTOS = [

@@ -11,20 +11,35 @@ import {
   AnimatedNumber, Bar, CHART, Card, Field, ModuleHeader, Pill, ProgressRing, Reveal, SWK, Segmented, aed, num, pct,
 } from '../../swk/ui'
 import {
-  COMMUNITIES, RERA_BANDS, RENT_INDEX, UAE, commissionWaterfall, costToClose, leaseCosts, mortgagePlan, paymentPlan, reraIncrease, visaEligibility, yieldCalc, type Residency,
+  COMMUNITIES, RERA_BANDS, RENT_INDEX, UAE, commissionWaterfall, costToClose, leaseCosts, mortgagePlan, paymentPlan, reraIncrease, visaEligibility, yieldCalc,
+  sellerNetProceeds, rentVsBuyCompare, offPlanFlipCalc, holidayHomeVsLongTerm, serviceChargeCoolingCalc, commercialVatTaxCalc, dcfFiveYearProjector, mortgageRefinanceCalc,
+  type Residency,
 } from '../../swk/uae'
+import { OneUtilityStudio } from '../../components/OneUtilityStudio'
 
-type ToolKey = 'cost' | 'mortgage' | 'rera' | 'yield' | 'visa' | 'commission' | 'movein' | 'offplan'
+type ToolKey =
+  | 'cost' | 'mortgage' | 'rera' | 'yield' | 'visa' | 'commission' | 'movein' | 'offplan'
+  | 'seller' | 'rentvsbuy' | 'flip' | 'holiday' | 'servicecharge' | 'commercial' | 'caprate' | 'earlysettlement'
+  | 'studio'
 
 const TOOLS: { value: ToolKey; label: string }[] = [
   { value: 'cost', label: 'Buyer Cost-to-Close' },
+  { value: 'seller', label: 'Seller Net Proceeds' },
   { value: 'mortgage', label: 'CBUAE Mortgage' },
+  { value: 'earlysettlement', label: 'Mortgage Refinance' },
   { value: 'rera', label: 'RERA Rent Index' },
   { value: 'yield', label: 'Yield & ROI' },
+  { value: 'caprate', label: '5-Yr DCF & IRR' },
+  { value: 'rentvsbuy', label: 'Rent vs. Buy (10Y)' },
+  { value: 'flip', label: 'Off-Plan Flip ROE' },
+  { value: 'holiday', label: 'Holiday Home vs Ejari' },
+  { value: 'servicecharge', label: 'Mollak & Chiller' },
+  { value: 'commercial', label: 'Commercial & VAT' },
   { value: 'visa', label: 'Golden Visa' },
   { value: 'commission', label: 'Commission Split' },
   { value: 'movein', label: 'Tenant Move-In' },
   { value: 'offplan', label: 'Off-Plan Schedule' },
+  { value: 'studio', label: 'AI & Utility Studio Pro' },
 ]
 
 export default function ToolkitPage() {
@@ -97,6 +112,72 @@ export default function ToolkitPage() {
   const [oPostInst, setOPostInst] = useState(4)
   const [oMonthsToHandover, setOMonthsToHandover] = useState(24)
 
+  // 9) Seller Net Proceeds state
+  const [sSalePrice, setSSalePrice] = useState(4_200_000)
+  const [sOrigPrice, setSOrigPrice] = useState(3_100_000)
+  const [sMortgagePayoff, setSMortgagePayoff] = useState(1_450_000)
+  const [sBrokerPct, setSBrokerPct] = useState(2)
+  const [sNocFee, setSNocFee] = useState(2500)
+
+  // 10) Rent vs Buy state
+  const [rvbPrice, setRvbPrice] = useState(2_600_000)
+  const [rvbRent, setRvbRent] = useState(165_000)
+  const [rvbDownPct, setRvbDownPct] = useState(20)
+  const [rvbRate, setRvbRate] = useState(4.39)
+  const [rvbYears, setRvbYears] = useState(10)
+  const [rvbApprec, setRvbApprec] = useState(5)
+  const [rvbRentEsc, setRvbRentEsc] = useState(4)
+  const [rvbScAnnual, setRvbScAnnual] = useState(22_000)
+
+  // 11) Off-plan Flip ROE state
+  const [fLaunchPrice, setFLaunchPrice] = useState(2_500_000)
+  const [fResalePrice, setFResalePrice] = useState(3_150_000)
+  const [fPaidPct, setFPaidPct] = useState(40)
+  const [fMinNocPct, setFMinNocPct] = useState(40)
+  const [fNocFee, setFNocFee] = useState(5000)
+  const [fBrokerPct, setFBrokerPct] = useState(2)
+
+  // 12) Holiday Home vs Long-Term Ejari state
+  const [hhPrice, setHhPrice] = useState(2_200_000)
+  const [hhArea, setHhArea] = useState(1150)
+  const [hhBeds, setHhBeds] = useState(2)
+  const [hhLongRent, setHhLongRent] = useState(150_000)
+  const [hhAdr, setHhAdr] = useState(850)
+  const [hhOcc, setHhOcc] = useState(76)
+  const [hhMgmtPct, setHhMgmtPct] = useState(18)
+  const [hhUtilities, setHhUtilities] = useState(18_000)
+  const [hhFurnish, setHhFurnish] = useState(85_000)
+  const [hhScPsf, setHhScPsf] = useState(18)
+
+  // 13) Mollak & District Cooling state
+  const [scArea, setScArea] = useState(1480)
+  const [scGenPsf, setScGenPsf] = useState(15.5)
+  const [scSinkPsf, setScSinkPsf] = useState(2.5)
+  const [scCoolingTr, setScCoolingTr] = useState(3.5)
+  const [scCoolingMonthly, setScCoolingMonthly] = useState(420)
+  const [scChillerFree, setScChillerFree] = useState(false)
+
+  // 14) Commercial & FTA VAT state
+  const [cmPrice, setCmPrice] = useState(5_500_000)
+  const [cmRent, setCmRent] = useState(480_000)
+  const [cmArea, setCmArea] = useState(2400)
+  const [cmScPsf, setCmScPsf] = useState(21)
+  const [cmAgencyPct, setCmAgencyPct] = useState(2)
+
+  // 15) 5-Yr DCF & IRR state
+  const [dcfPrice, setDcfPrice] = useState(3_400_000)
+  const [dcfRent, setDcfRent] = useState(240_000)
+  const [dcfRentGrowth, setDcfRentGrowth] = useState(5)
+  const [dcfApprec, setDcfApprec] = useState(6)
+  const [dcfExpRatio, setDcfExpRatio] = useState(18)
+  const [dcfDiscount, setDcfDiscount] = useState(8)
+
+  // 16) Mortgage Refinance state
+  const [refBalance, setRefBalance] = useState(2_100_000)
+  const [refCurRate, setRefCurRate] = useState(5.49)
+  const [refNewRate, setRefNewRate] = useState(4.19)
+  const [refYears, setRefYears] = useState(18)
+
   // Calculations
   const cLoan = cUseLoan ? Math.max(0, cPrice * (1 - cDownPct / 100)) : 0
   const costRes = useMemo(() => costToClose({ price: cPrice, loan: cLoan, brokerPct: cBrokerPct / 100, nocFee: cNoc, includeBroker: true }), [cPrice, cLoan, cBrokerPct, cNoc])
@@ -113,6 +194,14 @@ export default function ToolkitPage() {
     ho.setMonth(ho.getMonth() + oMonthsToHandover)
     return paymentPlan({ price: oPrice, bookingPct: oBooking, constructionPct: oConst, handoverPct: oHandover, postHandoverPct: oPost, constructionInstalments: oConstInst, postInstalments: oPostInst, start, handover: ho })
   }, [oPrice, oBooking, oConst, oHandover, oPost, oConstInst, oPostInst, oMonthsToHandover])
+  const sellerRes = useMemo(() => sellerNetProceeds({ salePrice: sSalePrice, originalPurchasePrice: sOrigPrice, mortgagePayoff: sMortgagePayoff, brokerPct: sBrokerPct, nocFee: sNocFee }), [sSalePrice, sOrigPrice, sMortgagePayoff, sBrokerPct, sNocFee])
+  const rvbRes = useMemo(() => rentVsBuyCompare({ price: rvbPrice, annualRent: rvbRent, downPct: rvbDownPct, ratePct: rvbRate, years: rvbYears, appreciationPct: rvbApprec, rentEscalationPct: rvbRentEsc, serviceChargeAnnual: rvbScAnnual }), [rvbPrice, rvbRent, rvbDownPct, rvbRate, rvbYears, rvbApprec, rvbRentEsc, rvbScAnnual])
+  const flipRes = useMemo(() => offPlanFlipCalc({ launchPrice: fLaunchPrice, resalePrice: fResalePrice, paidToDeveloperPct: fPaidPct, minDeveloperNocThresholdPct: fMinNocPct, nocFee: fNocFee, brokerPct: fBrokerPct }), [fLaunchPrice, fResalePrice, fPaidPct, fMinNocPct, fNocFee, fBrokerPct])
+  const hhRes = useMemo(() => holidayHomeVsLongTerm({ price: hhPrice, areaSqft: hhArea, bedrooms: hhBeds, longTermAnnualRent: hhLongRent, adrAed: hhAdr, occupancyPct: hhOcc, dtcmMgmtFeePct: hhMgmtPct, utilitiesAnnual: hhUtilities, furnishingCost: hhFurnish, serviceChargePerSqft: hhScPsf }), [hhPrice, hhArea, hhBeds, hhLongRent, hhAdr, hhOcc, hhMgmtPct, hhUtilities, hhFurnish, hhScPsf])
+  const scRes = useMemo(() => serviceChargeCoolingCalc({ areaSqft: scArea, mollakGeneralPsf: scGenPsf, sinkingFundPsf: scSinkPsf, districtCoolingCapacityTr: scCoolingTr, coolingConsumptionMonthly: scCoolingMonthly, chillerFree: scChillerFree }), [scArea, scGenPsf, scSinkPsf, scCoolingTr, scCoolingMonthly, scChillerFree])
+  const cmRes = useMemo(() => commercialVatTaxCalc({ price: cmPrice, annualRent: cmRent, areaSqft: cmArea, serviceChargePsf: cmScPsf, agencyPct: cmAgencyPct }), [cmPrice, cmRent, cmArea, cmScPsf, cmAgencyPct])
+  const dcfRes = useMemo(() => dcfFiveYearProjector({ price: dcfPrice, initialRent: dcfRent, rentGrowthPct: dcfRentGrowth, appreciationPct: dcfApprec, expenseRatioPct: dcfExpRatio, discountRatePct: dcfDiscount }), [dcfPrice, dcfRent, dcfRentGrowth, dcfApprec, dcfExpRatio, dcfDiscount])
+  const refRes = useMemo(() => mortgageRefinanceCalc({ currentLoanBalance: refBalance, currentRatePct: refCurRate, newRatePct: refNewRate, remainingYears: refYears }), [refBalance, refCurRate, refNewRate, refYears])
 
   const buildSummary = () => {
     switch (active) {
@@ -132,6 +221,24 @@ export default function ToolkitPage() {
         return `*SWK Properties — Tenant Move-In Estimate*\nAnnual Rent: ${aed(tRent)} (${tCheques} cheques of ${aed(moveRes.chequeAmount)})\n*Total Upfront Move-In:* ${aed(moveRes.moveIn)}\nMonthly DM Housing Fee (5%): ${aed(moveRes.housingFeeMonthly)}`
       case 'offplan':
         return `*SWK Properties — Off-Plan Payment Schedule*\nUnit Price: ${aed(oPrice)}\nPlan: ${oBooking}% Booking / ${oConst}% Construction / ${oHandover}% Handover / ${oPost}% Post-Handover\nDLD Oqood (4%): ${aed(oPrice * 0.04)}`
+      case 'seller':
+        return `*SWK Properties — Seller Net Proceeds*\nSale Price: ${aed(sSalePrice)} | Mortgage Payoff: ${aed(sMortgagePayoff)}\n*Net Cash at Trustee Transfer:* ${aed(sellerRes.netCashAtTransfer)}\nNet Capital Profit: ${aed(sellerRes.netProfitAfterCosts)} (${sellerRes.roiOnOriginalPct.toFixed(1)}% ROI)`
+      case 'rentvsbuy':
+        return `*SWK Properties — Rent vs. Buy (${rvbYears}-Yr Analysis)*\nProperty: ${aed(rvbPrice)} vs Rent ${aed(rvbRent)}/yr\nBreak-Even Horizon: ${rvbRes.breakEvenYear ? `Year ${rvbRes.breakEvenYear}` : 'Long-term'}\n*Net Wealth Advantage of Buying:* ${aed(rvbRes.finalWealthAdvantage)}`
+      case 'flip':
+        return `*SWK Properties — Off-Plan Assignment / Flip ROE*\nOriginal Launch: ${aed(fLaunchPrice)} (${fPaidPct}% paid) → Resale: ${aed(fResalePrice)}\n*Net Flip Profit:* ${aed(flipRes.netProfit)} (*${flipRes.roePct.toFixed(1)}% ROE on cash invested*)`
+      case 'holiday':
+        return `*SWK Properties — DTCM Holiday Home vs. Long-Term Ejari*\nNet Short-Term Income: ${aed(hhRes.netShortTerm)} (${hhRes.shortTermYieldPct.toFixed(2)}% net)\nNet Long-Term Ejari: ${aed(hhRes.netLongTerm)} (${hhRes.longTermYieldPct.toFixed(2)}% net)\n*Annual Short-Term Alpha:* ${aed(hhRes.annualAlpha)}`
+      case 'servicecharge':
+        return `*SWK Properties — Mollak & District Cooling Estimate*\nArea: ${num(scArea)} sqft | Annual Mollak: ${aed(scRes.mollakTotalAnnual)}\nAnnual Cooling: ${aed(scRes.coolingTotalAnnual)} | *Total Annual: ${aed(scRes.grandTotalAnnual)}* (${aed(scRes.effectivePsf)}/sqft)`
+      case 'commercial':
+        return `*SWK Properties — Commercial Property & FTA VAT*\nCommercial Price: ${aed(cmPrice)} + 5% FTA VAT (${aed(cmRes.saleVat5Pct)})\nTotal Cash to Acquire: ${aed(cmRes.totalCommercialPurchaseCash)} | Net Yield: ${cmRes.netCommercialYieldPct.toFixed(2)}%`
+      case 'caprate':
+        return `*SWK Properties — 5-Year DCF & IRR Projection*\nEntry: ${aed(dcfPrice)} → Year 5 Exit Valuation: ${aed(dcfRes.exitValue)}\n5-Yr Total Profit: ${aed(dcfRes.totalProfit)} | *Equity Multiple: ${dcfRes.equityMultiple.toFixed(2)}x (~${dcfRes.approxIrrPct.toFixed(1)}% IRR)*`
+      case 'earlysettlement':
+        return `*SWK Properties — UAE Mortgage Refinance Savings*\nBalance: ${aed(refBalance)} (${refCurRate}% → ${refNewRate}%)\nMonthly EMI Savings: ${aed(refRes.monthlySavings)}/mo | Break-Even: ${refRes.breakEvenMonths.toFixed(1)} months\n*Lifetime Net Savings:* ${aed(refRes.lifetimeNetSavings)}`
+      default:
+        return `*SWK Properties — UAE Deal & AI Utility Suite*`
     }
   }
 
@@ -642,6 +749,399 @@ export default function ToolkitPage() {
                 </tbody>
               </table>
             </div>
+          </Card>
+        </Reveal>
+      )}
+
+      {/* ============================================================ 9. SELLER NET PROCEEDS */}
+      {active === 'seller' && (
+        <Reveal className="grid gap-5 lg:grid-cols-12">
+          <Card className="lg:col-span-5" title="Seller & mortgage parameters" subtitle="CBUAE early settlement cap (1% max AED 10k), mortgage release, NOC & agency fee">
+            <div className="grid gap-3.5">
+              <Field label="Agreed sale price" value={sSalePrice} onChange={setSSalePrice} prefix="AED" step={50000} />
+              <Field label="Original purchase price" value={sOrigPrice} onChange={setSOrigPrice} prefix="AED" step={50000} />
+              <Field label="Outstanding mortgage payoff" value={sMortgagePayoff} onChange={setSMortgagePayoff} prefix="AED" step={50000} hint="Set to 0 if unencumbered Title Deed" />
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Seller agency fee %" value={sBrokerPct} onChange={setSBrokerPct} suffix="% + VAT" step={0.5} />
+                <Field label="Developer NOC fee" value={sNocFee} onChange={setSNocFee} prefix="AED" step={500} />
+              </div>
+            </div>
+          </Card>
+          <Card className="lg:col-span-7" title="Seller net proceeds at DLD Trustee table" subtitle="Net manager cheque payable to Seller after liability clearance" tone="champ">
+            <div className="grid sm:grid-cols-3 gap-3 mb-4">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
+                <div className="text-[11px] uppercase tracking-wider text-[#dcc8a2]">Net cash at transfer</div>
+                <div className="font-display text-[22px] font-semibold mt-1"><AnimatedNumber value={sellerRes.netCashAtTransfer} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-white/70 mt-1">After mortgage & closing fees</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Net capital gain</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1"><AnimatedNumber value={sellerRes.netProfitAfterCosts} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-muted mt-1">{sellerRes.roiOnOriginalPct.toFixed(1)}% return on original price</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Total deductions</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1"><AnimatedNumber value={sellerRes.totalDeductions} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-muted mt-1">Payoff + NOC + release + agency</div>
+              </div>
+            </div>
+            <div className="bg-white rounded-2xl p-4 border border-[#e7e1d4]">
+              <div className="swk-kv"><span>Gross sale price</span><b>{aed(sSalePrice)}</b></div>
+              <div className="swk-kv"><span>Bank mortgage principal payoff</span><b>-{aed(sMortgagePayoff)}</b></div>
+              <div className="swk-kv"><span>CBUAE early settlement penalty (1% capped at AED 10k + VAT)</span><b>-{aed(sellerRes.earlySettlementVat)}</b></div>
+              <div className="swk-kv"><span>DLD mortgage release & de-registration</span><b>-{aed(sellerRes.mortgageReleaseFee)}</b></div>
+              <div className="swk-kv"><span>Developer NOC fee</span><b>-{aed(sNocFee)}</b></div>
+              <div className="swk-kv"><span>Seller agency fee (+5% VAT)</span><b>-{aed(sellerRes.sellerBrokerFee)}</b></div>
+            </div>
+          </Card>
+        </Reveal>
+      )}
+
+      {/* ============================================================ 10. RENT VS BUY */}
+      {active === 'rentvsbuy' && (
+        <Reveal className="grid gap-5 lg:grid-cols-12">
+          <Card className="lg:col-span-5" title="Rent vs. Buy parameters" subtitle="Compare cumulative Ejari rent outflow against homeownership equity buildup">
+            <div className="grid gap-3.5">
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Purchase price" value={rvbPrice} onChange={setRvbPrice} prefix="AED" step={50000} />
+                <Field label="Current annual rent" value={rvbRent} onChange={setRvbRent} prefix="AED" step={5000} />
+              </div>
+              <div className="grid grid-cols-3 gap-2.5">
+                <Field label="Down payment %" value={rvbDownPct} onChange={setRvbDownPct} suffix="%" step={5} />
+                <Field label="Mortgage rate %" value={rvbRate} onChange={setRvbRate} suffix="%" step={0.1} />
+                <Field label="Horizon (years)" value={rvbYears} onChange={v => setRvbYears(Math.min(15, Math.max(3, v)))} suffix="yrs" />
+              </div>
+              <div className="grid grid-cols-3 gap-2.5">
+                <Field label="Annual appreciation" value={rvbApprec} onChange={setRvbApprec} suffix="%" step={0.5} />
+                <Field label="Rent escalation" value={rvbRentEsc} onChange={setRvbRentEsc} suffix="%" step={0.5} />
+                <Field label="Service charge / yr" value={rvbScAnnual} onChange={setRvbScAnnual} prefix="AED" step={1000} />
+              </div>
+            </div>
+          </Card>
+          <Card className="lg:col-span-7" title="Multi-year wealth & break-even comparison" subtitle="Includes DLD 4% entry cost, DM 5% housing fee, principal amortization & capital growth">
+            <div className="grid sm:grid-cols-3 gap-3 mb-4">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
+                <div className="text-[11px] uppercase tracking-wider text-[#dcc8a2]">Buying wealth advantage</div>
+                <div className="font-display text-[22px] font-semibold mt-1"><AnimatedNumber value={rvbRes.finalWealthAdvantage} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-white/70 mt-1">After {rvbYears} years</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Break-even year</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1">{rvbRes.breakEvenYear ? `Year ${rvbRes.breakEvenYear}` : `> ${rvbYears} yrs`}</div>
+                <div className="text-[11px] text-muted mt-1">When buying beats renting</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Accumulated equity</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1"><AnimatedNumber value={rvbRes.finalEquity} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-muted mt-1">Prop value: {aed(rvbRes.finalPropertyValue, { compact: true })}</div>
+              </div>
+            </div>
+            <div style={{ height: 220 }}>
+              <ResponsiveContainer>
+                <AreaChart data={rvbRes.schedule}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#ece6da" vertical={false} />
+                  <XAxis dataKey="year" tickFormatter={y => `Yr ${y}`} />
+                  <YAxis tickFormatter={v => aed(v, { compact: true }).replace('AED ', '')} width={58} />
+                  <Tooltip formatter={(v: any) => aed(Number(v))} />
+                  <Area type="monotone" dataKey="cumRent" name="Cumulative Rent Paid" stroke={SWK.dune} fill={SWK.dune} fillOpacity={0.2} />
+                  <Area type="monotone" dataKey="netEquity" name="Homeowner Net Equity" stroke={SWK.oasis} fill={SWK.oasis} fillOpacity={0.25} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+        </Reveal>
+      )}
+
+      {/* ============================================================ 11. OFF-PLAN FLIP ROE */}
+      {active === 'flip' && (
+        <Reveal className="grid gap-5 lg:grid-cols-12">
+          <Card className="lg:col-span-5" title="Off-plan assignment / flip parameters" subtitle="Pre-handover Oqood resale ROE & developer minimum payment gate">
+            <div className="grid gap-3.5">
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Original launch price" value={fLaunchPrice} onChange={setFLaunchPrice} prefix="AED" step={50000} />
+                <Field label="Target resale price" value={fResalePrice} onChange={setFResalePrice} prefix="AED" step={50000} />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Paid to developer so far" value={fPaidPct} onChange={setFPaidPct} suffix="%" step={5} />
+                <Field label="Developer NOC threshold" value={fMinNocPct} onChange={setFMinNocPct} suffix="%" step={5} hint="Usually 30%–40%" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Developer NOC fee" value={fNocFee} onChange={setFNocFee} prefix="AED" step={500} />
+                <Field label="Broker commission %" value={fBrokerPct} onChange={setFBrokerPct} suffix="% + VAT" step={0.5} />
+              </div>
+            </div>
+          </Card>
+          <Card className="lg:col-span-7" title="Return on Equity (ROE) & Assignment Cash Waterfall" subtitle="Leveraged return on paid milestones + 4% Oqood">
+            <div className="grid sm:grid-cols-3 gap-3 mb-4">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
+                <div className="text-[11px] uppercase tracking-wider text-[#dcc8a2]">Return on Equity (ROE)</div>
+                <div className="font-display text-[24px] font-semibold mt-1">{flipRes.roePct.toFixed(1)}%</div>
+                <div className="text-[11px] text-white/70 mt-1">Net profit: {aed(flipRes.netProfit)}</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Total cash invested</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1"><AnimatedNumber value={flipRes.totalCashInvested} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-muted mt-1">{fPaidPct}% milestones + 4% Oqood</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Developer NOC gate</div>
+                <div className="mt-1"><Pill tone={flipRes.eligibleForNoc ? 'oasis' : 'dune'}>{flipRes.eligibleForNoc ? 'Eligible for Assignment NOC' : `Top-up ${aed(flipRes.topUpNeeded)} needed`}</Pill></div>
+                <div className="text-[11px] text-muted mt-1.5">New buyer assumes {aed(flipRes.buyerRemainingToDeveloper)}</div>
+              </div>
+            </div>
+            <div className="bg-[#faf7f1] rounded-2xl p-4 border border-[#e7e1d4]">
+              <div className="swk-kv"><span>Paid to developer ({fPaidPct}%)</span><b>{aed(flipRes.paidToDeveloper)}</b></div>
+              <div className="swk-kv"><span>Original 4% Oqood + admin paid</span><b>{aed(flipRes.oqoodPaid)}</b></div>
+              <div className="swk-kv"><span>Gross appreciation premium</span><b>+{aed(flipRes.grossPremium)}</b></div>
+              <div className="swk-kv"><span>Cash collected by Seller at transfer (reimbursement + premium - fees)</span><b>{aed(flipRes.cashReturnedAtTransfer)}</b></div>
+            </div>
+          </Card>
+        </Reveal>
+      )}
+
+      {/* ============================================================ 12. HOLIDAY HOME VS LONG TERM */}
+      {active === 'holiday' && (
+        <Reveal className="grid gap-5 lg:grid-cols-12">
+          <Card className="lg:col-span-5" title="Short-term (DTCM) vs. Long-term (Ejari)" subtitle="Compare Airbnb/Holiday Home ADR & occupancy against annual lease">
+            <div className="grid gap-3">
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Property value" value={hhPrice} onChange={setHhPrice} prefix="AED" step={50000} />
+                <Field label="Annual Ejari rent" value={hhLongRent} onChange={setHhLongRent} prefix="AED" step={5000} />
+              </div>
+              <div className="grid grid-cols-3 gap-2.5">
+                <Field label="Nightly ADR" value={hhAdr} onChange={setHhAdr} prefix="AED" step={50} />
+                <Field label="Occupancy %" value={hhOcc} onChange={setHhOcc} suffix="%" step={2} />
+                <Field label="DTCM operator %" value={hhMgmtPct} onChange={setHhMgmtPct} suffix="%" step={1} />
+              </div>
+              <div className="grid grid-cols-3 gap-2.5">
+                <Field label="DEWA/Wi-Fi/Chiller" value={hhUtilities} onChange={setHhUtilities} prefix="AED/yr" step={1000} />
+                <Field label="Furnishing capex" value={hhFurnish} onChange={setHhFurnish} prefix="AED" step={5000} />
+                <Field label="Service charge" value={hhScPsf} onChange={setHhScPsf} suffix="AED/ft²" step={1} />
+              </div>
+            </div>
+          </Card>
+          <Card className="lg:col-span-7" title="Net cashflow & yield comparison" subtitle="Includes DTCM permit fee, operator commission (+VAT), utilities & Mollak">
+            <div className="grid sm:grid-cols-3 gap-3 mb-4">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
+                <div className="text-[11px] uppercase tracking-wider text-[#dcc8a2]">Holiday Home Net Income</div>
+                <div className="font-display text-[22px] font-semibold mt-1"><AnimatedNumber value={hhRes.netShortTerm} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-white/70 mt-1">Net yield: {hhRes.shortTermYieldPct.toFixed(2)}% ({hhRes.bookedNights} nights)</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Long-Term Ejari Net</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1"><AnimatedNumber value={hhRes.netLongTerm} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-muted mt-1">Net yield: {hhRes.longTermYieldPct.toFixed(2)}%</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Short-Term Alpha</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1">{hhRes.annualAlpha >= 0 ? `+${aed(hhRes.annualAlpha)}` : aed(hhRes.annualAlpha)}</div>
+                <div className="text-[11px] text-muted mt-1">{Number.isFinite(hhRes.furnishingPaybackMonths) ? `Payback furniture in ${hhRes.furnishingPaybackMonths.toFixed(1)} mo` : 'Long-term Ejari preferred'}</div>
+              </div>
+            </div>
+            <div className="bg-[#faf7f1] rounded-2xl p-4 border border-[#e7e1d4]">
+              <div className="swk-kv"><span>Gross short-term bookings ({hhRes.bookedNights} nights × {aed(hhAdr)})</span><b>{aed(hhRes.grossShortTerm)}</b></div>
+              <div className="swk-kv"><span>DTCM Holiday Home operator fee ({hhMgmtPct}% + VAT)</span><b>-{aed(hhRes.operatorFee)}</b></div>
+              <div className="swk-kv"><span>DEWA, Chiller, High-Speed Fiber & Guest Consumables</span><b>-{aed(hhUtilities)}</b></div>
+              <div className="swk-kv"><span>DTCM annual unit permit & classification fee</span><b>-{aed(hhRes.dtcmPermitFee)}</b></div>
+              <div className="swk-kv"><span>Mollak annual service charges</span><b>-{aed(hhRes.serviceCharges)}</b></div>
+            </div>
+          </Card>
+        </Reveal>
+      )}
+
+      {/* ============================================================ 13. MOLLAK & DISTRICT COOLING */}
+      {active === 'servicecharge' && (
+        <Reveal className="grid gap-5 lg:grid-cols-12">
+          <Card className="lg:col-span-5" title="Mollak Service Charge & Chiller Estimator" subtitle="RERA Mollak General + Sinking Fund & Empower/Emicool District Cooling">
+            <div className="grid gap-3.5">
+              <Field label="Suite / Title Deed area" value={scArea} onChange={setScArea} suffix="sqft" step={50} />
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="General fund (AED/sqft)" value={scGenPsf} onChange={setScGenPsf} suffix="AED" step={0.5} />
+                <Field label="Sinking fund (AED/sqft)" value={scSinkPsf} onChange={setScSinkPsf} suffix="AED" step={0.5} />
+              </div>
+              <label className="swk-toggle py-1">
+                <input type="checkbox" checked={scChillerFree} onChange={e => setScChillerFree(e.target.checked)} />
+                <span>Chiller-Free building (AC included in service charges)</span>
+              </label>
+              {!scChillerFree && (
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="Cooling capacity (TR)" value={scCoolingTr} onChange={setScCoolingTr} suffix="TR" step={0.5} />
+                  <Field label="Avg monthly consumption" value={scCoolingMonthly} onChange={setScCoolingMonthly} prefix="AED" step={50} />
+                </div>
+              )}
+            </div>
+          </Card>
+          <Card className="lg:col-span-7" title="Annual & quarterly operating cost breakdown" subtitle="Billed via RERA Mollak portal & District Cooling provider">
+            <div className="grid sm:grid-cols-3 gap-3 mb-4">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
+                <div className="text-[11px] uppercase tracking-wider text-[#dcc8a2]">Combined annual total</div>
+                <div className="font-display text-[22px] font-semibold mt-1"><AnimatedNumber value={scRes.grandTotalAnnual} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-white/70 mt-1">Effective: {aed(scRes.effectivePsf)} / sqft</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Quarterly Mollak invoice</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1"><AnimatedNumber value={scRes.quarterlyMollak} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-muted mt-1">Annual Mollak: {aed(scRes.mollakTotalAnnual)}</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Monthly budget equiv.</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1"><AnimatedNumber value={scRes.monthlyEquivalent} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-muted mt-1">Cooling/yr: {aed(scRes.coolingTotalAnnual)}</div>
+              </div>
+            </div>
+            <div className="bg-[#faf7f1] rounded-2xl p-4 border border-[#e7e1d4]">
+              <div className="swk-kv"><span>Mollak General Operations & Maintenance Fund</span><b>{aed(scRes.generalAnnual)}</b></div>
+              <div className="swk-kv"><span>Mollak Capital Reserve / Sinking Fund</span><b>{aed(scRes.sinkingAnnual)}</b></div>
+              <div className="swk-kv"><span>District Cooling (Capacity + Consumption + 5% VAT)</span><b>{aed(scRes.coolingTotalAnnual)}</b></div>
+            </div>
+          </Card>
+        </Reveal>
+      )}
+
+      {/* ============================================================ 14. COMMERCIAL & FTA VAT */}
+      {active === 'commercial' && (
+        <Reveal className="grid gap-5 lg:grid-cols-12">
+          <Card className="lg:col-span-5" title="Commercial Office / Retail / Warehouse" subtitle="FTA 5% Commercial VAT, 4% DLD & 20% Dubai Municipality Commercial Tax">
+            <div className="grid gap-3.5">
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Commercial sale price" value={cmPrice} onChange={setCmPrice} prefix="AED" step={100000} />
+                <Field label="Annual commercial rent" value={cmRent} onChange={setCmRent} prefix="AED" step={10000} />
+              </div>
+              <div className="grid grid-cols-3 gap-2.5">
+                <Field label="Area (sqft)" value={cmArea} onChange={setCmArea} suffix="sqft" step={100} />
+                <Field label="Service charge" value={cmScPsf} onChange={setCmScPsf} suffix="AED/ft²" step={1} />
+                <Field label="Agency fee %" value={cmAgencyPct} onChange={setCmAgencyPct} suffix="%" step={0.5} />
+              </div>
+            </div>
+          </Card>
+          <Card className="lg:col-span-7" title="Commercial acquisition & leasing tax breakdown" subtitle="Commercial properties in UAE are subject to 5% FTA VAT (recoverable for VAT-registered entities)">
+            <div className="grid sm:grid-cols-3 gap-3 mb-4">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
+                <div className="text-[11px] uppercase tracking-wider text-[#dcc8a2]">Total acquisition cash</div>
+                <div className="font-display text-[22px] font-semibold mt-1"><AnimatedNumber value={cmRes.totalCommercialPurchaseCash} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-white/70 mt-1">Includes 5% VAT + 4% DLD</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">5% FTA VAT on sale</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1"><AnimatedNumber value={cmRes.saleVat5Pct} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-muted mt-1">Tax invoice / Reverse charge</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Net commercial yield</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1">{cmRes.netCommercialYieldPct.toFixed(2)}%</div>
+                <div className="text-[11px] text-muted mt-1">Net rent: {aed(cmRes.netOwnerRent)}</div>
+              </div>
+            </div>
+            <div className="bg-[#faf7f1] rounded-2xl p-4 border border-[#e7e1d4]">
+              <div className="swk-kv"><span>DLD 4% commercial transfer fee</span><b>{aed(cmRes.dldTransfer4Pct)}</b></div>
+              <div className="swk-kv"><span>FTA 5% VAT on annual commercial rent (paid by tenant)</span><b>{aed(cmRes.rentVat5Pct)}</b></div>
+              <div className="swk-kv"><span>Dubai Municipality 20% commercial sub-lease / municipal fee</span><b>{aed(cmRes.dmCommercialTax20Pct)}</b></div>
+            </div>
+          </Card>
+        </Reveal>
+      )}
+
+      {/* ============================================================ 15. 5-YR DCF & IRR */}
+      {active === 'caprate' && (
+        <Reveal className="grid gap-5 lg:grid-cols-12">
+          <Card className="lg:col-span-5" title="5-Year DCF & Capital Appreciation Model" subtitle="Project 5-year cashflows, exit valuation, MOIC & approximate IRR">
+            <div className="grid gap-3.5">
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Acquisition price" value={dcfPrice} onChange={setDcfPrice} prefix="AED" step={100000} />
+                <Field label="Year-1 gross rent" value={dcfRent} onChange={setDcfRent} prefix="AED" step={10000} />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Annual rent growth %" value={dcfRentGrowth} onChange={setDcfRentGrowth} suffix="%" step={0.5} />
+                <Field label="Capital appreciation %" value={dcfApprec} onChange={setDcfApprec} suffix="%" step={0.5} />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Operating expense ratio" value={dcfExpRatio} onChange={setDcfExpRatio} suffix="%" step={1} />
+                <Field label="Discount rate (WACC)" value={dcfDiscount} onChange={setDcfDiscount} suffix="%" step={0.5} />
+              </div>
+            </div>
+          </Card>
+          <Card className="lg:col-span-7" title="5-Year Institutional Return Summary" subtitle="Includes DLD entry costs and Year-5 exit at 2% disposal cost">
+            <div className="grid sm:grid-cols-3 gap-3 mb-4">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
+                <div className="text-[11px] uppercase tracking-wider text-[#dcc8a2]">5-Yr Total Net Profit</div>
+                <div className="font-display text-[22px] font-semibold mt-1"><AnimatedNumber value={dcfRes.totalProfit} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-white/70 mt-1">MOIC: {dcfRes.equityMultiple.toFixed(2)}x (~{dcfRes.approxIrrPct.toFixed(1)}% IRR)</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Year-5 Exit Valuation</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1"><AnimatedNumber value={dcfRes.exitValue} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-muted mt-1">At {dcfApprec}%/yr growth</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Net Present Value (NPV)</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1"><AnimatedNumber value={dcfRes.npv} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-muted mt-1">Discounted @ {dcfDiscount}%</div>
+              </div>
+            </div>
+            <table className="swk-table">
+              <thead>
+                <tr><th>Year</th><th className="num">Gross Rent</th><th className="num">Net Operating Income</th><th className="num">Projected Asset Value</th></tr>
+              </thead>
+              <tbody>
+                {dcfRes.years.map(y => (
+                  <tr key={y.year}>
+                    <td className="font-semibold">Year {y.year}</td>
+                    <td className="num">{aed(y.grossRent)}</td>
+                    <td className="num font-medium">{aed(y.netRent)}</td>
+                    <td className="num font-semibold">{aed(y.propertyValue)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Card>
+        </Reveal>
+      )}
+
+      {/* ============================================================ 16. MORTGAGE REFINANCE */}
+      {active === 'earlysettlement' && (
+        <Reveal className="grid gap-5 lg:grid-cols-12">
+          <Card className="lg:col-span-5" title="Mortgage Buyout & Refinance Calculator" subtitle="CBUAE 1% (max AED 10k) early settlement rule & switch break-even">
+            <div className="grid gap-3.5">
+              <Field label="Current loan balance" value={refBalance} onChange={setRefBalance} prefix="AED" step={50000} />
+              <div className="grid grid-cols-3 gap-2.5">
+                <Field label="Current rate %" value={refCurRate} onChange={setRefCurRate} suffix="%" step={0.1} />
+                <Field label="New bank rate %" value={refNewRate} onChange={setRefNewRate} suffix="%" step={0.1} />
+                <Field label="Remaining tenure" value={refYears} onChange={setRefYears} suffix="yrs" step={1} />
+              </div>
+            </div>
+          </Card>
+          <Card className="lg:col-span-7" title="Refinance savings & break-even analysis" subtitle="Includes CBUAE early settlement penalty, DLD 0.25% re-registration & bank valuation">
+            <div className="grid sm:grid-cols-3 gap-3 mb-4">
+              <div className="p-4 rounded-2xl bg-[#0b1a33] text-white">
+                <div className="text-[11px] uppercase tracking-wider text-[#dcc8a2]">Monthly EMI savings</div>
+                <div className="font-display text-[22px] font-semibold mt-1"><AnimatedNumber value={refRes.monthlySavings} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-white/70 mt-1">{aed(refRes.currentEmi)} → {aed(refRes.newEmi)}</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Break-even period</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1">{Number.isFinite(refRes.breakEvenMonths) ? `${refRes.breakEvenMonths.toFixed(1)} mos` : '—'}</div>
+                <div className="text-[11px] text-muted mt-1">Switch cost: {aed(refRes.totalSwitchCost)}</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#e7e1d4]">
+                <div className="text-[11px] uppercase tracking-wider text-muted">Lifetime net savings</div>
+                <div className="font-display text-[22px] font-semibold text-ink mt-1"><AnimatedNumber value={refRes.lifetimeNetSavings} format={v => aed(v)} /></div>
+                <div className="text-[11px] text-muted mt-1">Over {refYears} remaining years</div>
+              </div>
+            </div>
+            <div className="bg-[#faf7f1] rounded-2xl p-4 border border-[#e7e1d4]">
+              <div className="swk-kv"><span>CBUAE Early Settlement Penalty (1% capped at AED 10,000 + 5% VAT)</span><b>{aed(refRes.earlySettlementPenalty)}</b></div>
+              <div className="swk-kv"><span>DLD Mortgage Release + New Registration (0.25% + admin)</span><b>{aed(refRes.dldMortgageSwitchFee)}</b></div>
+              <div className="swk-kv"><span>New Bank Valuation Fee (incl. VAT)</span><b>{aed(refRes.valuationFee)}</b></div>
+            </div>
+          </Card>
+        </Reveal>
+      )}
+
+      {/* ============================================================ 17. AI & UTILITY STUDIO PRO */}
+      {active === 'studio' && (
+        <Reveal>
+          <Card title="SWK ONE Premium AI & Utility Studio (17 Suites · 33 AI Tasks)" subtitle="Cloud AI (33 tasks), Local Qwen 3.5 Ollama, Photo Resize & Watermark, PDF Suite Pro, OCR, Contract Review, QR & vCard 3.0, Area & 15-Currency FX, WhatsApp Formatter, Smart Legal Docs, UAE IBAN/EID/goAML Validator, CSV/JSON/vCard Studio, Voice Notes & UTM Builder">
+            <OneUtilityStudio />
           </Card>
         </Reveal>
       )}

@@ -19,7 +19,7 @@ export const AGENT_TEMPLATES = [
     autonomy: 'Auto for internal actions (approve external messages)',
     run_hour: 8,
     deliver_to: 'In-app + WhatsApp (owner)',
-    tools: 'business_snapshot,search_deals,get_deal,search_parties,party_statement,overdue_invoices,bills_due,pipeline_summary,rent_roll,expiring_leases,mandate_health,list_leads,stale_opportunities,list_tasks,open_tickets,expiring_documents,lookup_listings,find_caller,create_task,add_note,alert_team',
+    tools: 'business_snapshot,search_deals,get_deal,search_parties,party_statement,overdue_invoices,bills_due,pipeline_summary,rent_roll,expiring_leases,mandate_health,list_leads,stale_opportunities,list_tasks,open_tickets,expiring_documents,lookup_listings,find_caller,calculate_deal_economics,check_rera_rent_cap,check_golden_visa,market_pulse_benchmark,pdc_cheque_radar,aml_kyc_radar,agent_performance_leaderboard,match_leads_to_inventory,offplan_launch_radar,attendance_roll_call,schedule_followup_call,log_compliance_flag,create_task,add_note,alert_team',
   },
   {
     id: 'deal-pipeline-review',
@@ -177,5 +177,173 @@ Repeat back what you have recorded in one sentence, tell them a colleague will b
     run_hour: 8,
     deliver_to: 'In-app only',
     tools: 'find_caller,lookup_listings,capture_lead,request_viewing,report_maintenance_issue,request_callback,transfer_call',
+  },
+  {
+    id: 'lead-matching-concierge',
+    key: 'lead-matching-concierge',
+    name: 'Lead Matching & Speed-to-Lead Concierge',
+    title: 'Lead Routing Specialist',
+    description: 'Cross-matches open buyer/tenant leads against active mandates & inventory, assigns follow-up calls, and flags VIP Golden Visa prospects',
+    instructions: `You are the SWK OS Lead Concierge AI. Every morning and afternoon:
+    1. Call match_leads_to_inventory with limit=25 to cross-match open leads with live property inventory.
+    2. Call list_leads with status="New" to identify uncontacted prospects.
+    3. For top matches, queue a callback using schedule_followup_call and assign an action item via create_task.
+    4. If a buyer lead budget is AED 2,000,000 or higher, call check_golden_visa and note Golden Visa eligibility via add_note.
+    5. Use alert_team if high-value leads have waited over 4 hours without contact.`,
+    schedule: 'Daily',
+    enabled: true,
+    risk: 'internal',
+    model: 'gpt-4o-mini',
+    avatar: '🎯',
+    autonomy: 'Auto for internal actions (approve external messages)',
+    run_hour: 9,
+    deliver_to: 'In-app + WhatsApp (owner)',
+    tools: 'match_leads_to_inventory,list_leads,lookup_listings,check_golden_visa,schedule_followup_call,create_task,add_note,alert_team,send_whatsapp',
+  },
+  {
+    id: 'aml-kyc-compliance-officer',
+    key: 'aml-kyc-compliance-officer',
+    name: 'AML / KYC & RERA Compliance Officer',
+    title: 'Regulatory Compliance Auditor',
+    description: 'Audits transactions for UAE goAML cash/crypto thresholds (AED 55k+), missing KYC/UBO records, and expiring Emirates IDs, Passports, or RERA Broker Cards',
+    instructions: `You are the SWK OS Compliance Officer AI. Daily at 8:30 AM:
+    1. Call aml_kyc_radar with days=45 to scan expiring KYC documents, high-value deals, and incomplete party profiles.
+    2. Call expiring_documents with days=30 to list expiring Emirates IDs, Passports, Visas, and RERA cards.
+    3. For any deal above AED 2,000,000 or missing KYC documents, record a compliance entry using log_compliance_flag.
+    4. Assign document renewal tasks via create_task and notify compliance officers via alert_team.`,
+    schedule: 'Daily',
+    enabled: true,
+    risk: 'internal',
+    model: 'gpt-4o-mini',
+    avatar: '🛡️',
+    autonomy: 'Auto for internal actions (approve external messages)',
+    run_hour: 8,
+    deliver_to: 'In-app + e-mail (admin)',
+    tools: 'aml_kyc_radar,expiring_documents,log_compliance_flag,create_task,add_note,alert_team',
+  },
+  {
+    id: 'pdc-cheque-controller',
+    key: 'pdc-cheque-controller',
+    name: 'Post-Dated Cheque (PDC) Vault Controller',
+    title: 'Treasury & PDC Specialist',
+    description: 'Tracks upcoming post-dated cheques for banking deposit, alerts on bounced/returned cheques, and coordinates replacement funds',
+    instructions: `You are the SWK OS PDC Treasury Controller AI. Daily at 8:00 AM:
+    1. Call pdc_cheque_radar with days=30 to inspect upcoming cheque maturity dates and bounced cheques.
+    2. Call overdue_invoices with min_days_overdue=1 to cross-check unpaid rent instalments.
+    3. For cheques maturing within 7 days, create a banking deposit task via create_task.
+    4. For any bounced cheque, log a note via add_note and notify finance immediately via alert_team.`,
+    schedule: 'Daily',
+    enabled: true,
+    risk: 'read',
+    model: 'gpt-4o-mini',
+    avatar: '🧾',
+    autonomy: 'Ask first (every action needs approval)',
+    run_hour: 8,
+    deliver_to: 'In-app + e-mail (admin)',
+    tools: 'pdc_cheque_radar,overdue_invoices,party_statement,create_task,add_note,alert_team,send_whatsapp',
+  },
+  {
+    id: 'listing-marketing-director',
+    key: 'listing-marketing-director',
+    name: 'Portal & Listing Marketing Director',
+    title: 'Property Marketing Strategist',
+    description: 'Audits Property Finder, Bayut & Dubizzle portal syndication, Trakheesi permit validity, pricing competitiveness, and viewing velocity',
+    instructions: `You are the SWK OS Listing Marketing Director AI. Every Tuesday at 9:00 AM:
+    1. Call mandate_health with days=14 to identify active mandates with low viewings or missing portal syndication.
+    2. Call lookup_listings to review active inventory pricing and bedroom mix.
+    3. Call market_pulse_benchmark to compare listing prices against Dubai submarket PSF benchmarks.
+    4. Create portal refresh or price review tasks via create_task and notify marketing via alert_team.`,
+    schedule: 'Weekly (Monday)',
+    enabled: true,
+    risk: 'read',
+    model: 'gpt-4o-mini',
+    avatar: '📣',
+    autonomy: 'Ask first (every action needs approval)',
+    run_hour: 9,
+    deliver_to: 'In-app + e-mail (admin)',
+    tools: 'mandate_health,lookup_listings,market_pulse_benchmark,create_task,add_note,alert_team',
+  },
+  {
+    id: 'offplan-investment-advisor',
+    key: 'offplan-investment-advisor',
+    name: 'Off-Plan & ROI Investment Strategist',
+    title: 'Investment Advisory Analyst',
+    description: 'Analyses off-plan developer launches, DLD 4% total acquisition economics, net rental yields, and Golden Visa qualification for investors',
+    instructions: `You are the SWK OS Investment Advisory AI. Daily at 10:00 AM:
+    1. Call offplan_launch_radar to inspect off-plan inventory and developer pipeline deals.
+    2. Call market_pulse_benchmark to retrieve submarket gross yield and price-per-sqft benchmarks.
+    3. Call calculate_deal_economics and check_golden_visa to model total DLD acquisition costs, net yields, and residency eligibility.
+    4. Create investor briefing tasks via create_task and log advisory notes via add_note.`,
+    schedule: 'Daily',
+    enabled: true,
+    risk: 'read',
+    model: 'gpt-4o-mini',
+    avatar: '📈',
+    autonomy: 'Ask first (every action needs approval)',
+    run_hour: 10,
+    deliver_to: 'In-app + WhatsApp (owner)',
+    tools: 'offplan_launch_radar,calculate_deal_economics,check_golden_visa,market_pulse_benchmark,list_leads,create_task,add_note,alert_team',
+  },
+  {
+    id: 'hr-attendance-supervisor',
+    key: 'hr-attendance-supervisor',
+    name: 'Broker Performance & Attendance Supervisor',
+    title: 'HR & Sales Operations Coordinator',
+    description: 'Monitors SWK ONE mobile staff attendance check-ins, broker commission leaderboards, and active deal ratios',
+    instructions: `You are the SWK OS Operations & HR Supervisor AI. Daily at 9:30 AM:
+    1. Call attendance_roll_call to check today's staff attendance check-ins and pending leave requests.
+    2. Call agent_performance_leaderboard to review broker deal counts, closed volume, and commission split performance.
+    3. Create coaching or follow-up tasks via create_task and summarize findings via alert_team.`,
+    schedule: 'Daily',
+    enabled: true,
+    risk: 'read',
+    model: 'gpt-4o-mini',
+    avatar: '👥',
+    autonomy: 'Ask first (every action needs approval)',
+    run_hour: 9,
+    deliver_to: 'In-app + e-mail (admin)',
+    tools: 'attendance_roll_call,agent_performance_leaderboard,create_task,add_note,alert_team',
+  },
+  {
+    id: 'client-retention-vip',
+    key: 'client-retention-vip',
+    name: 'Tenancy Renewal & RERA Decree 43 Concierge',
+    title: 'Client Retention Specialist',
+    description: 'Calculates statutory RERA Decree 43/2013 rent increase slabs 90 days prior to lease expiry, checks open maintenance tickets, and schedules renewal calls',
+    instructions: `You are the SWK OS Client Retention & Ejari Renewal AI. Daily at 8:30 AM:
+    1. Call expiring_leases with days=90 to find tenancies approaching the 90-day RERA notice window.
+    2. Call check_rera_rent_cap to compute the permissible RERA Decree 43/2013 maximum rent increase slab.
+    3. Call open_tickets to verify no unresolved urgent maintenance issues exist before pitching a renewal.
+    4. Schedule renewal outreach via schedule_followup_call and assign notice preparation via create_task.`,
+    schedule: 'Daily',
+    enabled: true,
+    risk: 'internal',
+    model: 'gpt-4o-mini',
+    avatar: '🤝',
+    autonomy: 'Auto for internal actions (approve external messages)',
+    run_hour: 8,
+    deliver_to: 'In-app + e-mail (admin)',
+    tools: 'expiring_leases,check_rera_rent_cap,check_golden_visa,open_tickets,schedule_followup_call,create_task,add_note,alert_team',
+  },
+  {
+    id: 'deal-closing-coordinator',
+    key: 'deal-closing-coordinator',
+    name: 'Conveyancing & DLD Transfer Coordinator',
+    title: 'Conveyancing Specialist',
+    description: 'Monitors signed Form F (MOU) files through developer NOC, mortgage FOL, manager cheques, and DLD Trustee transfer',
+    instructions: `You are the SWK OS Conveyancing Coordinator AI. Daily at 9:00 AM:
+    1. Call search_deals with status="Contract Signed" to list deals in conveyancing.
+    2. Call calculate_deal_economics to verify DLD 4% transfer fee, trustee fee, and commission VAT calculations.
+    3. Call aml_kyc_radar to ensure buyer and seller KYC files are complete prior to transfer.
+    4. Create conveyancing milestone tasks via create_task and flag any transfer bottlenecks via alert_team.`,
+    schedule: 'Daily',
+    enabled: true,
+    risk: 'internal',
+    model: 'gpt-4o-mini',
+    avatar: '🏛️',
+    autonomy: 'Auto for internal actions (approve external messages)',
+    run_hour: 9,
+    deliver_to: 'In-app + e-mail (admin)',
+    tools: 'search_deals,get_deal,calculate_deal_economics,aml_kyc_radar,log_compliance_flag,create_task,add_note,alert_team',
   },
 ]

@@ -231,3 +231,291 @@ export const RERA_FORMS = [
   { code: 'NOC', name: 'Developer No-Objection Certificate', stage: 'Pre-transfer' },
   { code: 'Title deed', name: 'DLD title deed issued at the trustee office', stage: 'Transfer' },
 ]
+
+// ---------------------------------------------------------------- 9. Seller Net Proceeds & Capital Gain
+export function sellerNetProceeds(p: {
+  salePrice: number
+  originalPurchasePrice: number
+  mortgagePayoff: number
+  brokerPct: number
+  nocFee: number
+  serviceChargeClearance?: number
+}) {
+  const earlySettlementBase = p.mortgagePayoff > 0 ? Math.min(p.mortgagePayoff * 0.01, 10_000) : 0
+  const earlySettlementVat = earlySettlementBase * (1 + UAE.vat)
+  const mortgageReleaseFee = p.mortgagePayoff > 0 ? 1290 : 0
+  const sellerBrokerFee = p.salePrice * (p.brokerPct / 100) * (1 + UAE.vat)
+  const scClearance = p.serviceChargeClearance ?? 0
+  const totalDeductions = p.mortgagePayoff + earlySettlementVat + mortgageReleaseFee + sellerBrokerFee + p.nocFee + scClearance
+  const netCashAtTransfer = p.salePrice - totalDeductions
+  const grossCapitalGain = p.salePrice - p.originalPurchasePrice
+  const netProfitAfterCosts = p.salePrice - p.originalPurchasePrice - (earlySettlementVat + mortgageReleaseFee + sellerBrokerFee + p.nocFee)
+  const roiOnOriginalPct = p.originalPurchasePrice > 0 ? (netProfitAfterCosts / p.originalPurchasePrice) * 100 : 0
+  return {
+    earlySettlementVat,
+    mortgageReleaseFee,
+    sellerBrokerFee,
+    totalDeductions,
+    netCashAtTransfer,
+    grossCapitalGain,
+    netProfitAfterCosts,
+    roiOnOriginalPct,
+  }
+}
+
+// ---------------------------------------------------------------- 10. Rent vs. Buy 10-Year Wealth Comparator
+export function rentVsBuyCompare(p: {
+  price: number
+  annualRent: number
+  downPct: number
+  ratePct: number
+  years: number
+  appreciationPct: number
+  rentEscalationPct: number
+  serviceChargeAnnual: number
+}) {
+  const acq = costToClose({ price: p.price, loan: p.price * (1 - p.downPct / 100), includeBroker: true })
+  const loan = p.price * (1 - p.downPct / 100)
+  const emi = monthlyPayment(loan, p.ratePct, 25)
+  const r = p.ratePct / 100 / 12
+  let bal = loan
+  let cumRent = leaseCosts({ annualRent: p.annualRent, furnished: false, villa: false, cheques: 4 }).lines
+    .filter(l => !l.refundable)
+    .reduce((s, l) => s + l.amount, 0) - p.annualRent / 4
+  let cumBuyOutflow = acq.fees + acq.downPayment
+  let breakEvenYear: number | null = null
+
+  const schedule = Array.from({ length: Math.min(15, Math.max(3, p.years)) }, (_, idx) => {
+    const yr = idx + 1
+    const yrRent = p.annualRent * Math.pow(1 + p.rentEscalationPct / 100, idx)
+    const dmHousing = yrRent * UAE.housingFeePct
+    cumRent += yrRent + dmHousing + UAE.ejariFee
+
+    for (let m = 0; m < 12; m++) {
+      const interest = bal * r
+      const principal = Math.max(0, emi - interest)
+      bal = Math.max(0, bal - principal)
+    }
+    cumBuyOutflow += emi * 12 + p.serviceChargeAnnual
+    const propVal = p.price * Math.pow(1 + p.appreciationPct / 100, yr)
+    const netEquity = propVal - bal
+    const netBuyCost = cumBuyOutflow - netEquity
+    if (breakEvenYear === null && netBuyCost < cumRent) breakEvenYear = yr
+    return {
+      year: yr,
+      cumRent: Math.round(cumRent),
+      netBuyCost: Math.round(netBuyCost),
+      netEquity: Math.round(netEquity),
+      propertyValue: Math.round(propVal),
+      wealthAdvantage: Math.round(cumRent - netBuyCost),
+    }
+  })
+
+  const last = schedule[schedule.length - 1]!
+  return { schedule, breakEvenYear, finalWealthAdvantage: last.wealthAdvantage, finalEquity: last.netEquity, finalPropertyValue: last.propertyValue }
+}
+
+// ---------------------------------------------------------------- 11. Off-Plan Flip & Assignment ROE Calculator
+export function offPlanFlipCalc(p: {
+  launchPrice: number
+  resalePrice: number
+  paidToDeveloperPct: number
+  minDeveloperNocThresholdPct: number
+  nocFee: number
+  brokerPct: number
+}) {
+  const paidToDeveloper = p.launchPrice * (p.paidToDeveloperPct / 100)
+  const oqoodPaid = p.launchPrice * UAE.dldTransferPct + UAE.dldAdminFee
+  const totalCashInvested = paidToDeveloper + oqoodPaid
+  const grossPremium = p.resalePrice - p.launchPrice
+  const brokerFee = p.resalePrice * (p.brokerPct / 100) * (1 + UAE.vat)
+  const netProfit = grossPremium - oqoodPaid - p.nocFee - brokerFee
+  const roePct = totalCashInvested > 0 ? (netProfit / totalCashInvested) * 100 : 0
+  const cashReturnedAtTransfer = paidToDeveloper + grossPremium - p.nocFee - brokerFee
+  const buyerRemainingToDeveloper = p.launchPrice * (1 - p.paidToDeveloperPct / 100)
+  const eligibleForNoc = p.paidToDeveloperPct >= p.minDeveloperNocThresholdPct
+  const topUpNeeded = eligibleForNoc ? 0 : p.launchPrice * ((p.minDeveloperNocThresholdPct - p.paidToDeveloperPct) / 100)
+  return {
+    paidToDeveloper,
+    oqoodPaid,
+    totalCashInvested,
+    grossPremium,
+    brokerFee,
+    netProfit,
+    roePct,
+    cashReturnedAtTransfer,
+    buyerRemainingToDeveloper,
+    eligibleForNoc,
+    topUpNeeded,
+  }
+}
+
+// ---------------------------------------------------------------- 12. Holiday Home (DTCM Short-Term) vs Long-Term Ejari
+export function holidayHomeVsLongTerm(p: {
+  price: number
+  areaSqft: number
+  bedrooms: number
+  longTermAnnualRent: number
+  adrAed: number
+  occupancyPct: number
+  dtcmMgmtFeePct: number
+  utilitiesAnnual: number
+  furnishingCost: number
+  serviceChargePerSqft: number
+}) {
+  const bookedNights = Math.round(365 * (p.occupancyPct / 100))
+  const grossShortTerm = bookedNights * p.adrAed
+  const dtcmPermitFee = 370 + Math.max(1, p.bedrooms) * 300
+  const operatorFee = grossShortTerm * (p.dtcmMgmtFeePct / 100) * (1 + UAE.vat)
+  const serviceCharges = p.areaSqft * p.serviceChargePerSqft
+  const netShortTerm = grossShortTerm - dtcmPermitFee - operatorFee - p.utilitiesAnnual - serviceCharges
+  const netLongTerm = p.longTermAnnualRent - serviceCharges - p.longTermAnnualRent * 0.05
+  const annualAlpha = netShortTerm - netLongTerm
+  const shortTermYieldPct = p.price > 0 ? (netShortTerm / p.price) * 100 : 0
+  const longTermYieldPct = p.price > 0 ? (netLongTerm / p.price) * 100 : 0
+  const furnishingPaybackMonths = annualAlpha > 0 ? (p.furnishingCost / annualAlpha) * 12 : Infinity
+  return {
+    bookedNights,
+    grossShortTerm,
+    dtcmPermitFee,
+    operatorFee,
+    serviceCharges,
+    netShortTerm,
+    netLongTerm,
+    annualAlpha,
+    shortTermYieldPct,
+    longTermYieldPct,
+    furnishingPaybackMonths,
+  }
+}
+
+// ---------------------------------------------------------------- 13. Mollak Service Charge & District Cooling Estimator
+export function serviceChargeCoolingCalc(p: {
+  areaSqft: number
+  mollakGeneralPsf: number
+  sinkingFundPsf: number
+  districtCoolingCapacityTr: number
+  coolingConsumptionMonthly: number
+  chillerFree: boolean
+}) {
+  const generalAnnual = p.areaSqft * p.mollakGeneralPsf
+  const sinkingAnnual = p.areaSqft * p.sinkingFundPsf
+  const mollakTotalAnnual = generalAnnual + sinkingAnnual
+  const capacityChargeAnnual = p.chillerFree ? 0 : p.districtCoolingCapacityTr * 1050
+  const consumptionAnnual = p.chillerFree ? 0 : p.coolingConsumptionMonthly * 12
+  const coolingTotalAnnual = (capacityChargeAnnual + consumptionAnnual) * (1 + UAE.vat)
+  const grandTotalAnnual = mollakTotalAnnual + coolingTotalAnnual
+  return {
+    generalAnnual,
+    sinkingAnnual,
+    mollakTotalAnnual,
+    coolingTotalAnnual,
+    grandTotalAnnual,
+    quarterlyMollak: mollakTotalAnnual / 4,
+    monthlyEquivalent: grandTotalAnnual / 12,
+    effectivePsf: p.areaSqft > 0 ? grandTotalAnnual / p.areaSqft : 0,
+  }
+}
+
+// ---------------------------------------------------------------- 14. Commercial Property & FTA 5% VAT / 20% DM Tax Calculator
+export function commercialVatTaxCalc(p: {
+  price: number
+  annualRent: number
+  areaSqft: number
+  serviceChargePsf: number
+  agencyPct: number
+}) {
+  const saleVat5Pct = p.price * UAE.vat
+  const dldTransfer4Pct = p.price * UAE.dldTransferPct
+  const trusteeCommercial = (p.price >= 500_000 ? UAE.trusteeFeeHigh : UAE.trusteeFeeLow) * (1 + UAE.vat)
+  const saleAgencyWithVat = p.price * (p.agencyPct / 100) * (1 + UAE.vat)
+  const totalCommercialPurchaseCash = p.price + saleVat5Pct + dldTransfer4Pct + trusteeCommercial + saleAgencyWithVat + UAE.dldAdminFee
+
+  const rentVat5Pct = p.annualRent * UAE.vat
+  const dmCommercialTax20Pct = p.annualRent * 0.20
+  const serviceChargeAnnual = p.areaSqft * p.serviceChargePsf
+  const netOwnerRent = p.annualRent - serviceChargeAnnual
+  const netCommercialYieldPct = p.price > 0 ? (netOwnerRent / (p.price + dldTransfer4Pct)) * 100 : 0
+
+  return {
+    saleVat5Pct,
+    dldTransfer4Pct,
+    trusteeCommercial,
+    saleAgencyWithVat,
+    totalCommercialPurchaseCash,
+    rentVat5Pct,
+    dmCommercialTax20Pct,
+    serviceChargeAnnual,
+    netOwnerRent,
+    netCommercialYieldPct,
+  }
+}
+
+// ---------------------------------------------------------------- 15. 5-Year DCF, IRR & Capital Appreciation Projector
+export function dcfFiveYearProjector(p: {
+  price: number
+  initialRent: number
+  rentGrowthPct: number
+  appreciationPct: number
+  expenseRatioPct: number
+  discountRatePct: number
+}) {
+  const acqFees = costToClose({ price: p.price, includeBroker: true }).fees
+  const initialOutflow = p.price + acqFees
+  let npv = -initialOutflow
+  let cumulativeCashFlow = 0
+
+  const years = Array.from({ length: 5 }, (_, idx) => {
+    const yr = idx + 1
+    const grossRent = p.initialRent * Math.pow(1 + p.rentGrowthPct / 100, idx)
+    const netRent = grossRent * (1 - p.expenseRatioPct / 100)
+    const propVal = p.price * Math.pow(1 + p.appreciationPct / 100, yr)
+    const exitProceeds = yr === 5 ? propVal * 0.98 : 0
+    const totalFlow = netRent + exitProceeds
+    cumulativeCashFlow += netRent
+    npv += totalFlow / Math.pow(1 + p.discountRatePct / 100, yr)
+    return {
+      year: yr,
+      grossRent: Math.round(grossRent),
+      netRent: Math.round(netRent),
+      propertyValue: Math.round(propVal),
+      totalFlow: Math.round(totalFlow),
+    }
+  })
+
+  const exitValue = years[4]!.propertyValue
+  const totalProfit = cumulativeCashFlow + exitValue * 0.98 - initialOutflow
+  const equityMultiple = initialOutflow > 0 ? (cumulativeCashFlow + exitValue * 0.98) / initialOutflow : 1
+  const approxIrrPct = (Math.pow(Math.max(0.1, equityMultiple), 1 / 5) - 1) * 100
+
+  return { initialOutflow, years, exitValue, cumulativeCashFlow, totalProfit, equityMultiple, npv, approxIrrPct }
+}
+
+// ---------------------------------------------------------------- 16. Mortgage Refinance & Early Settlement Calculator
+export function mortgageRefinanceCalc(p: {
+  currentLoanBalance: number
+  currentRatePct: number
+  newRatePct: number
+  remainingYears: number
+}) {
+  const currentEmi = monthlyPayment(p.currentLoanBalance, p.currentRatePct, p.remainingYears)
+  const newEmi = monthlyPayment(p.currentLoanBalance, p.newRatePct, p.remainingYears)
+  const monthlySavings = Math.max(0, currentEmi - newEmi)
+  const earlySettlementPenalty = Math.min(p.currentLoanBalance * 0.01, 10_000) * (1 + UAE.vat)
+  const dldMortgageSwitchFee = p.currentLoanBalance * UAE.mortgageRegPct + UAE.mortgageRegFixed + 1290
+  const valuationFee = UAE.valuationFee
+  const totalSwitchCost = earlySettlementPenalty + dldMortgageSwitchFee + valuationFee
+  const breakEvenMonths = monthlySavings > 0 ? totalSwitchCost / monthlySavings : Infinity
+  const lifetimeNetSavings = monthlySavings * p.remainingYears * 12 - totalSwitchCost
+  return {
+    currentEmi,
+    newEmi,
+    monthlySavings,
+    earlySettlementPenalty,
+    dldMortgageSwitchFee,
+    valuationFee,
+    totalSwitchCost,
+    breakEvenMonths,
+    lifetimeNetSavings,
+  }
+}

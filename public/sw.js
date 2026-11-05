@@ -2,15 +2,15 @@
    Purpose: make the app installable and show a friendly page when the network is down.
    Rule: it NEVER stores API responses or pages. They hold private business data and are tied to a login,
    so every /api request and every page load goes to the network. Only public, versioned files are cached. */
-const BUILD = '__BUILD_ID__'
+const BUILD = 'swk-one-brand-pack-v2'
 const SHELL = 'swk-shell-' + BUILD
 const ASSETS = 'swk-assets-' + BUILD
-const PRECACHE = ['/offline.html', '/manifest.webmanifest', '/app-icon-192.png', '/app-icon-512.png', '/favicon/apple-touch-icon.png']
+const PRECACHE = ['/offline.html', '/manifest.webmanifest', '/brand/one/Favicon/icon-192.png', '/brand/one/Favicon/icon-512.png', '/brand/one/Favicon/apple-touch-icon.png']
 const CACHEABLE = /^\/(assets|fonts|brand)\//
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(SHELL).then(cache => cache.addAll(PRECACHE)))
-  // No automatic skipWaiting: the page asks the person to reload so a form is never lost mid-edit.
+  self.skipWaiting()
 })
 
 self.addEventListener('message', event => { if (event.data === 'SKIP_WAITING') self.skipWaiting() })

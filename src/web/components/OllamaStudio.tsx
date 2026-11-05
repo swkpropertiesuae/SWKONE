@@ -70,6 +70,46 @@ const SWK_PROMPTS = [
     desc: 'Documents required from Seller & Buyer before MOU',
     prompt: 'List the complete RERA & DLD compliance checklist of documents needed from both Seller and Buyer in Dubai before signing Form A, Form F (MOU), and applying for the developer NOC.',
   },
+  {
+    title: '🇪🇺 10-Year UAE Golden Visa Brief',
+    desc: 'AED 2M+ DLD property investor residency rules',
+    prompt: 'Explain the UAE 10-Year Real Estate Investor Golden Visa rules in Dubai for a buyer purchasing a property valued at AED 2,400,000 (including mortgaged and off-plan qualification criteria, family sponsorship, and DLD Cube steps).',
+  },
+  {
+    title: '⚖️ RERA Decree 43 Rent Cap Calculator',
+    desc: 'Statutory 0% / 5% / 10% / 15% / 20% renewal slabs',
+    prompt: 'Explain Dubai Decree No. 43 of 2013 RERA Rental Index slabs (0%, 5%, 10%, 15%, 20% maximum increase) and draft a compliant 90-day tenancy renewal notice for a tenant currently paying AED 120,000 where the RERA benchmark is AED 150,000.',
+  },
+  {
+    title: '🏗️ Off-Plan vs. Ready ROI Comparison',
+    desc: 'Compare payment plan ROE vs. immediate Ejari cash flow',
+    prompt: 'Compare an off-plan 2BR launch in Dubai Creek Harbour (AED 3.1M on a 60/40 payment plan handing over in 2028) vs. a ready 2BR in Dubai Marina (AED 3.1M generating 7.1% gross yield today). Show 5-year total return.',
+  },
+  {
+    title: '🛡️ UAE goAML & KYC Risk Memo',
+    desc: 'AED 55k+ cash/crypto & UBO source-of-funds review',
+    prompt: 'Draft a UAE Ministry of Economy / goAML Real Estate compliance checklist for an international corporate buyer acquiring a AED 8,200,000 penthouse, covering UBO declaration, source of funds, and VARA/escrow payment rules.',
+  },
+  {
+    title: '🎬 Reels / TikTok Property Tour Script',
+    desc: '60-second luxury walkthrough with hooks & captions',
+    prompt: 'Write a 60-second high-converting Instagram Reels & TikTok walkthrough script for a full-floor penthouse on Palm Jumeirah, with 3-second visual hook, camera cues, voiceover, and bilingual EN/AR captions.',
+  },
+  {
+    title: '🤝 Price & Commission Objection Handler',
+    desc: 'Overcome DLD 4% fee, service charge & price objections',
+    prompt: 'Provide 3 persuasive, fact-based responses for an SWK Properties broker when a buyer hesitates over (1) the 4% DLD transfer fee, (2) AED 21/sqft service charges, and (3) waiting for prices to dip.',
+  },
+  {
+    title: '🏦 UAE Mortgage Pre-Approval Guide',
+    desc: 'Resident 80% LTV vs. Non-Resident 60% LTV rules',
+    prompt: 'Summarize UAE Central Bank mortgage regulations for expat residents vs. non-resident international investors, including LTV caps, DBR 50% limit, bank valuation fee, and 0.25% DLD mortgage registration fee.',
+  },
+  {
+    title: '🌐 Bilingual Arabic + English VIP Pitch',
+    desc: 'Executive GCC family office investment letter',
+    prompt: 'Draft a prestigious bilingual (English and formal UAE Arabic) investment invitation from SWK Properties L.L.C to a GCC family office presenting a trophy commercial & residential floor acquisition in Business Bay.',
+  },
 ]
 
 export function OllamaStudio({ compact = false }: { compact?: boolean }) {
@@ -410,7 +450,7 @@ export function OllamaStudio({ compact = false }: { compact?: boolean }) {
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <div>
                     <div className="text-[16px] font-display font-bold text-ink flex items-center gap-2">
-                      <img src="/brand/swk-mark.png" alt="SWK OS" className="w-6 h-6 object-contain" />
+                      <img src="/brand/one/Icon/SWK_One_Crest_ForLight.svg?v=swk-one" alt="SWK ONE" className="w-6 h-6 object-contain" />
                       SWK Internal Ollama Workspace ({selectedModel})
                     </div>
                     <div className="text-[13px] text-muted mt-0.5">

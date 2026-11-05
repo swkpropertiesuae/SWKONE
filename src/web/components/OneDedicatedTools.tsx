@@ -140,10 +140,35 @@ export function OneDedicatedTools({ tool }: { tool: DedicatedTool }) {
         </p>
         {upload ? <label className="grid gap-1 text-sm">{tool === 'review' ? 'Document A' : 'Source file'}
           <input type="file" accept={accept} required onChange={event => { setFile(event.target.files?.[0]); setConfirmed(false) }} />
-        </label> : <label className="grid gap-1 text-sm">{tool === 'image' ? 'Image prompt' : 'English text'}
-          <textarea className="input min-h-28" value={text} maxLength={limit} required
-            onChange={event => { setText(event.target.value); setConfirmed(false) }} />
-        </label>}
+        </label> : <div className="grid gap-2">
+          <div className="flex flex-wrap gap-1.5 text-xs">
+            {(tool === 'image'
+              ? [
+                  [' Waterfront Villa', 'Architectural dusk rendering of an ultra-luxury modern beachfront villa on Palm Jumeirah Dubai, infinity pool, warm architectural lighting, photorealistic 8k'],
+                  ['Penthouse Interior', 'Double-height luxury penthouse living room overlooking Downtown Dubai and Burj Khalifa skyline at sunset, Italian marble, warm bespoke lighting'],
+                  ['Virtual Staging', 'Contemporary luxury furnished staging for an empty bright apartment living room in Dubai Marina, floor-to-ceiling windows, neutral warm palette'],
+                ]
+              : [
+                  ['Listing Audio Tour', 'Welcome to this exclusive waterfront residence presented by SWK Properties in Dubai Marina, featuring panoramic yacht views and private terrace access.'],
+                  ['VIP Reception Greeting', 'Thank you for calling SWK Properties Dubai, RERA licensed brokerage ORN 51517. An advisor will be with you shortly.'],
+                  ['Investor Yield Flash', 'This trophy asset in Business Bay delivers a projected seven point two percent net rental yield and qualifies for the ten year UAE Golden Visa.'],
+                ]
+            ).map(([label, preset]) => (
+              <button
+                key={label}
+                type="button"
+                className="btn outline sm"
+                onClick={() => { setText(preset); setConfirmed(true) }}
+              >
+                + {label}
+              </button>
+            ))}
+          </div>
+          <label className="grid gap-1 text-sm">{tool === 'image' ? 'Image prompt' : 'English text'}
+            <textarea className="input min-h-28" value={text} maxLength={limit} required
+              onChange={event => { setText(event.target.value); setConfirmed(false) }} />
+          </label>
+        </div>}
         {tool === 'review' && <label className="grid gap-1 text-sm">Document B to compare (optional)
           <input type="file" accept={accept} onChange={event => setComparison(event.target.files?.[0])} />
         </label>}
